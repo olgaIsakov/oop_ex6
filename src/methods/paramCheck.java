@@ -13,7 +13,17 @@ public class paramCheck {
     private static final int EMPTY_PARAMS = 0;
     private static final int FIRST_PARAM = 0;
     private final static String ONE_PARAMETER = "\\s*final?\\s+[a-zA-Z]+\\s*";
+    private final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
+    private final static String DOUBLE_TYPE = "^\\s*[-]?\\d*\\.?\\d+\\s*$";
+    private final static String STRING_TYPE = "^\\s*\\w*\\s*$";
+    private final static String CHAR_TYPE = "^\\s*\\d*\\s*$";
+    private final static String BOOL_TYPE = "^\\s*true|false\\s*$";
     final static Pattern ONE_PARAMETER_PATTERN = Pattern.compile(ONE_PARAMETER);
+    final static Pattern INT_TYPE_PATTERN = Pattern.compile(INT_TYPE);
+    final static Pattern DOUBLE_TYPE_PATTERN = Pattern.compile(DOUBLE_TYPE);
+    final static Pattern STRING_TYPE_PATTERN = Pattern.compile(STRING_TYPE);
+    final static Pattern CHAR_TYPE_PATTERN = Pattern.compile(CHAR_TYPE);
+    final static Pattern BOOL_TYPE_PATTERN = Pattern.compile(BOOL_TYPE);
     final static String INT = "int";
     final static String STRING = "String";
     final static String DOUBLE = "double";
@@ -62,18 +72,23 @@ public class paramCheck {
      * @param calledParam the given parameter
      * @return true if the type matches, false otherwise
      */
-    private static boolean CheckType(String wantedType, Object calledParam) {
+    private static boolean CheckType(String wantedType, String calledParam) {
+        Matcher intMach = INT_TYPE_PATTERN.matcher(calledParam);
+        Matcher stringMach = STRING_TYPE_PATTERN.matcher(calledParam);
+        Matcher doubleMach = DOUBLE_TYPE_PATTERN.matcher(calledParam);
+        Matcher charMach = CHAR_TYPE_PATTERN.matcher(calledParam);
+        Matcher boolMach = BOOL_TYPE_PATTERN.matcher(calledParam);
         switch (wantedType){
             case INT:
-                return calledParam instanceof Integer;
+                return intMach.matches();
             case STRING:
-                return calledParam instanceof String;
+                return stringMach.matches();
             case BOOLEAN:
-                return calledParam instanceof Boolean;
+                return (intMach.matches() || doubleMach.matches() || boolMach.matches());
             case CHAR:
-                return calledParam instanceof Character;
+                return charMach.matches();
             case DOUBLE:
-                return calledParam instanceof Double ;
+                return doubleMach.matches();
         }
         return false;
     }

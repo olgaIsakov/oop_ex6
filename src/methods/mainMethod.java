@@ -22,6 +22,7 @@ public class mainMethod {
     final static String FINAL = "final";
     final static String NULL_MARK = "null";
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
+    static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
     private static Map<List<String>, List<String>> allMethods;
     private static String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
     private static String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
@@ -33,15 +34,17 @@ public class mainMethod {
      * @param params method parameters
      */
     public static void isFirstMethodLineLegal(String[] splitLine, List<String> params) {
-        String line = "";
+        StringBuilder line = new StringBuilder();
         for (String word : splitLine) {
-            line += (word + EMPTY_SPACE);
+            line.append(word).append(EMPTY_SPACE);
         }
         try {
             int openParenthesis = splitLine[SECOND_WORD].indexOf(START_PARAMETERS);
             String name = splitLine[SECOND_WORD].substring(BEGINNING, openParenthesis);
             Matcher match = METHOD_PATTERN.matcher(name);
-            if (!match.matches() || !line.endsWith(OPEN_PARENTHESIS)) throw new MethodException() ;
+            if (!match.matches() || !line.toString().endsWith(OPEN_PARENTHESIS) ||
+                    resKeys.contains(name) || typeOptions.contains(name))
+                throw new MethodException() ;
             methodNames.add(name);
             int closeParenthesis = splitLine[splitLine.length - 2].indexOf(END_PARAMETERS);
             //check no parameters

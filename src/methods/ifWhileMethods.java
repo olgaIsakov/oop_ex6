@@ -30,21 +30,19 @@ public class ifWhileMethods {
             if (matchIfWhile.matches()){
                 int startParenthesis = line.indexOf(START_CONDITION);
                 int endParenthesis = line.indexOf(END_CONDITION);
-                String sub = line.substring(startParenthesis, endParenthesis); //check boolean (|| &&)
+                if (startParenthesis + 1 == endParenthesis) return false; // empty condition
+                String sub = line.substring(startParenthesis + 1, endParenthesis); //check boolean (|| &&)
                 int counter = INITIALIZE_COUNTER;
                 for (int i = method.indexOf(line); i< method.size(); i++){
                     Matcher matchOpen = OPEN_PATTERN.matcher(method.get(i));
                     Matcher matchClose = CLOSE_PATTERN.matcher(method.get(i));
                     Matcher matchIllegalOpen = ILLEGAL_OPEN_PATTERN.matcher(method.get(i));
-                    Matcher matchIllegalClose = ILLEGAL_CLOSE_PATTERN.matcher(method.get(i));
                     if (matchOpen.matches()) {
                         if (matchIllegalOpen.matches()) return false;
                         else counter++;
                     }
-                    if (matchClose.matches()) {
-                        if (matchIllegalClose.matches()) return false;
-                        else counter--;
-                    }
+                    if (matchClose.matches())
+                        counter--;
                     if (counter == INITIALIZE_COUNTER)
                         break;
                 }
