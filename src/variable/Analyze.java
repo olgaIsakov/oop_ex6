@@ -1,5 +1,8 @@
 package variable;
 
+import variables.GrammarException;
+import variables.ValueTypeException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,7 +17,7 @@ public class Analyze {
     private static final Pattern DECLARATION_PATTERN_WITHOUT_INIT =  Pattern.compile("(?:\\w+\\s+)([a-zA-Z_][a-zA-Z0-9_]*)");
     private static final Pattern NEW_DECLARATION = Pattern.compile("\\s*\\w+\\s+\\w[\\s*,\\w]*\\s*(?:=\\s*.+?)?\\s*;\\s*");
     private static final Pattern ASSIGNMENT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");
-    private static final Pattern END_OF_LINE = Pattern.compile("";"$");
+    private static final Pattern END_OF_LINE = Pattern.compile(";$");
     private static final Pattern FINAL_PATTERN =  Pattern.compile("^FINAL");
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
@@ -42,15 +45,17 @@ public class Analyze {
 
 
 
-    public void analyzer(String line) throws variable.FinalVariableException, variable.TypeException, variable.NameVariableException,ValueTypeException{
-        if (isFinal(line)) {
+    public void analyzer(String line) throws variable.FinalVariableException, variable.TypeException, variable.NameVariableException, ValueTypeException, GrammarException {
+        Matcher matcher = END_OF_LINE.matcher(line);
+        if(!matcher.matches()) {
+            throw new GrammarException(ERROR);
 
+        }if (isFinal(line)) {
             if (!declarationWithInit(line)) {
                 throw new variable.FinalVariableException(ERROR);
 
             }
             line = removeWord(line);
-
         }if (!variable.Variable.isTypeNameValid(beginningWord(line))){
             throw new variable.TypeException(ERROR);
 
@@ -69,7 +74,6 @@ public class Analyze {
 
     }
 
-}
     public boolean checkAllNames(String line, String type){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
@@ -199,14 +203,14 @@ public class Analyze {
 
 
     }public String getNames(String line){
-    line = line.replaceAll(SEM, "");
-    if (line.contains(EQUAL)){
-        line.substring(0,line.indexOf(EQUAL)).trim();
+        line = line.replaceAll(SEM, "");
+        if (line.contains(EQUAL)){
+            line.substring(0,line.indexOf(EQUAL)).trim();
+        }
+        return line.trim();
+
+
     }
-    return line.trim();
-
-
-}
 
 
 
