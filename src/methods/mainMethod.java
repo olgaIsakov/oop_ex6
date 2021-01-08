@@ -118,9 +118,6 @@ public class mainMethod {
             throw new MethodException(ERROR_RETURN_MSG);
     }
 
-    public static void checkIfWhile(List<String> method){
-
-    }
 
 
 }
