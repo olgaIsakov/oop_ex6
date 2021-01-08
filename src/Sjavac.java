@@ -12,7 +12,7 @@ public class Sjavac {
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
     private static final int INITIALIZE_COUNTER = 0;
-    private final static String IMPORT = "\\s*import\\s*.*$";
+    private final static String IMPORT = "\\s*import|package\\s*.*$";
     private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);
     final static Pattern IMPORT_PATTERN = Pattern.compile(IMPORT);
