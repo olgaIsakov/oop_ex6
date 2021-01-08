@@ -4,16 +4,25 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Sjavac {
     private static final String COMMENT_SUFFIX = "\\";
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
+    private static final int INITIALIZE_COUNTER = 0;
+    private final static String IMPORT = "\\s*import\\s*.*$";
+    private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
+    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);
+    final static Pattern IMPORT_PATTERN = Pattern.compile(IMPORT);
+    final static String ERROR_MSG = "ERROR: Illegal file format";
 
     private static int readFile(String args) throws IOException {
         BufferedReader buffer = new BufferedReader(new FileReader(args));
         try {
             String[] fileLines = getAllLInes(buffer);
+            checkImport(fileLines);
             Parser parser = new Parser();
             Map<List<String>, List<String>> methodMap = parser.parseToMethods(fileLines);
         }catch (IOException e){
@@ -24,6 +33,21 @@ public class Sjavac {
             return S_JAVA_ERROR;
         }
 
+    }
+
+    /**
+     * This method checks there is no import in the beginning of the file
+     * @param fileLines the file
+     * @throws MethodException import found
+     */
+    private static void checkImport(String[] fileLines) throws MethodException {
+        int i = INITIALIZE_COUNTER;
+        Matcher methodStructure = METHOD_PATTERN.matcher(fileLines[i]);
+        while (!methodStructure.matches() || i < fileLines.length ){
+            Matcher importStructure = IMPORT_PATTERN.matcher(fileLines[i]);
+            if (importStructure.matches()) throw new MethodException(ERROR_MSG);
+            i ++;
+        }
     }
 
     /**
