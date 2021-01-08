@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class Sjavac {
     private static final String COMMENT_SUFFIX = "\\";
+    private static final int IO_ERROR = 2;
+    private static final int S_JAVA_ERROR = 1;
 
     private static int readFile(String args) throws IOException {
         BufferedReader buffer = new BufferedReader(new FileReader(args));
@@ -16,7 +18,10 @@ public class Sjavac {
             Map<List<String>, List<String>> methodMap = parser.parseToMethods(fileLines);
         }catch (IOException e){
             System.err.println(e.getMessage());
-            return 2;
+            return IO_ERROR;
+        } catch (MethodException e) {
+            System.err.println(e.getMessage());
+            return S_JAVA_ERROR;
         }
 
     }
