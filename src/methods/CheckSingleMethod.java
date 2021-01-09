@@ -1,7 +1,13 @@
 package methods;
 
 import manager.Parser;
+import variable.FinalVariableException;
+import variable.NameVariableException;
+import variable.TypeException;
+import variables.Analyze;
 import variables.ConditionException;
+import variables.GrammarException;
+import variables.ValueTypeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +27,6 @@ public class CheckSingleMethod {
     final static int SECOND = 1;
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
-    final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
 
     public static void checkMethods(Map<String, List<String>> mapNameLines) throws ConditionException, MethodException {
         globalVars = Parser.getGlobalVars();
@@ -70,9 +75,29 @@ public class CheckSingleMethod {
         return i;
     }
 
-    private void checkInnerBlocks(List<List<String>> blocks) {
+    private void checkInnerBlocks(List<List<String>> blocks) throws NameVariableException, TypeException, ValueTypeException, GrammarException, FinalVariableException, BlockException {
         for (int i= blocks.size() ; i-- > 0 ;){
+            for(String line : blocks.get(i)){
+                Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
 
+                Matcher callMethodMatch = mainMethod.METHOD_CALL_PATTERN.matcher(line);
+                if (variableMatch.matches()){ // its a var//
+                    Analyze.analyzer(line);
+                    if (Analyze.declarationWithInit(line)) {
+                        String[] names = Analyze.getName(line);
+                        for (String name : names) {
+                            if (declarationInit.contains(name)) {
+                                throw new BlockException(BLOCK_ERROR);
+                            }
+                            declarationInit.add(name);
+                        }
+                    }
+
+
+                }if (callMethodMatch.matches()){
+
+                }
+            }
 
         }
     }
