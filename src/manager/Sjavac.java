@@ -1,10 +1,12 @@
+package manager;
+
+import manager.Parser;
 import methods.MethodException;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Sjavac {
@@ -22,7 +24,6 @@ public class Sjavac {
         BufferedReader buffer = new BufferedReader(new FileReader(args));
         try {
             String[] fileLines = getAllLInes(buffer);
-            checkImport(fileLines);
             Parser parser = new Parser();
             Map<List<String>, List<String>> methodMap = parser.parseToMethods(fileLines);
         }catch (IOException e){
@@ -33,21 +34,6 @@ public class Sjavac {
             return S_JAVA_ERROR;
         }
 
-    }
-
-    /**
-     * This method checks there is no import in the beginning of the file
-     * @param fileLines the file
-     * @throws MethodException import found
-     */
-    private static void checkImport(String[] fileLines) throws MethodException {
-        int i = INITIALIZE_COUNTER;
-        Matcher methodStructure = METHOD_PATTERN.matcher(fileLines[i]);
-        while (!methodStructure.matches() || i < fileLines.length ){
-            Matcher importStructure = IMPORT_PATTERN.matcher(fileLines[i]);
-            if (importStructure.matches()) throw new MethodException(ERROR_MSG);
-            i ++;
-        }
     }
 
     /**

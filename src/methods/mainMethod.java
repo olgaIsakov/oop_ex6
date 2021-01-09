@@ -49,12 +49,13 @@ public class mainMethod {
             int closeParenthesis = splitLine[splitLine.length - 2].indexOf(END_PARAMETERS);
             //check no parameters
             if ((closeParenthesis == openParenthesis +1)) {
-                params =  Collections.singletonList(NULL_MARK );
+                params =  Collections.singletonList(NULL_MARK);
             }
             else{
                 String subList = line.substring(openParenthesis, closeParenthesis);
                 params = new ArrayList<>(Arrays.asList(subList.split(EMPTY_SPACE)));
             }
+            checkMethodParameters(params);
         } catch (Exception e){
             System.out.println(ERROR_FOUND);
         }
@@ -62,25 +63,21 @@ public class mainMethod {
 
     /**
      * Checks legal parameters in method
-     * @param methods a list with all the methods and their parameters
      * @throws MethodException illegal parameter found
      */
-    public static void checkMethodParameters(Map<List<String>, List<String>> methods) throws MethodException {
-        for (List<String> params: methods.values()){
-            for (int i=0; i < params.size(); i++){
-                if (params.get(i) == null)
+    public static void checkMethodParameters(List<String> parameters) throws MethodException {
+
+            for (int i=0; i < parameters.size(); i++){
+                if (parameters.get(i) == null)
                     continue;
-                if (params.get(i).equals(FINAL)){
-                    if (i==params.size()-1 || !typeOptions.contains(params.get(i+1))){
+                if (parameters.get(i).equals(FINAL)){
+                    if (i==parameters.size()-1 || !typeOptions.contains(parameters.get(i+1))){
                         throw new MethodException(ERROR_PARAM_MSG);
                     }
                 }
-                else if (!typeOptions.contains(params.get(i)))
+                else if (!typeOptions.contains(parameters.get(i)))
                     throw new MethodException(ERROR_PARAM_MSG);
             }
-        }
-        allMethods = methods;
-
     }
 
     /**
@@ -105,6 +102,14 @@ public class mainMethod {
             }
         }
     }
+    /**
+     * This method checks if a called method is legal
+     * @throws MethodException method called an unexciting method or itself.
+     */
+    public static void checkMethodCall(String methodLine) throws MethodException {
+
+    }
+
 
     /**
      * This method checks if the method end with a return statement

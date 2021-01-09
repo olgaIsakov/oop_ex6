@@ -1,3 +1,4 @@
+package manager;
 
 import methods.MethodException;
 
@@ -78,10 +79,8 @@ public class Parser {
     }
 
     /**
-     * this method parse the file into variables
-     *
+     * this method checks all lines in the file
      * @param sJavaLines the given file
-     * @return a list with all variables
      */
     public void checkAllLines(String[] sJavaLines) throws StructureException {
         List<String> variableList = new ArrayList<>();
@@ -102,6 +101,14 @@ public class Parser {
         }
         if (!flag) throw new StructureException(INVALID_LINE_ERROR);
 
+    }
+
+    /**
+     * A getter for the global variables
+     * @return the global variables list
+     */
+    public static List<String> getGlobalVars(){
+        return globalVars;
     }
 
 }

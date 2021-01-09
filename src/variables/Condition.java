@@ -12,21 +12,20 @@ public class Condition {
     public static final Pattern CONDITION_PATTERN = Pattern.compile("true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])");
 
 
-    public boolean analyzeCondition(String line) throws ConditionException{
+    public static boolean analyzeCondition(String line){
         String[] conditions = splitOperator(line);
 
         for (String condition : conditions){
             if (!isCondition(condition.trim())){
-                throw new ConditionException("");
+                return false;
             }
 
-        }if (!counterOperators(line,conditions.length)){
-            throw new ConditionException("");
-        }return true;
+        }
+        return counterOperators(line, conditions.length);
 
     }
 
-    public boolean counterOperators(String line , int numConditions ){
+    public static boolean counterOperators(String line, int numConditions){
         String line1 = replacedAnd(line);
         String line2 = replacedAnd(line1);
         int counter = 0 ;
@@ -39,7 +38,7 @@ public class Condition {
         } return  (counter+1 == numConditions);
     }
 
-    public  String replacedAnd(String line){
+    public static String replacedAnd(String line){
        return line.replace(AND, "*");
     }
     public  String replacedOr(String line){
@@ -47,10 +46,10 @@ public class Condition {
     }
 
 
-    public String[] splitOperator(String line){
+    public static String[] splitOperator(String line){
         return line.split(AND+ OR);
     }
-    public boolean isCondition(String condition){
+    public static boolean isCondition(String condition){
         Matcher matcher = CONDITION_PATTERN.matcher(condition);
         return matcher.matches();
     }
