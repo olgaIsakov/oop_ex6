@@ -40,39 +40,10 @@ public class Parser {
      * @return a map -> list of the method lines : list of the method parameters
      */
     public void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
-        int parenthesisCounter = INITIALIZED_COUNTER;
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
-                int firstLine = i;
-                Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
-                if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
-                else {
-                    List<String> params = new ArrayList<>();
-                    methods.mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
-                    List<String> methodLines = new ArrayList<>();
-                    parenthesisCounter++;
-                    methodLines.add(sJavaLines[i]);
-                    i++;
-                    while (parenthesisCounter > INITIALIZED_COUNTER) {
-                        Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
-                        Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
-                        if (openParenthesis.matches()) {
-                            if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
-                            parenthesisCounter++;
-                        }
-                        if (closeParenthesis.matches()) {
-                            Matcher illegalClose = ILLEGAL_CLOSE_PATTERN.matcher(sJavaLines[i]);
-                            if (illegalClose.matches()) throw new MethodException(ERROR_MSG);
-                            parenthesisCounter--;
-                        }
-                        methodLines.add(sJavaLines[i]);
-                        i++;
-                    }
-                    String name = methods.mainMethod.getMethodName(sJavaLines[firstLine]);
-                    mapNameLines.put(name, methodLines);
-                    mapNameParams.put(name, params);
-                }
+                i = getMethodBlock(sJavaLines, i);
             }
             Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
             if (globalVarsMatcher.matches())
@@ -83,6 +54,40 @@ public class Parser {
             }
         }
 
+    }
+
+    private int getMethodBlock(String[] sJavaLines, int i) throws MethodException {
+        int firstLine = i;
+        Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
+        if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
+        else {
+            int parenthesisCounter = INITIALIZED_COUNTER;
+            List<String> params = new ArrayList<>();
+            methods.mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
+            List<String> methodLines = new ArrayList<>();
+            parenthesisCounter++;
+            methodLines.add(sJavaLines[i]);
+            i++;
+            while (parenthesisCounter > INITIALIZED_COUNTER) {
+                Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
+                Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
+                if (openParenthesis.matches()) {
+                    if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
+                    parenthesisCounter++;
+                }
+                if (closeParenthesis.matches()) {
+                    Matcher illegalClose = ILLEGAL_CLOSE_PATTERN.matcher(sJavaLines[i]);
+                    if (illegalClose.matches()) throw new MethodException(ERROR_MSG);
+                    parenthesisCounter--;
+                }
+                methodLines.add(sJavaLines[i]);
+                i++;
+            }
+            String name = methods.mainMethod.getMethodName(sJavaLines[firstLine]);
+            mapNameLines.put(name, methodLines);
+            mapNameParams.put(name, params);
+        }
+        return i;
     }
 
     /**
