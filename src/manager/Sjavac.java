@@ -1,8 +1,10 @@
 package manager;
 
 import manager.Parser;
+import methods.BlockException;
 import methods.MethodException;
 import variables.ConditionException;
+import variables.VariableException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class Sjavac {
         }catch (IOException e){
             System.err.println(e.getMessage());
             return IO_ERROR;
-        } catch (MethodException | StructureException | ConditionException e) {
+        } catch (MethodException | StructureException | ConditionException | VariableException | BlockException e) {
             System.err.println(e.getMessage());
             return S_JAVA_ERROR;
         }

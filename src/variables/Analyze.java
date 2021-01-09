@@ -1,7 +1,6 @@
 package variables;
 
-import variables.GrammarException;
-import variables.ValueTypeException;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,32 +42,36 @@ public class Analyze {
     private static final Pattern DOUBLE_PATTERN =  Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$");
     private static final Pattern INT_PATTERN =  Pattern.compile("^[0-9]+$");
 
+    private static final String ERROR_GRAMMAR = "ERROR : no ; at the end of declaration  ";
+    private static final String ERROR_FINAL = "ERROR : the variable is final but without initialization  ";
+    private static final String ERROR_TYPE = "ERROR : invalid type name ";
+    private static final String ERROR_NAME = "ERROR : invalid variable  name ";
+    private static final String ERROR_VALUE = "ERROR : invalid variable value ";
 
-
-    public static void analyzer(String line) throws variable.FinalVariableException, variable.TypeException, variable.NameVariableException, ValueTypeException, GrammarException {
+    public static void analyzer(String line) throws VariableException {
         Matcher matcher = END_OF_LINE.matcher(line);
         if(!matcher.matches()) {
-            throw new GrammarException(ERROR);
+            throw new VariableException(ERROR_GRAMMAR);
 
         }if (isFinal(line)) {
             if (!declarationWithInit(line)) {
-                throw new variable.FinalVariableException(ERROR);
+                throw new VariableException(ERROR_FINAL);
 
             }
             line = removeWord(line);
-        }if (!variable.Variable.isTypeNameValid(beginningWord(line))){
-            throw new variable.TypeException(ERROR);
+        }if (!variables.Variable.isTypeNameValid(beginningWord(line))){
+            throw new VariableException(ERROR_TYPE);
 
         }String type = beginningWord(line);
         line = removeWord(line);
         String names = getNames(line) ;
         if (!checkAllNames(names,type)){
-            throw new variable.NameVariableException(ERROR) ;
+            throw new VariableException(ERROR_NAME) ;
         }
         String values = splitValues(line);
         if (values.length() >0){
             if (!checkAllValues(values,type)) {
-                throw new ValueTypeException(ERROR);
+                throw new VariableException(ERROR_VALUE);
             }
         }
 
@@ -77,7 +80,7 @@ public class Analyze {
     public static boolean checkAllNames(String line, String type){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
-            if (!variable.Variable.isNameValid(name)){
+            if (!variables.Variable.isNameValid(name)){
                 return false;
             }listVariables.put(name,type);
         }return true;

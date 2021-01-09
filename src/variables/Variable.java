@@ -1,4 +1,4 @@
-package variable;
+package variables;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,9 +88,7 @@ public abstract class Variable {
     public abstract boolean isValueValid(String value);
 
 
-    private boolean isVariableDeclaredWithValue(){
 
-    }
 
 
 
