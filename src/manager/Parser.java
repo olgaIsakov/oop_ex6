@@ -29,8 +29,9 @@ public class Parser {
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
-    List<String> globalVars = new ArrayList<>();
-
+    static List<String> globalVars = new ArrayList<>();
+    static Map<String, List<String>> mapNameLines = new HashMap<>();
+    static Map<String, List<String>> mapNameParams = new HashMap<>();
 
     /**
      * this method parse the file into methods
@@ -38,12 +39,12 @@ public class Parser {
      * @param sJavaLines the given file
      * @return a map -> list of the method lines : list of the method parameters
      */
-    public Map<List<String>, List<String>> parseToMethods(String[] sJavaLines) throws MethodException {
-        Map<List<String>, List<String>> singleMethods = new HashMap<>();
+    public void parseToMethods(String[] sJavaLines) throws MethodException {
         int parenthesisCounter = INITIALIZED_COUNTER;
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
+                int firstLine = i;
                 Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
                 if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
                 else {
@@ -68,14 +69,15 @@ public class Parser {
                         methodLines.add(sJavaLines[i]);
                         i++;
                     }
-                    singleMethods.put(methodLines, params);
+                    String name = methods.mainMethod.getMethodName(sJavaLines[firstLine]);
+                    mapNameLines.put(name, methodLines);
+                    mapNameParams.put(name, params);
                 }
             }
             Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
             if (globalVarsMatcher.matches())
                 globalVars.add(sJavaLines[i]);
         }
-        return singleMethods;
     }
 
     /**
@@ -109,6 +111,14 @@ public class Parser {
      */
     public static List<String> getGlobalVars(){
         return globalVars;
+    }
+
+    public static Map<String, List<String>> getMapNameLines(){
+        return mapNameLines;
+    }
+
+    public static Map<String, List<String>> getMapNameParams(){
+        return mapNameParams;
     }
 
 }

@@ -14,14 +14,16 @@ public class CheckSingleMethod {
     List<String> globalVars;
     private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*.*\\s*\\}$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
+    private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     private final static String SPACES = "\\s+";
     final static String EMPTY_SPACE = " ";
     final static int FIRST = 0;
     final static int SECOND = 1;
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
+    final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
 
-    public void checkMethods(Map<List<String>, List<String>> allMethods) throws ConditionException {
+    public void checkMethods(Map<List<String>, List<String>> allMethods) throws ConditionException, MethodException {
         globalVars = Parser.getGlobalVars();
         for (List<String> method: allMethods.keySet()){
             String name = mainMethod.getMethodName(method.get(FIRST));
@@ -29,14 +31,21 @@ public class CheckSingleMethod {
         }
     }
 
-    private void checkSingleMethod(List<String> method, String name) throws ConditionException {
+    private void checkSingleMethod(List<String> method, String name) throws ConditionException, MethodException {
         for (int i = 0 ; i < method.size() ; i++){
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
-            Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
+            Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
+            Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));
             if (ifWhileMatch.matches()){
                 i = findAllBlocks(method, i);
             }
+            if (methodCallMatch.matches()){
+                mainMethod.checkMethodCall(method.get(i),name );
+            }
+            if (varsMatch.matches()){
 
+            }
+            mainMethod.checkReturnStatement(method);
         }
     }
 

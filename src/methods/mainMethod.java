@@ -108,12 +108,13 @@ public class mainMethod {
      * This method checks if a called method is legal
      * @throws MethodException method called an unexciting method or itself.
      */
-    public static void checkMethodCall(List<String> method, String methodLine, String methodName) throws MethodException {
+    public static void checkMethodCall(String methodLine, String methodName) throws MethodException {
         String called = getMethodName(methodLine);
         if (!methodNames.contains(called) || called.equals(methodName))
             throw new MethodException(ERROR_PARAM_MSG);
         else{
-            if (!paramCheck.checkCalledParams(methodLine, allMethods.get(method)))
+            Map<String, List<String>> mapNameParams = manager.Parser.getMapNameParams();
+            if (!paramCheck.checkCalledParams(methodLine, mapNameParams.get(called)))
                 throw new MethodException(ERROR_PARAM_MSG);
         }
     }

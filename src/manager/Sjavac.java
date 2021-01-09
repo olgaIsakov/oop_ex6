@@ -25,7 +25,7 @@ public class Sjavac {
         try {
             String[] fileLines = getAllLInes(buffer);
             Parser parser = new Parser();
-            Map<List<String>, List<String>> methodMap = parser.parseToMethods(fileLines);
+            parser.parseToMethods(fileLines);
         }catch (IOException e){
             System.err.println(e.getMessage());
             return IO_ERROR;
