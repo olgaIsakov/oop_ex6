@@ -15,6 +15,10 @@ public class Parser {
     private final static String OPEN = "\\s*[{]\\s*$";
     private final static String CLOSE = "\\s*}\\s*$";
     private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*";
+    private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
+    private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
+    final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
+    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
     final static Pattern OPEN_PATTERN = Pattern.compile(OPEN);
@@ -24,10 +28,12 @@ public class Parser {
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
+    List<String> globalVars = new ArrayList<>();
 
 
     /**
      * this method parse the file into methods
+     *
      * @param sJavaLines the given file
      * @return a map -> list of the method lines : list of the method parameters
      */
@@ -64,30 +70,38 @@ public class Parser {
                     singleMethods.put(methodLines, params);
                 }
             }
+            Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
+            if (globalVarsMatcher.matches())
+                globalVars.add(sJavaLines[i]);
         }
         return singleMethods;
     }
 
     /**
      * this method parse the file into variables
+     *
      * @param sJavaLines the given file
      * @return a list with all variables
      */
-    public List<String> parseToVariables(String[] sJavaLines) throws StructureException {
-        List<String> variableList = new ArrayList<>() ;
+    public void checkAllLines(String[] sJavaLines) throws StructureException {
+        List<String> variableList = new ArrayList<>();
+        boolean flag = true;
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            if (variableMatch.matches())
-                variableList.add(sJavaLines[i]);
-            else{
-                Matcher methodMatch = METHOD_PATTERN.matcher(sJavaLines[i]);
-                Matcher ifWhileStructure = IF_WHILE_PATTERN.matcher(sJavaLines[i]);
-                Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
-                if (!methodMatch.matches() && !ifWhileStructure.matches() && !closeStructure.matches())
-                    throw new StructureException(INVALID_LINE_ERROR) ;
+            Matcher methodMatch = METHOD_PATTERN.matcher(sJavaLines[i]);
+            Matcher ifWhileStructure = IF_WHILE_PATTERN.matcher(sJavaLines[i]);
+            Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
+            Matcher returnStructure = RETURN_PATTERN.matcher(sJavaLines[i]);
+            Matcher methodCallStructure = METHOD_CALL_PATTERN.matcher(sJavaLines[i]);
+            if (!variableMatch.matches() && !methodMatch.matches() && !ifWhileStructure.matches() &&
+                    !closeStructure.matches() &&
+                    !returnStructure.matches() && !methodCallStructure.matches()) {
+                flag = false;
+                break;
             }
         }
-        return variableList;
+        if (!flag) throw new StructureException(INVALID_LINE_ERROR);
+
     }
 
 }
