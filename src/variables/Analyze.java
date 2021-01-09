@@ -1,4 +1,4 @@
-package variable;
+package variables;
 
 import variables.GrammarException;
 import variables.ValueTypeException;
@@ -34,7 +34,7 @@ public class Analyze {
     final static String BOOLEAN = "boolean";
     final static String CHAR = "char";
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
-    HashMap<String,String>  listVariables = new HashMap<String,String>();
+    static HashMap<String,String>  listVariables = new HashMap<String,String>();
 
 
     private static final Pattern STRING_PATTERN =  Pattern.compile("\".*\"");
@@ -45,7 +45,7 @@ public class Analyze {
 
 
 
-    public void analyzer(String line) throws variable.FinalVariableException, variable.TypeException, variable.NameVariableException, ValueTypeException, GrammarException {
+    public static void analyzer(String line) throws variable.FinalVariableException, variable.TypeException, variable.NameVariableException, ValueTypeException, GrammarException {
         Matcher matcher = END_OF_LINE.matcher(line);
         if(!matcher.matches()) {
             throw new GrammarException(ERROR);
@@ -74,7 +74,7 @@ public class Analyze {
 
     }
 
-    public boolean checkAllNames(String line, String type){
+    public static boolean checkAllNames(String line, String type){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
             if (!variable.Variable.isNameValid(name)){
@@ -82,7 +82,7 @@ public class Analyze {
             }listVariables.put(name,type);
         }return true;
     }
-    public boolean checkAllValues(String valueLine , String type){
+    public static boolean checkAllValues(String valueLine, String type){
         String [] values = splitLineWithComma(valueLine);
         for (String value : values){
             if (!isValueValid(type ,value)){
@@ -90,7 +90,7 @@ public class Analyze {
             }
         }return true;
     }
-    public boolean isValueValid(String type ,String value){
+    public static boolean isValueValid(String type, String value){
         switch(type){
             case (STRING):
                 return isValueValidString(value);
@@ -107,7 +107,7 @@ public class Analyze {
         return false;
     }
 
-    public boolean isValueValidInt(String value){
+    public static boolean isValueValidInt(String value){
         if (listVariables.containsKey(value)){
             return listVariables.get(value).equals(INT);
         }
@@ -115,7 +115,7 @@ public class Analyze {
         return matcher.matches();
 
     }
-    public boolean isValueValidDouble(String value){
+    public static boolean isValueValidDouble(String value){
         if (listVariables.containsKey(value)){
             return listVariables.get(value).equals(DOUBLE);
         }
@@ -123,7 +123,7 @@ public class Analyze {
         return matcher.matches();
 
     }
-    public boolean isValueValidString(String value){
+    public static boolean isValueValidString(String value){
         if (listVariables.containsKey(value)){
             return listVariables.get(value).equals(STRING);
         }
@@ -131,7 +131,7 @@ public class Analyze {
         return matcher.matches();
 
     }
-    public boolean isValueValidChar(String value){
+    public static boolean isValueValidChar(String value){
         if (listVariables.containsKey(value)){
             return listVariables.get(value).equals(CHAR);
         }
@@ -140,7 +140,7 @@ public class Analyze {
 
 
     }
-    public boolean isValueValidBoolean(String value){
+    public static boolean isValueValidBoolean(String value){
         if (listVariables.containsKey(value)){
             return listVariables.get(value).equals(BOOLEAN);
         }
@@ -155,13 +155,13 @@ public class Analyze {
 
 
     }
-    public String[] splitLineWithComma(String line){
+    public static String[] splitLineWithComma(String line){
         return line.split(",");
 
 
     }
 
-    public boolean isFinal(String line) { // we already init and want new value//
+    public static boolean isFinal(String line) { // we already init and want new value//
         Matcher matcher = FINAL_PATTERN.matcher(line);
         return matcher.matches();
     }
@@ -177,7 +177,7 @@ public class Analyze {
 
 
 
-    public boolean declarationWithInit(String line){ // if its new , did we init with a value ?//
+    public  static  boolean declarationWithInit(String line){ // if its new , did we init with a value ?//
         return line.contains(EQUAL);
 
 
@@ -188,21 +188,21 @@ public class Analyze {
 
     }
 
-    public String removeWord(String line){ // for new declaration//
+    public static String removeWord(String line){ // for new declaration//
         return line.substring(line.indexOf(EMPTY_SPACE)+1);
 
     }
-    public String beginningWord(String line){ // for new declaration//
+    public static String beginningWord(String line){ // for new declaration//
         String[] arr = line.split(EMPTY_SPACE, 2);
         return arr[0];
     }
 
-    public String splitValues(String line){ // if we have new value or values
+    public static String splitValues(String line){ // if we have new value or values
         line = line.replaceAll(SEM, "");
         return line.substring(line.lastIndexOf("=")+1).trim();
 
 
-    }public String getNames(String line){
+    }public static String getNames(String line){
         line = line.replaceAll(SEM, "");
         if (line.contains(EQUAL)){
             line.substring(0,line.indexOf(EQUAL)).trim();
@@ -210,6 +210,13 @@ public class Analyze {
         return line.trim();
 
 
+    }
+    public static  String [] getName(String line){
+        if (isFinal(line)){
+            removeWord(line);
+        } if (declarationWithInit(line)){
+            removeWord(line);
+        }return getNames(line).split(",");
     }
 
 

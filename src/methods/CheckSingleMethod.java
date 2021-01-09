@@ -1,7 +1,13 @@
 package methods;
 
 import manager.Parser;
+import variable.FinalVariableException;
+import variable.NameVariableException;
+import variable.TypeException;
+import variables.Analyze;
 import variables.ConditionException;
+import variables.GrammarException;
+import variables.ValueTypeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +18,11 @@ import java.util.regex.Pattern;
 public class CheckSingleMethod {
     List<String> globalVars;
     private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*.*\\s*\\}$";
+    private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
+    final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
+    List<String> declarationInit = new ArrayList<>();
+    private final static String BLOCK_ERROR = "ERROR : there is error in block lines";
 
     public void checkMethods(Map<List<String>, List<String>> allMethods){
         globalVars = Parser.getGlobalVars();
@@ -51,8 +61,29 @@ public class CheckSingleMethod {
         return i;
     }
 
-    private void checkInnerBlocks(List<List<String>> blocks) {
+    private void checkInnerBlocks(List<List<String>> blocks) throws NameVariableException, TypeException, ValueTypeException, GrammarException, FinalVariableException, BlockException {
         for (int i= blocks.size() ; i-- > 0 ;){
+            for(String line : blocks.get(i)){
+                Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
+
+                Matcher callMethodMatch = mainMethod.METHOD_CALL_PATTERN.matcher(line);
+                if (variableMatch.matches()){ // its a var//
+                    Analyze.analyzer(line);
+                    if (Analyze.declarationWithInit(line)) {
+                        String[] names = Analyze.getName(line);
+                        for (String name : names) {
+                            if (declarationInit.contains(name)) {
+                                throw new BlockException(BLOCK_ERROR);
+                            }
+                            declarationInit.add(name);
+                        }
+                    }
+
+
+                }if (callMethodMatch.matches()){
+
+                }
+            }
 
         }
     }
