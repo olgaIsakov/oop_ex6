@@ -88,7 +88,7 @@ public class paramCheck {
             case CHAR:
                 return charMach.matches();
             case DOUBLE:
-                return doubleMach.matches();
+                return (intMach.matches() || doubleMach.matches());
         }
         return false;
     }

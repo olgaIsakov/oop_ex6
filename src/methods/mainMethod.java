@@ -11,19 +11,20 @@ public class mainMethod {
     private static final String OPEN_PARENTHESIS = "{";
     private static final int ERROR_FOUND = 1;
     final static int SECOND_WORD = 1;
-    final static int FIRST_LINE = 0;
     final static int BEGINNING = 0;
     private final static String METHOD_NAME = "[a-zA-Z]\\w*";
     private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
+    private final static String SPACES = "\\s+";
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
     final static String FINAL = "final";
     final static String NULL_MARK = "null";
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
+    private static final int SECOND = 1;
+    private static final int FIRST = 0;
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
-    private static Map<List<String>, List<String>> allMethods;
     private static String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
     private static String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
     static List<String> methodNames = new ArrayList<>() ;
@@ -79,14 +80,14 @@ public class mainMethod {
                     throw new MethodException(ERROR_PARAM_MSG);
             }
     }
-
-    /**
+/*
+    *//**
      * This method checks if a called method is legal
      * @throws MethodException method called an unexciting method or itself.
-     */
+     *//*
     public static void checkMethodCalls() throws MethodException {
         for (List<String> method: allMethods.keySet()){
-            Matcher nameMatch = METHOD_CALL_PATTERN.matcher(method.get(FIRST_LINE));
+            Matcher nameMatch = METHOD_CALL_PATTERN.matcher(method.get(FIRST));
             String name = nameMatch.toMatchResult().group();
             for (int i=1; i< method.size(); i++){
                 Matcher methodCall = METHOD_CALL_PATTERN.matcher(method.get(i));
@@ -101,13 +102,34 @@ public class mainMethod {
                 }
             }
         }
-    }
+    }*/
     /**
      * This method checks if a called method is legal
      * @throws MethodException method called an unexciting method or itself.
      */
-    public static void checkMethodCall(String methodLine) throws MethodException {
+    public static void checkMethodCall(String methodLine, String methodName) throws MethodException {
+        String called = getMethodName(methodLine);
+        if (!methodNames.contains(called) || called.equals(methodName))
+            throw new MethodException(ERROR_PARAM_MSG);
+        else{
+            Map<String, List<String>> mapNameParams = manager.Parser.getMapNameParams();
+            if (!paramCheck.checkCalledParams(methodLine, mapNameParams.get(called)))
+                throw new MethodException(ERROR_PARAM_MSG);
+        }
+    }
 
+    /**
+     * This method gets the method name
+     * @param methodLine the line in the method
+     * @return the method name 
+     */
+    public static String getMethodName(String methodLine){
+        String name = methodLine.strip().replaceAll(SPACES, EMPTY_SPACE).split(EMPTY_SPACE)[SECOND] ;
+        if (name.contains(START_PARAMETERS)){
+            int endCalled = name.indexOf(START_PARAMETERS);
+            name = name.substring(FIRST, endCalled);
+        }
+        return name;
     }
 
 
