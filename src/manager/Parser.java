@@ -39,7 +39,7 @@ public class Parser {
      * @param sJavaLines the given file
      * @return a map -> list of the method lines : list of the method parameters
      */
-    public void parseToMethods(String[] sJavaLines) throws MethodException {
+    public void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
         int parenthesisCounter = INITIALIZED_COUNTER;
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
@@ -77,7 +77,12 @@ public class Parser {
             Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
             if (globalVarsMatcher.matches())
                 globalVars.add(sJavaLines[i]);
+            else{
+                Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
+                if (!closeStructure.matches()) throw new StructureException(INVALID_LINE_ERROR);
+            }
         }
+
     }
 
     /**

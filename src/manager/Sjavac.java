@@ -2,6 +2,7 @@ package manager;
 
 import manager.Parser;
 import methods.MethodException;
+import variables.ConditionException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Sjavac {
     private static final String COMMENT_SUFFIX = "\\";
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
+    private static final int VALID_FILE = 0;
     private static final int INITIALIZE_COUNTER = 0;
     private final static String IMPORT = "\\s*import|package\\s*.*$";
     private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
@@ -26,14 +28,15 @@ public class Sjavac {
             String[] fileLines = getAllLInes(buffer);
             Parser parser = new Parser();
             parser.parseToMethods(fileLines);
+            methods.CheckSingleMethod.checkMethods(Parser.getMapNameLines());
+            return VALID_FILE;
         }catch (IOException e){
             System.err.println(e.getMessage());
             return IO_ERROR;
-        } catch (MethodException e) {
+        } catch (MethodException | StructureException | ConditionException e) {
             System.err.println(e.getMessage());
             return S_JAVA_ERROR;
         }
-
     }
 
     /**

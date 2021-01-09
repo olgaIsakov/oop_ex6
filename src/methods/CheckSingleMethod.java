@@ -23,10 +23,11 @@ public class CheckSingleMethod {
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
 
-    public void checkMethods(Map<List<String>, List<String>> allMethods) throws ConditionException, MethodException {
+    public static void checkMethods(Map<String, List<String>> mapNameLines) throws ConditionException, MethodException {
         globalVars = Parser.getGlobalVars();
-        for (List<String> method: allMethods.keySet()){
-            String name = mainMethod.getMethodName(method.get(FIRST));
+        for (Map.Entry<String, List<String>> nameAndLines: mapNameLines.entrySet()){
+            List<String> method = nameAndLines.getValue();
+            String name = nameAndLines.getKey() ;
             checkSingleMethod(method, name);
         }
     }

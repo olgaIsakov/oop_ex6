@@ -25,7 +25,6 @@ public class mainMethod {
     private static final int SECOND = 1;
     private static final int FIRST = 0;
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
-    private static Map<List<String>, List<String>> allMethods;
     private static String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
     private static String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
     static List<String> methodNames = new ArrayList<>() ;
