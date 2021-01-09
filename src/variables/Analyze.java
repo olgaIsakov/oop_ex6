@@ -2,6 +2,8 @@ package variables;
 
 
 
+import manager.Tools;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,20 +29,8 @@ public class Analyze {
     private static final String CLOSE = "}";
     private static final String EQUAL= "=";
     private static final String SEM = ";";
-    final static String INT = "int";
-    final static String STRING = "String";
-    final static String DOUBLE = "double";
-    final static String BOOLEAN = "boolean";
-    final static String CHAR = "char";
-    final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
     static HashMap<String,String>  listVariables = new HashMap<String,String>();
 
-
-    private static final Pattern STRING_PATTERN =  Pattern.compile("\".*\"");
-    private static final Pattern BOOLEAN_PATTERN =  Pattern.compile("temp!!!");
-    private static final Pattern CHAR_PATTERN =  Pattern.compile("'.'");
-    private static final Pattern DOUBLE_PATTERN =  Pattern.compile("^(-?)(0|([1-9][0-9]*))(\\.[0-9]+)?$");
-    private static final Pattern INT_PATTERN =  Pattern.compile("^[0-9]+$");
 
     private static final String ERROR_GRAMMAR = "ERROR : no ; at the end of declaration  ";
     private static final String ERROR_FINAL = "ERROR : the variable is final but without initialization  ";
@@ -88,12 +78,12 @@ public class Analyze {
     public static boolean checkAllValues(String valueLine, String type){
         String [] values = splitLineWithComma(valueLine);
         for (String value : values){
-            if (!isValueValid(type ,value)){
+            if (!Tools.checkType(type, value)){
                 return false;
             }
         }return true;
     }
-    public static boolean isValueValid(String type, String value){
+/*    public static boolean isValueValid(String type, String value){
         switch(type){
             case (STRING):
                 return isValueValidString(value);
@@ -151,7 +141,7 @@ public class Analyze {
         return matcher.matches();
 
 
-    }
+    }*/
 
     public String[] splitLine(String line){
         return line.split(" ");

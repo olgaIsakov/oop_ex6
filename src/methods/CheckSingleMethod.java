@@ -23,7 +23,8 @@ public class CheckSingleMethod {
     private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
     final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
     final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
-
+    final static int TWO_LINES = 2 ;
+    final static int EMPTY_BLOCK = 0;
     private final static String SPACES = "\\s+";
     final static String EMPTY_SPACE = " ";
     final static int FIRST = 0;
@@ -37,7 +38,8 @@ public class CheckSingleMethod {
     final static String BLOCK_ERROR = " ERROR : error in block line ";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
 
-    public static void checkMethods(Map<String, List<String>> mapNameLines) throws ConditionException, MethodException, VariableException, StructureException, BlockException {
+    public static void checkMethods(Map<String, List<String>> mapNameLines)
+            throws ConditionException, MethodException, VariableException, StructureException, BlockException {
         List<String> globalVars = Parser.getGlobalVars();
         for (Map.Entry<String, List<String>> nameAndLines: mapNameLines.entrySet()){
             List<String> method = nameAndLines.getValue();
@@ -73,9 +75,9 @@ public class CheckSingleMethod {
         int startBlock = i;
         int endBlock = mainBlock.size();
         int temp = endBlock;
-        while (endBlock - startBlock  > 2){
+        while (endBlock - startBlock  > TWO_LINES ){
             List<String> innerBlock= ifWhileMethods.ifWhile(method.subList(startBlock+1, endBlock-1));
-            if (innerBlock.size() == 0 )
+            if (innerBlock.size() == EMPTY_BLOCK  )
                 break;
             else blocks.add(innerBlock);
             startBlock ++;
@@ -101,9 +103,10 @@ public class CheckSingleMethod {
                     if (Analyze.declarationWithInit(line)) {
                         String[] names = Analyze.getName(line);
                         for (String name : names) {
-                            if (declarationInit.contains(name)) {
+                            if (name.equals(nameMethod))
                                 throw new BlockException(BLOCK_ERROR);
-                            }
+                            if (declarationInit.contains(name))
+                                throw new BlockException(BLOCK_ERROR);
                             declarationInit.add(name);
                         }
                     }

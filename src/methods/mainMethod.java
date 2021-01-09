@@ -80,29 +80,6 @@ public class mainMethod {
                     throw new MethodException(ERROR_PARAM_MSG);
             }
     }
-/*
-    *//**
-     * This method checks if a called method is legal
-     * @throws MethodException method called an unexciting method or itself.
-     *//*
-    public static void checkMethodCalls() throws MethodException {
-        for (List<String> method: allMethods.keySet()){
-            Matcher nameMatch = METHOD_CALL_PATTERN.matcher(method.get(FIRST));
-            String name = nameMatch.toMatchResult().group();
-            for (int i=1; i< method.size(); i++){
-                Matcher methodCall = METHOD_CALL_PATTERN.matcher(method.get(i));
-                if (methodCall.matches()){
-                    String called = methodCall.toMatchResult().group();
-                    if (!methodNames.contains(called) || called.equals(name))
-                        throw new MethodException(ERROR_PARAM_MSG);
-                    else{
-                        if (!paramCheck.checkCalledParams(method.get(i), allMethods.get(method)))
-                            throw new MethodException(ERROR_PARAM_MSG);
-                    }
-                }
-            }
-        }
-    }*/
     /**
      * This method checks if a called method is legal
      * @throws MethodException method called an unexciting method or itself.

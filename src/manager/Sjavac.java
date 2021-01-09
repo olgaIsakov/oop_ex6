@@ -4,6 +4,7 @@ import manager.Parser;
 import methods.BlockException;
 import methods.MethodException;
 import variables.ConditionException;
+import variables.GlobalVariables;
 import variables.VariableException;
 
 import java.io.*;
@@ -31,6 +32,7 @@ public class Sjavac {
             Parser parser = new Parser();
             parser.parseToMethods(fileLines);
             methods.CheckSingleMethod.checkMethods(Parser.getMapNameLines());
+            GlobalVariables.checkGlobalVars(Parser.getGlobalVars());
             return VALID_FILE;
         }catch (IOException e){
             System.err.println(e.getMessage());
