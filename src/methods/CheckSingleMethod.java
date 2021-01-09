@@ -27,9 +27,10 @@ public class CheckSingleMethod {
     final static int SECOND = 1;
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
+    final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
 
     public static void checkMethods(Map<String, List<String>> mapNameLines) throws ConditionException, MethodException {
-        globalVars = Parser.getGlobalVars();
+        List<String> globalVars = Parser.getGlobalVars();
         for (Map.Entry<String, List<String>> nameAndLines: mapNameLines.entrySet()){
             List<String> method = nameAndLines.getValue();
             String name = nameAndLines.getKey() ;
@@ -37,7 +38,7 @@ public class CheckSingleMethod {
         }
     }
 
-    private void checkSingleMethod(List<String> method, String name) throws ConditionException, MethodException {
+    private static void checkSingleMethod(List<String> method, String name) throws ConditionException, MethodException {
         for (int i = 0 ; i < method.size() ; i++){
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
@@ -55,7 +56,7 @@ public class CheckSingleMethod {
         }
     }
 
-    private int findAllBlocks(List<String> method, int i) throws ConditionException {
+    private static int findAllBlocks(List<String> method, int i) throws ConditionException {
         List<List<String>> blocks = new ArrayList<>() ;
         List<String> mainBlock= ifWhileMethods.ifWhile(method.subList(i, method.size()));
         blocks.add(mainBlock);
@@ -75,7 +76,8 @@ public class CheckSingleMethod {
         return i;
     }
 
-    private void checkInnerBlocks(List<List<String>> blocks) throws NameVariableException, TypeException, ValueTypeException, GrammarException, FinalVariableException, BlockException {
+    private static void checkInnerBlocks(List<List<String>> blocks) throws NameVariableException, TypeException,
+            ValueTypeException, GrammarException, FinalVariableException, BlockException {
         for (int i= blocks.size() ; i-- > 0 ;){
             for(String line : blocks.get(i)){
                 Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
