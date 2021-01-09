@@ -65,7 +65,6 @@ public class CheckSingleMethod {
         for (int i= blocks.size() ; i-- > 0 ;){
             for(String line : blocks.get(i)){
                 Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
-
                 Matcher callMethodMatch = mainMethod.METHOD_CALL_PATTERN.matcher(line);
                 if (variableMatch.matches()){ // its a var//
                     Analyze.analyzer(line);
