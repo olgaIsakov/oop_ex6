@@ -82,7 +82,8 @@ public class CheckSingleMethod {
             startBlock ++;
             endBlock --;
         }
-        checkInnerBlocks(blocks,nameMethod);
+        List<List<String>> newBlocks = innerBlockLines(blocks,method);
+        checkInnerBlocks(newBlocks,nameMethod);
         i = temp;
         return i;
     }
@@ -120,8 +121,6 @@ public class CheckSingleMethod {
 
     private static void checkInnerBlocks(List<List<String>> blocks ,String nameMethod)
             throws VariableException, BlockException, MethodException, StructureException {
-        int firstLineLastBlock = -1;
-        int lastLineLastBlock = -1;
         for (int i= blocks.size() ; i-- > 0 ;){
             for(String line : blocks.get(i)){
                 Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);

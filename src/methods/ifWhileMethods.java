@@ -15,7 +15,10 @@ public class ifWhileMethods {
     private final static String CLOSE = "\\s*}\\s*$";
     private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
     private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
-    private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*";
+    private final static String IF_WHILE = "^\\s*+if|while\\s*\\(\\s*";
+
+    private final static String WHILE = "^\\s*+while\\s*\\(\\s*";
+    private final static String IF = "^\\s*+if\\s*\\(\\s*";
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern OPEN_PATTERN = Pattern.compile(OPEN);
     final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
