@@ -46,12 +46,10 @@ public class Analyze {
         }if (isFinal(line)) {
             if (!declarationWithInit(line)) {
                 throw new VariableException(ERROR_FINAL);
-
             }
             line = removeWord(line);
         }if (!variables.Variable.isTypeNameValid(beginningWord(line))){
             throw new VariableException(ERROR_TYPE);
-
         }String type = beginningWord(line);
         line = removeWord(line);
         String names = getNames(line) ;
@@ -139,7 +137,7 @@ public class Analyze {
         }
         Matcher matcher = BOOLEAN_PATTERN.matcher(value);
         return matcher.matches();
-
+    }
 
     }*/
 
@@ -148,11 +146,11 @@ public class Analyze {
 
 
     }
-    public static String[] splitLineWithComma(String line){
+    public static String[] splitLineWithComma(String line) {
         return line.split(",");
-
-
     }
+
+
 
     public static boolean isFinal(String line) { // we already init and want new value//
         Matcher matcher = FINAL_PATTERN.matcher(line);

@@ -106,17 +106,8 @@ public class CheckSingleMethod {
         return blockList ;
     }
 
-   void foo(int i){ // [109, 117] ,[111, 116], [113, 115]
-        if (i>5){
-            i =8;
-            while (i %2 ==0){
-                i =5;
-                while ( i> 5){
-                    i =4;
-                }
-            }
-        }
-   }
+
+
 
     private static void checkInnerBlocks(List<List<String>> blocks ,String nameMethod)
             throws VariableException, BlockException, MethodException, StructureException {
