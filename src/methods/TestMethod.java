@@ -36,25 +36,30 @@ public class TestMethod {
 
 
 
-    private static  List<List<String>> innerBlockLines(List<List<String>> blocks, List<String> method) throws ConditionException {
+    private static  List<List<String>> innerBlockLines(List<List<String>> blocks, List<String> method) {
         List<List<String>> blockList = new ArrayList<>();
         TreeMap<Integer, Integer> innerIdxMap = new TreeMap<>();
-        int counter = 0 ;
         for (int i= blocks.size() ; i-- > 0 ;){
-            ifWhileMethods.ifWhile(blocks.get(i));
             int firstLineIdx = method.lastIndexOf(blocks.get(i).get(0));
-            int blockSIze = ifWhileMethods.ifWhile(method.subList(firstLineIdx,method.size())).size();
-            int lastLineIdx =  firstLineIdx + blockSIze -1 ;
-            counter = lastLineIdx+1;
+            int lastLineIdx =  firstLineIdx + blocks.get(i).size() -1 ;
             innerIdxMap.put(firstLineIdx, lastLineIdx);
         }
-        innerIdxMap.remove(innerIdxMap.descendingKeySet().first());
+        innerIdxMap.remove(innerIdxMap.descendingKeySet().last() );
+        int blockCounter = 0 ;
         for (List<String> block: blocks){
-            Map.Entry<Integer, Integer> biggestIdx = innerIdxMap.lastEntry() ;
+            if (blockCounter == blocks.size() -1){
+                blockList.add(block);
+                break;
+            }
+            Map.Entry<Integer, Integer> biggestIdx = innerIdxMap.firstEntry() ;
             int InnerBegin = block.indexOf(method.get(biggestIdx.getKey()));
-            int InnerLast = block.indexOf(method.get(biggestIdx.getValue()));
-            blockList.add(block.subList(InnerBegin, InnerLast)) ;
+            int InnerLast = InnerBegin + biggestIdx.getValue() - biggestIdx.getKey() ;
+            List<String> newBlock = new ArrayList<>();
+            newBlock.addAll(block.subList(0, InnerBegin)) ;
+            newBlock.addAll(block.subList(InnerLast+1, block.size())) ;
+            blockList.add(newBlock) ;
             innerIdxMap.remove(biggestIdx.getKey()) ;
+            blockCounter ++;
         }
         return blockList ;
     }
