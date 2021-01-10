@@ -7,9 +7,8 @@ import variables.ConditionException;
 
 import variables.VariableException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.ParameterMetaData;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,8 +87,41 @@ public class CheckSingleMethod {
         return i;
     }
 
+    private static  List<List<String>> innerBlockLines(List<List<String>> blocks,List<String> method){
+        List<List<String>> blockList = new ArrayList<>();
+        TreeMap<Integer, Integer> innerIdxMap = new TreeMap<>();
+        for (int i= blocks.size() ; i-- > 0 ;){
+            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(0));
+            int lastLineIdx = method.indexOf(blocks.get(i).get(blocks.get(i).size())) ;
+            innerIdxMap.put(firstLineIdx, lastLineIdx);
+        }
+        innerIdxMap.remove(innerIdxMap.descendingKeySet().first());
+        for (List<String> block: blocks){
+            Map.Entry<Integer, Integer> biggestIdx = innerIdxMap.lastEntry() ;
+            int InnerBegin = block.indexOf(method.get(biggestIdx.getKey()));
+            int InnerLast = block.indexOf(method.get(biggestIdx.getValue()));
+            blockList.add(block.subList(InnerBegin, InnerLast)) ;
+            innerIdxMap.remove(biggestIdx.getKey()) ;
+        }
+        return blockList ;
+    }
+
+   void foo(int i){ // [109, 117] ,[111, 116], [113, 115]
+        if (i>5){
+            i =8;
+            while (i %2 ==0){
+                i =5;
+                while ( i> 5){
+                    i =4;
+                }
+            }
+        }
+   }
+
     private static void checkInnerBlocks(List<List<String>> blocks ,String nameMethod)
             throws VariableException, BlockException, MethodException, StructureException {
+        int firstLineLastBlock = -1;
+        int lastLineLastBlock = -1;
         for (int i= blocks.size() ; i-- > 0 ;){
             for(String line : blocks.get(i)){
                 Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
