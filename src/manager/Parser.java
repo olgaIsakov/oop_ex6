@@ -56,6 +56,13 @@ public class Parser {
 
     }
 
+    /**
+     * This method finds a single method block
+     * @param sJavaLines the file
+     * @param i the current line index
+     * @return the index of the last block line
+     * @throws MethodException illegal block
+     */
     private int getMethodBlock(String[] sJavaLines, int i) throws MethodException {
         int firstLine = i;
         Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
@@ -123,10 +130,18 @@ public class Parser {
         return globalVars;
     }
 
+    /**
+     * a getter for the name- method lines map
+     * @return the map
+     */
     public static Map<String, List<String>> getMapNameLines(){
         return mapNameLines;
     }
 
+    /**
+     * a getter for the name- parameters map
+     * @return the map
+     */
     public static Map<String, List<String>> getMapNameParams(){
         return mapNameParams;
     }
