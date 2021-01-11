@@ -1,6 +1,6 @@
 package oop.ex6.main;
 
-import methods.MethodException;
+import oop.ex6.methods.*;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -70,7 +70,7 @@ public class Parser {
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
             List<String> params = new ArrayList<>();
-            methods.mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
+            mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
             List<String> methodLines = new ArrayList<>();
             parenthesisCounter++;
             methodLines.add(sJavaLines[i]);
@@ -90,7 +90,7 @@ public class Parser {
                 methodLines.add(sJavaLines[i]);
                 i++;
             }
-            String name = methods.mainMethod.getMethodName(sJavaLines[firstLine]);
+            String name = mainMethod.getMethodName(sJavaLines[firstLine]);
             mapNameLines.put(name, methodLines);
             mapNameParams.put(name, params);
         }
