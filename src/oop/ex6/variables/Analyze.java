@@ -13,35 +13,23 @@ public class Analyze {
     private static final String FINAL = "final";
     private static final String ERROR = "";
 
-    private static final Pattern DECLARATION_PATTERN_WITH_INIT =  Pattern.compile("(_?[a-zA-Z0-9_]+)(\\s+)(([a-zA-Z]?_[a-zA-Z])?([a-zA-Z]*[0-9]*_*)(=[a-zA-Z0-9]*)?[,]?)+((\\s+)(([a-zA-Z]?_[a-zA-Z])?([a-zA-Z]*[0-9]*_*)(=[a-zA-Z0-9]*)?[,]?))*");
     private static final Pattern DECLARATION_PATTERN_WITHOUT_INIT =  Pattern.compile("(?:\\w+\\s+)([a-zA-Z_][a-zA-Z0-9_]*)");
     private static final Pattern NEW_DECLARATION = Pattern.compile("\\s*\\w+\\s+\\w[\\s*,\\w]*\\s*(?:=\\s*.+?)?\\s*;\\s*");
     private static final Pattern ASSIGNMENT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");
     private static final Pattern END_OF_LINE = Pattern.compile(";$");
     private static final Pattern FINAL_PATTERN =  Pattern.compile("^final");
-    private static final String START_PARAMETERS = "(";
-    private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
-    private static final String NULL_MARK = "null";
-
-    private static final String OPEN = "{";
-    private static final String CLOSE = "}";
     private static final String EQUAL= "=";
     private static final String SEM = ";";
     private static final String EMPTY_STRING = "";
-    static HashMap<String,String>  listVariables = new HashMap<String,String>();
+    public static HashMap<String,String>  listVariables = new HashMap<String,String>();
 
-
-    private static final String ERROR_GRAMMAR = "ERROR : no ; at the end of declaration  ";
     private static final String ERROR_FINAL = "ERROR : the variable is final but without initialization  ";
     private static final String ERROR_TYPE = "ERROR : invalid type name ";
     private static final String ERROR_NAME = "ERROR : invalid variable  name ";
     private static final String ERROR_VALUE = "ERROR : invalid variable value ";
 
     public static void analyzer(String line) throws VariableException {
-//        Matcher matcher = END_OF_LINE.matcher(line);
-//        if(!matcher.matches()) {
-//            throw new VariableException(ERROR_GRAMMAR);
 
         if (isFinal(line)) {
             if (!declarationWithInit(line)) {
@@ -108,65 +96,7 @@ public class Analyze {
             }
         }return true;
     }
-/*    public static boolean isValueValid(String type, String value){
-        switch(type){
-            case (STRING):
-                return isValueValidString(value);
-            case (INT):
-                return isValueValidInt(value);
-            case (DOUBLE):
-                return isValueValidDouble(value);
-            case(CHAR):
-                return isValueValidChar(value);
-            case (BOOLEAN):
-                return isValueValidBoolean(value);
 
-        }
-        return false;
-    }
-
-    public static boolean isValueValidInt(String value){
-        if (listVariables.containsKey(value)){
-            return listVariables.get(value).equals(INT);
-        }
-        Matcher matcher = INT_PATTERN.matcher(value);
-        return matcher.matches();
-
-    }
-    public static boolean isValueValidDouble(String value){
-        if (listVariables.containsKey(value)){
-            return listVariables.get(value).equals(DOUBLE);
-        }
-        Matcher matcher = DOUBLE_PATTERN.matcher(value);
-        return matcher.matches();
-
-    }
-    public static boolean isValueValidString(String value){
-        if (listVariables.containsKey(value)){
-            return listVariables.get(value).equals(STRING);
-        }
-        Matcher matcher = STRING_PATTERN.matcher(value);
-        return matcher.matches();
-
-    }
-    public static boolean isValueValidChar(String value){
-        if (listVariables.containsKey(value)){
-            return listVariables.get(value).equals(CHAR);
-        }
-        Matcher matcher = CHAR_PATTERN.matcher(value);
-        return matcher.matches();
-
-
-    }
-    public static boolean isValueValidBoolean(String value){
-        if (listVariables.containsKey(value)){
-            return listVariables.get(value).equals(BOOLEAN);
-        }
-        Matcher matcher = BOOLEAN_PATTERN.matcher(value);
-        return matcher.matches();
-    }
-
-    }*/
 
     public static String removeSpace(String line) {
         return line.replaceAll("\\s+", "");

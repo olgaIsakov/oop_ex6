@@ -4,8 +4,6 @@ import oop.ex6.main.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class paramCheck {
     private static final String START_PARAMETERS = "(";
@@ -14,8 +12,6 @@ public class paramCheck {
     private static final String COMMA = ",";
     private static final int EMPTY_PARAMS = 0;
     private static final int FIRST_PARAM = 0;
-    private final static String ONE_PARAMETER = "\\s*final*\\s+[a-zA-Z]+\\s*";
-    final static Pattern ONE_PARAMETER_PATTERN = Pattern.compile(ONE_PARAMETER);
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
 
     /**
@@ -35,8 +31,7 @@ public class paramCheck {
             if (typeOptions.contains(type))
                 types.add(type);
         }
-        Matcher oneParam = ONE_PARAMETER_PATTERN.matcher(params);
-        if (oneParam.matches())
+        if (!params.contains(COMMA))
             return Tools.checkType(types.get(FIRST_PARAM), params);
         else{
             String[] allParams = params.split(COMMA);

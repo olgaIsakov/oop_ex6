@@ -31,7 +31,6 @@ public class mainMethod {
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
     private static String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
     private static String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
-    static List<String> methodNames = new ArrayList<>() ;
 
     /**
      * This method checks the first line of a method

@@ -18,14 +18,11 @@ public abstract class Variable {
     private static final List<String> typesList=  List.of("String","int","double","boolean","char");
 
     private static final List<String> globalVariables = new ArrayList<String>();
-    private static final List<String> initializedVariables = new ArrayList<String>();
 
 
 
     /*Patterns*/
     private static final Pattern NAME_VARIABLE_PATTERN =  Pattern.compile("(?:[a-zA-Z]+\\w*)|(?:_+\\w+)");
-    private static final Pattern DECLARED_WITH_INIT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");////
-    private static final Pattern DECLARED_WITHOUT_INIT =  Pattern.compile("\\s*\\w+\\s*\\s*;\\s*");//////
 
     public Variable(String variableName, String variableType, boolean isFinal, boolean isLocal, boolean isGlobal,boolean isInit) {
         this.variableName = variableName;

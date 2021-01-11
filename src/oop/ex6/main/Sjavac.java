@@ -37,6 +37,13 @@ public class Sjavac {
             System.err.println(e.getMessage());
             System.out.println(S_JAVA_ERROR);
         }
+        finally {
+            Parser.mapNameLines.clear() ;
+            Parser.mapNameParams.clear() ;
+            Parser.globalVars.clear();
+            Analyze.listVariables.clear();
+            CheckSingleMethod.declarationInit.clear();
+        }
     }
 
     private static void checkLegalArgsLength(String[] args) throws IOException {

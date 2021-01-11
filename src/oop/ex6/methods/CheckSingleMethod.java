@@ -12,8 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CheckSingleMethod {
-    private static final String START_PARAMETERS = "(";
-    List<String> globalVars;
     private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
@@ -23,14 +21,12 @@ public class CheckSingleMethod {
     final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
     final static int TWO_LINES = 2 ;
     final static int EMPTY_BLOCK = 0;
-    private final static String SPACES = "\\s+";
-    final static String EMPTY_SPACE = " ";
     final static int FIRST = 0;
-    final static int SECOND = 1;
+    final static int INITIALIZE_COUNTER = 0;
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
-    static List<String> declarationInit = new ArrayList<>();
+    public static List<String> declarationInit = new ArrayList<>();
 
     private final static String RETURN = "^\\s*return\\s*;\\s*$";
     final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
@@ -94,12 +90,12 @@ public class CheckSingleMethod {
         List<List<String>> blockList = new ArrayList<>();
         TreeMap<Integer, Integer> innerIdxMap = new TreeMap<>();
         for (int i= blocks.size() ; i-- > 0 ;){
-            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(0));
+            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(FIRST));
             int lastLineIdx =  firstLineIdx + blocks.get(i).size() -1 ;
             innerIdxMap.put(firstLineIdx, lastLineIdx);
         }
         innerIdxMap.remove(innerIdxMap.descendingKeySet().last() );
-        int blockCounter = 0 ;
+        int blockCounter = INITIALIZE_COUNTER ;
         for (List<String> block: blocks){
             if (blockCounter == blocks.size() -1){
                 blockList.add(block);
@@ -109,7 +105,7 @@ public class CheckSingleMethod {
             int InnerBegin = block.indexOf(method.get(biggestIdx.getKey()));
             int InnerLast = InnerBegin + biggestIdx.getValue() - biggestIdx.getKey() ;
             List<String> newBlock = new ArrayList<>();
-            newBlock.addAll(block.subList(0, InnerBegin)) ;
+            newBlock.addAll(block.subList(FIRST , InnerBegin)) ;
             newBlock.addAll(block.subList(InnerLast+1, block.size())) ;
             blockList.add(newBlock) ;
             innerIdxMap.remove(biggestIdx.getKey()) ;
