@@ -11,11 +11,14 @@ import java.util.regex.Pattern;
 public class Sjavac {
     private static final String COMMENT_SUFFIX = "\\";
     private static final String COMMENT = "\\s*//.*+";
+    private static final String EMPTY = "\\s*";
     private static final Pattern COMMENT_PATTERN = Pattern.compile(COMMENT);
+    private static final Pattern EMPTY_PATTERN = Pattern.compile(EMPTY);
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
     private static final int VALID_FILE = 0;
     private static final int FIRST_ARG = 0;
+    private static final int EMPTY_LINE = 0 ;
     private static final int VALID_NUM_OF_ARGS = 1;
 
     public static void main(String[] args) {
@@ -52,7 +55,8 @@ public class Sjavac {
         List<String> sJavaLines = new ArrayList<>() ;
         while ((line = buffer.readLine()) != null){
             Matcher commentMatch = COMMENT_PATTERN.matcher(line);
-            if (!commentMatch.find()){
+            Matcher emptyMatch = EMPTY_PATTERN.matcher(line);
+            if (!commentMatch.find() && !(emptyMatch.matches())){
                 sJavaLines.add(line);
             }
         }

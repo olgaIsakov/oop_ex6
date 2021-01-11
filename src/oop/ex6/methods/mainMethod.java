@@ -1,5 +1,5 @@
 package oop.ex6.methods;
-
+import oop.ex6.main.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,11 +85,11 @@ public class mainMethod {
      */
     public static void checkMethodCall(String methodLine, String methodName) throws MethodException {
         String called = getMethodName(methodLine);
-        if (!methodNames.contains(called) || called.equals(methodName))
+        Map<String, List<String>> mapNameParameters = Parser.getMapNameParams();
+        if (!mapNameParameters.containsKey(called) || called.equals(methodName))
             throw new MethodException(ERROR_PARAM_MSG);
         else{
-            Map<String, List<String>> mapNameParams = oop.ex6.main.Parser.getMapNameParams();
-            if (!paramCheck.checkCalledParams(methodLine, mapNameParams.get(called)))
+            if (!paramCheck.checkCalledParams(methodLine, mapNameParameters.get(called)))
                 throw new MethodException(ERROR_PARAM_MSG);
         }
     }

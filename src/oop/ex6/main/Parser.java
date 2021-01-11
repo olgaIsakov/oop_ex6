@@ -43,11 +43,11 @@ public class Parser {
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
-                i = getMethodBlock(sJavaLines, i);
+                i = getMethodBlock(sJavaLines, i)-1; //change in dibug
                 continue;
             }
             Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            if  (globalVarsMatcher.matches())
+            if  (globalVarsMatcher.find())
                 globalVars.add(sJavaLines[i]);
             else{
                 Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
