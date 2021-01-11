@@ -5,7 +5,6 @@ package variables;
 import manager.Tools;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +28,7 @@ public class Analyze {
     private static final String CLOSE = "}";
     private static final String EQUAL= "=";
     private static final String SEM = ";";
+    private static final String EMPTY_STRING = "";
     static HashMap<String,String>  listVariables = new HashMap<String,String>();
 
 
@@ -49,36 +49,54 @@ public class Analyze {
             }
             line = removeWord(line);
 
-        }String type = beginningWord(line);
-        if (!variables.Variable.isTypeNameValid(type)){
-            throw new VariableException(ERROR_TYPE);
         }
-        line = removeWord(line);
+        String type = beginningWord(line);
+        if (!listVariables.containsKey(type)){
+            if (!variables.Variable.isTypeNameValid(type)) {
+                throw new VariableException(ERROR_TYPE);
+            }line = removeWord(line);
+        }
         String names = getNames(line) ;
         if (!checkAllNames(names,type)){
             throw new VariableException(ERROR_NAME) ;
         }
         String values = splitValues(line);
         if (values.length() >0){
-            if (!checkAllValues(values,type)) {
+            if (!checkAllValues(values,type,names)) {
                 throw new VariableException(ERROR_VALUE);
             }
         }
+        addTolist(names,type);
 
     }
+    public static void addTolist(String names, String type){
+        String [] varNames = splitLineWithComma(names);
+        for (String name : varNames){
+            listVariables.put(name,type);
+            }
+
+    }
+
 
     public static boolean checkAllNames(String line, String type){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
             if (!variables.Variable.isNameValid(name)){
                 return false;
-            }listVariables.put(name,type);
+            }
         }return true;
     }
-    public static boolean checkAllValues(String valueLine, String type){
+    public static boolean checkAllValues(String valueLine, String type,String name){
         String [] values = splitLineWithComma(valueLine);
+        if (listVariables.containsKey(name)){
+            type = listVariables.get(name);
+        }
         for (String value : values){
-            if (!Tools.checkType(type, value)){
+            if (listVariables.containsKey(value)){
+                String typeVar = listVariables.get(value);
+                if (!type.equals(typeVar) )return false;
+            }
+            else if (!Tools.checkType(type, value)){
                 return false;
             }
         }return true;
@@ -143,12 +161,12 @@ public class Analyze {
 
     }*/
 
-    public String[] splitLine(String line){
-        return line.split(" ");
-
+    public static String removeSpace(String line) {
+        return line.replaceAll("\\s+", "");
 
     }
     public static String[] splitLineWithComma(String line) {
+        line = removeSpace(line);
         return line.split(",");
     }
 
@@ -171,7 +189,7 @@ public class Analyze {
 
 
     public  static  boolean declarationWithInit(String line){ // if its new , did we init with a value ?//
-        return line.contains(EQUAL);
+        return line.contains(EQUAL)&&splitValues(line).length()>0;
 
 
     }
@@ -195,8 +213,13 @@ public class Analyze {
     }
 
     public static String splitValues(String line){ // if we have new value or values
+        line = removeSpace(line);
         line = line.replaceAll(SEM, "");
-        return line.substring(line.lastIndexOf("=")+1).trim();
+        if (line.contains(EQUAL)) {
+            return line.substring(line.lastIndexOf("=")+1);
+        }
+        return EMPTY_STRING;
+
 
 
     }public static String getNames(String line){
@@ -210,9 +233,9 @@ public class Analyze {
     }
     public static  String [] getName(String line){
         if (isFinal(line)){
-            removeWord(line);
-        } if (declarationWithInit(line)){
-            removeWord(line);
+            line = removeWord(line);
+        } if (Variable.isTypeNameValid(beginningWord(line))){
+            line = removeWord(line);
         }return getNames(line).split(",");
     }
 
