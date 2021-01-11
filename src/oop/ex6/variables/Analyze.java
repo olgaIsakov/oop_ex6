@@ -69,6 +69,13 @@ public class Analyze {
         addTolist(names,type);
 
     }
+    public static String getType(String line){
+        if (isFinal(line)){
+            line = removeWord(line);
+        } if (Variable.isTypeNameValid(beginningWord(line))) {
+            return beginningWord(line);
+        }return EMPTY_STRING;
+    }
     public static void addTolist(String names, String type){
         String [] varNames = splitLineWithComma(names);
         for (String name : varNames){

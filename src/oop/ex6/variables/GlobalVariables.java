@@ -12,8 +12,12 @@ public class GlobalVariables {
             Analyze.analyzer(line);
             String[] nameArray = Analyze.getName(line);
             for (String name: nameArray){
-                if (globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR) ;
-                else globalNames.add(name) ;
+                if (Analyze.getType(line).length() == 0) {
+                    if (!globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);
+                }else {
+                    if (globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);
+                    else globalNames.add(name);
+                }
             }
         }
     }
