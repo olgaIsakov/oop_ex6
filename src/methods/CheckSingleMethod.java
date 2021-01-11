@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class CheckSingleMethod {
     private static final String START_PARAMETERS = "(";
     List<String> globalVars;
-    private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*.*\\s*\\}$";
+    private final static String IF_WHILE = "^\\s*+if|while\\s*\\(\\s*";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     private final static String CLOSE = "\\s*}\\s*$";
@@ -37,6 +37,15 @@ public class CheckSingleMethod {
     final static String BLOCK_ERROR = " ERROR : error in block line ";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
 
+    /**
+     * This method checks all the methods
+     * @param mapNameLines a map of the method names and their lines
+     * @throws ConditionException wrong condition given
+     * @throws MethodException method check failed
+     * @throws VariableException variable check failed
+     * @throws StructureException invalid file structure
+     * @throws BlockException invalid block found
+     */
     public static void checkMethods(Map<String, List<String>> mapNameLines)
             throws ConditionException, MethodException, VariableException, StructureException, BlockException {
         List<String> globalVars = Parser.getGlobalVars();
@@ -47,6 +56,16 @@ public class CheckSingleMethod {
         }
     }
 
+    /**
+     * This method checks each method by its components
+     * @param method the method to check
+     * @param name the method name
+     * @throws ConditionException wrong condition given
+     * @throws MethodException method check failed
+     * @throws VariableException variable check failed
+     * @throws StructureException invalid file structure
+     * @throws BlockException invalid block found
+     */
     private static void checkSingleMethod(List<String> method, String name)
             throws ConditionException, MethodException, VariableException, StructureException, BlockException {
         for (int i = 0 ; i < method.size() ; i++){
@@ -66,6 +85,18 @@ public class CheckSingleMethod {
         }
     }
 
+    /**
+     * This method splits the method into if/while block from outer to inner
+     * @param method the method to check
+     * @param i the current index in the method
+     * @param nameMethod the method name
+     * @return the block list
+     * @throws ConditionException wrong condition given
+     * @throws MethodException method check failed
+     * @throws VariableException variable check failed
+     * @throws StructureException invalid file structure
+     * @throws BlockException invalid block found
+     */
     private static int findAllBlocks(List<String> method, int i, String nameMethod)
             throws ConditionException, VariableException, BlockException, MethodException, StructureException {
         List<List<String>> blocks = new ArrayList<>() ;
@@ -88,11 +119,17 @@ public class CheckSingleMethod {
         return i;
     }
 
+    /**
+     * This method splits each block so there will be no inner blocks
+     * @param blocks the blocks
+     * @param method the method
+     * @return a new block list
+     */
     private static  List<List<String>> innerBlockLines(List<List<String>> blocks, List<String> method) {
         List<List<String>> blockList = new ArrayList<>();
         TreeMap<Integer, Integer> innerIdxMap = new TreeMap<>();
         for (int i= blocks.size() ; i-- > 0 ;){
-            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(0));
+            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(FIRST));
             int lastLineIdx =  firstLineIdx + blocks.get(i).size() -1 ;
             innerIdxMap.put(firstLineIdx, lastLineIdx);
         }
@@ -107,7 +144,7 @@ public class CheckSingleMethod {
             int InnerBegin = block.indexOf(method.get(biggestIdx.getKey()));
             int InnerLast = InnerBegin + biggestIdx.getValue() - biggestIdx.getKey() ;
             List<String> newBlock = new ArrayList<>();
-            newBlock.addAll(block.subList(0, InnerBegin)) ;
+            newBlock.addAll(block.subList(FIRST, InnerBegin)) ;
             newBlock.addAll(block.subList(InnerLast+1, block.size())) ;
             blockList.add(newBlock) ;
             innerIdxMap.remove(biggestIdx.getKey()) ;
@@ -117,8 +154,15 @@ public class CheckSingleMethod {
     }
 
 
-
-
+    /**
+     * this method checks each inner block
+     * @param blocks the block list
+     * @param nameMethod the method name
+     * @throws VariableException variable check failed
+     * @throws BlockException invalid block found
+     * @throws MethodException method check failed
+     * @throws StructureException invalid file structure
+     */
     private static void checkInnerBlocks(List<List<String>> blocks ,String nameMethod)
             throws VariableException, BlockException, MethodException, StructureException {
         for (int i= blocks.size() ; i-- > 0 ;){
