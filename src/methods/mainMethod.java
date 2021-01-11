@@ -16,7 +16,11 @@ public class mainMethod {
     private final static String RETURN = "^\\s*return\\s*;\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String SPACES = "\\s+";
+    private final static String PARAM_START = "\\s*\\(\\s*";
+    private final static String PARAM_END = "\\s*\\)\\s*";
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
+    final static Pattern PARAM_START_PATTERN = Pattern.compile(PARAM_START);
+    final static Pattern PARAM_END_PATTERN = Pattern.compile(PARAM_END);
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
     final static String FINAL = "final";
@@ -40,20 +44,13 @@ public class mainMethod {
             line.append(word).append(EMPTY_SPACE);
         }
         try {
-            int openParenthesis = splitLine[SECOND_WORD].indexOf(START_PARAMETERS);
-            String name = splitLine[SECOND_WORD].substring(BEGINNING, openParenthesis);
-            Matcher match = METHOD_PATTERN.matcher(name);
-            if (!match.matches() || !line.toString().endsWith(OPEN_PARENTHESIS) ||
-                    resKeys.contains(name) || typeOptions.contains(name))
-                throw new MethodException() ;
-            methodNames.add(name);
-            int closeParenthesis = splitLine[splitLine.length - 2].indexOf(END_PARAMETERS);
-            //check no parameters
+            int openParenthesis = line.indexOf(START_PARAMETERS);
+            int closeParenthesis = line.indexOf(END_PARAMETERS);
             if ((closeParenthesis == openParenthesis +1)) {
                 params =  Collections.singletonList(NULL_MARK);
             }
             else{
-                String subList = line.substring(openParenthesis, closeParenthesis);
+                String subList = line.substring(openParenthesis+1, closeParenthesis);
                 params = new ArrayList<>(Arrays.asList(subList.split(EMPTY_SPACE)));
             }
             checkMethodParameters(params);
@@ -69,15 +66,17 @@ public class mainMethod {
     public static void checkMethodParameters(List<String> parameters) throws MethodException {
 
             for (int i=0; i < parameters.size(); i++){
-                if (parameters.get(i) == null)
+                if (parameters.get(i).equals(NULL_MARK))
                     continue;
                 if (parameters.get(i).equals(FINAL)){
                     if (i==parameters.size()-1 || !typeOptions.contains(parameters.get(i+1))){
                         throw new MethodException(ERROR_PARAM_MSG);
                     }
                 }
-                else if (!typeOptions.contains(parameters.get(i)))
-                    throw new MethodException(ERROR_PARAM_MSG);
+                if (typeOptions.contains(parameters.get(i))){
+                    i ++;
+                }
+                else throw new MethodException(ERROR_PARAM_MSG);
             }
     }
     /**
@@ -101,11 +100,17 @@ public class mainMethod {
      * @return the method name 
      */
     public static String getMethodName(String methodLine){
-        String name = methodLine.strip().replaceAll(SPACES, EMPTY_SPACE).split(EMPTY_SPACE)[SECOND] ;
-        if (name.contains(START_PARAMETERS)){
-            int endCalled = name.indexOf(START_PARAMETERS);
-            name = name.substring(FIRST, endCalled);
+        String[] lineWords = methodLine.strip().replaceAll(SPACES, EMPTY_SPACE).split(EMPTY_SPACE) ;
+        String name = "";
+        for (String word: lineWords){
+            Matcher paramStart = PARAM_START_PATTERN.matcher(word);
+            if (paramStart.find()){
+                name = word;
+                break;
+            }
         }
+        int endCalled = name.indexOf(START_PARAMETERS);
+        name = name.substring(FIRST, endCalled);
         return name;
     }
 
@@ -116,10 +121,6 @@ public class mainMethod {
      * @throws MethodException no return statement
      */
     public static void checkReturnStatement(List<String> method) throws MethodException {
-//        StringBuilder newStr = new StringBuilder();
-//        for (String line: method){
-//            newStr.append(line).append("\n");
-//        }
         String endline = method.get(method.size()-2) ;
         Matcher returnMatcher = RETURN_PATTERN.matcher(endline);
         if (!returnMatcher.matches())

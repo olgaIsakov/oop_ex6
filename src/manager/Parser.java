@@ -14,7 +14,7 @@ public class Parser {
     private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     private final static String OPEN = "\\s*[{]\\s*$";
-    private final static String CLOSE = "\\s*}\\s*$";
+    private final static String CLOSE = "^\\s*[}]\\s*$";
     private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
     private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
@@ -39,7 +39,7 @@ public class Parser {
      * @param sJavaLines the given file
      * @return a map -> list of the method lines : list of the method parameters
      */
-    public void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
+    public static void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
@@ -63,10 +63,10 @@ public class Parser {
      * @return the index of the last block line
      * @throws MethodException illegal block
      */
-    private int getMethodBlock(String[] sJavaLines, int i) throws MethodException {
+    public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException {
         int firstLine = i;
         Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
-        if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
+        if (illegalOpen.find()) throw new MethodException(ERROR_MSG);
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
             List<String> params = new ArrayList<>();

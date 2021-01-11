@@ -40,6 +40,7 @@ public class TestMethod {
     static List<String> block3 = List.of( "if(i ==5 ){", "int d = 8 ;", "}");
     static List<List<String>> blocks = List.of(block1,block2,block3);
     static List<String> method = List.of("void foo(int i){","if (true){", "int j = 6;", "while (5){", "int w = 7 ;", "if(false){", "int d = 8 ;", "}", "}", "}","return;","}");
+    static String[] methodToArray = {"void foo(){","if (true){", "int j = 6;", "while (5){", "int w = 7 ;", "if(false){", "int d = 8 ;", "}", "}", "}","return;","}"};
 
         private static final String START_PARAMETERS = "(";
         List<String> globalVars;
@@ -60,10 +61,12 @@ public class TestMethod {
         final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
         final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
         static List<String> declarationInit = new ArrayList<>();
-
-
+        static List<String> methodNames = List.of("fooo", "ddd");
+        final static String ERROR_PARAM_MSG = "bla bla";
+        static Map<String, List<String>> mapNameParams = new HashMap<>();
         final static String BLOCK_ERROR = " ERROR : error in block line ";
         final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
+        static List<String> parammmmms = List.of("int","num,", "String", "name") ;
 
         public static void checkMethods(Map<String, List<String>> mapNameLines)
                 throws ConditionException, MethodException, VariableException, StructureException, BlockException {
@@ -192,10 +195,22 @@ public class TestMethod {
 
 static String line = "final int d = 8 ;";
     public static void main(String[] args) throws ConditionException, StructureException, BlockException, VariableException, MethodException {
-       Analyze.analyzer(line);
-       checkSingleMethod(method,"foo");
+       //manager.Parser.parseToMethods(methodToArray);
+       checkMethodCall("fooo(1, 2);", "olga");
 
 
+    }
+//לא להעתיק אותה לקבוץ המקורי
+    public static void checkMethodCall(String methodLine, String methodName) throws MethodException {
+        mapNameParams.put("fooo", parammmmms);
+        String called = mainMethod.getMethodName(methodLine);
+        if (!methodNames.contains(called) || called.equals(methodName))
+            throw new MethodException(ERROR_PARAM_MSG);
+        else{
+            //Map<String, List<String>> mapNameParams = manager.Parser.getMapNameParams();
+            if (!paramCheck.checkCalledParams(methodLine, mapNameParams.get(called)))
+                throw new MethodException(ERROR_PARAM_MSG);
+        }
     }
 
 
