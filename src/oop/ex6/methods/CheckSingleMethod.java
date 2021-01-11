@@ -51,6 +51,8 @@ public class CheckSingleMethod {
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
             Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));
+            String params = Parser.getMapNameParams().get(name).toString();
+            Analyze.analyzer(params);
             if (ifWhileMatch.matches()){
                 i = findAllBlocks(method, i , name);
             }
