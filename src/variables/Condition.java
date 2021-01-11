@@ -13,6 +13,7 @@ public class Condition {
 
 
     public static boolean analyzeCondition(String line){
+
         String[] conditions = splitOperator(line);
 
         for (String condition : conditions){
@@ -47,7 +48,10 @@ public class Condition {
 
 
     public static String[] splitOperator(String line){
-        return line.split(AND+ OR);
+        if (line.contains(AND) || line.contains(OR)){
+            return line.split(AND+ OR);
+        }
+        return new String[]{line};
     }
     public static boolean isCondition(String condition){
         Matcher matcher = CONDITION_PATTERN.matcher(condition);

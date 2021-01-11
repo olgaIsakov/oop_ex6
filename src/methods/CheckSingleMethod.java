@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class CheckSingleMethod {
     private static final String START_PARAMETERS = "(";
     List<String> globalVars;
-    private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*.*\\s*\\}$";
+    private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     private final static String CLOSE = "\\s*}\\s*$";
@@ -32,6 +32,9 @@ public class CheckSingleMethod {
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
     static List<String> declarationInit = new ArrayList<>();
+
+    private final static String RETURN = "^\\s*return\\s*;\\s*$";
+    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
 
 
     final static String BLOCK_ERROR = " ERROR : error in block line ";
@@ -127,6 +130,7 @@ public class CheckSingleMethod {
                 Matcher callMethodMatch = mainMethod.METHOD_CALL_PATTERN.matcher(line);
                 Matcher closeMatcher = CLOSE_PATTERN.matcher(line);
                 Matcher illegalMatcher = ILLEGAL_CLOSE_PATTERN.matcher(line);
+                Matcher returnMatcher = RETURN_PATTERN.matcher(line);
 
                 if (variableMatch.matches()){ // its a var//
                     Analyze.analyzer(line);
@@ -141,11 +145,10 @@ public class CheckSingleMethod {
                             declarationInit.add(name);
                         }
                     }
-                }if (callMethodMatch.matches()){
-                    mainMethod.checkMethodCall(line,nameMethod);
-
-                }else {
-                    if (!((closeMatcher.matches())&& !(illegalMatcher.matches()))){
+                }else if (callMethodMatch.matches())
+                    mainMethod.checkMethodCall(line, nameMethod);
+                else {
+                    if (!((closeMatcher.matches())&& !(illegalMatcher.matches()))&&(!returnMatcher.matches())){
                         throw new StructureException(INVALID_LINE_ERROR);
 
                     }

@@ -15,7 +15,8 @@ public abstract class Variable {
     private final boolean isLocal ;
     private final boolean isGlobal ;
 
-    private static final List<String> typesList=  new ArrayList<String>();
+    private static final List<String> typesList=  List.of("String","int","double","boolean","char");
+
     private static final List<String> globalVariables = new ArrayList<String>();
     private static final List<String> initializedVariables = new ArrayList<String>();
 
@@ -34,11 +35,7 @@ public abstract class Variable {
         this.isGlobal = isGlobal;
         this.isInit = isInit ;
 
-        typesList.add("String");
-        typesList.add("int");
-        typesList.add("double");
-        typesList.add("boolean");
-        typesList.add("char");
+
 
 
     }

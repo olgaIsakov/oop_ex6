@@ -15,7 +15,7 @@ public class Parser {
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     private final static String OPEN = "\\s*[{]\\s*$";
     private final static String CLOSE = "\\s*}\\s*$";
-    private final static String IF_WHILE = ".*\\s*if|while\\s*\\(\\s*.*\\s*\\)\\s*\\{\\s*";
+    private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
     private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);

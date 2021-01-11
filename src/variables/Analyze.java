@@ -19,7 +19,7 @@ public class Analyze {
     private static final Pattern NEW_DECLARATION = Pattern.compile("\\s*\\w+\\s+\\w[\\s*,\\w]*\\s*(?:=\\s*.+?)?\\s*;\\s*");
     private static final Pattern ASSIGNMENT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");
     private static final Pattern END_OF_LINE = Pattern.compile(";$");
-    private static final Pattern FINAL_PATTERN =  Pattern.compile("^FINAL");
+    private static final Pattern FINAL_PATTERN =  Pattern.compile("^final");
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
@@ -39,18 +39,20 @@ public class Analyze {
     private static final String ERROR_VALUE = "ERROR : invalid variable value ";
 
     public static void analyzer(String line) throws VariableException {
-        Matcher matcher = END_OF_LINE.matcher(line);
-        if(!matcher.matches()) {
-            throw new VariableException(ERROR_GRAMMAR);
+//        Matcher matcher = END_OF_LINE.matcher(line);
+//        if(!matcher.matches()) {
+//            throw new VariableException(ERROR_GRAMMAR);
 
-        }if (isFinal(line)) {
+        if (isFinal(line)) {
             if (!declarationWithInit(line)) {
                 throw new VariableException(ERROR_FINAL);
             }
             line = removeWord(line);
-        }if (!variables.Variable.isTypeNameValid(beginningWord(line))){
-            throw new VariableException(ERROR_TYPE);
+
         }String type = beginningWord(line);
+        if (!variables.Variable.isTypeNameValid(type)){
+            throw new VariableException(ERROR_TYPE);
+        }
         line = removeWord(line);
         String names = getNames(line) ;
         if (!checkAllNames(names,type)){
@@ -154,7 +156,7 @@ public class Analyze {
 
     public static boolean isFinal(String line) { // we already init and want new value//
         Matcher matcher = FINAL_PATTERN.matcher(line);
-        return matcher.matches();
+        return matcher.find();
     }
 
     public boolean isNewDeclaration(String line) {
@@ -180,10 +182,14 @@ public class Analyze {
     }
 
     public static String removeWord(String line){ // for new declaration//
-        return line.substring(line.indexOf(EMPTY_SPACE)+1);
+       String removeWord = beginningWord(line);
+        if (removeWord.equals(line.trim())) return "";
+        else    return line.trim().split("\\s", 2)[1];
+
 
     }
-    public static String beginningWord(String line){ // for new declaration//
+    public static String beginningWord(String line){
+        line= line.trim();// for new declaration//
         String[] arr = line.split(EMPTY_SPACE, 2);
         return arr[0];
     }
@@ -196,7 +202,7 @@ public class Analyze {
     }public static String getNames(String line){
         line = line.replaceAll(SEM, "");
         if (line.contains(EQUAL)){
-            line.substring(0,line.indexOf(EQUAL)).trim();
+            return line.substring(0,line.indexOf(EQUAL)).trim();
         }
         return line.trim();
 

@@ -13,7 +13,7 @@ public class mainMethod {
     final static int SECOND_WORD = 1;
     final static int BEGINNING = 0;
     private final static String METHOD_NAME = "[a-zA-Z]\\w*";
-    private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
+    private final static String RETURN = "^\\s*return\\s*;\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String SPACES = "\\s+";
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
@@ -116,12 +116,13 @@ public class mainMethod {
      * @throws MethodException no return statement
      */
     public static void checkReturnStatement(List<String> method) throws MethodException {
-        StringBuilder newStr = new StringBuilder();
-        for (String line: method){
-            newStr.append(line).append("\n");
-        }
-        Matcher methodCall = METHOD_CALL_PATTERN.matcher(newStr.toString());
-        if (!methodCall.matches())
+//        StringBuilder newStr = new StringBuilder();
+//        for (String line: method){
+//            newStr.append(line).append("\n");
+//        }
+        String endline = method.get(method.size()-2) ;
+        Matcher returnMatcher = RETURN_PATTERN.matcher(endline);
+        if (!returnMatcher.matches())
             throw new MethodException(ERROR_RETURN_MSG);
     }
 
