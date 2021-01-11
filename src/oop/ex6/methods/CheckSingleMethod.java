@@ -26,6 +26,7 @@ public class CheckSingleMethod {
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
     final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
+    private static final String NULL_MARK = "null";
     public static List<String> declarationInit = new ArrayList<>();
 
     private final static String RETURN = "^\\s*return\\s*;\\s*$";
@@ -51,13 +52,18 @@ public class CheckSingleMethod {
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
             Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));
-            String params = Parser.getMapNameParams().get(name).toString();
-            Analyze.analyzer(params);
+//            for(int j = 0 ; j<Parser.getMapNameParams().get(name).size() ; i++){
+//                if (!Parser.getMapNameParams().get(name).get(j).toString().equals(NULL_MARK)) {
+//                    String paramToString = Parser.getMapNameParams().get(name).get(j).toString();
+//                    Analyze.analyzer(paramToString);
+//                }
+//            }
+
             if (ifWhileMatch.matches()){
                 i = findAllBlocks(method, i , name);
             }
             if (methodCallMatch.matches()){
-                mainMethod.checkMethodCall(method.get(i),name );
+                mainMethod.checkMethodCall(method.get(i));
             }
             if (varsMatch.matches()){
                 Analyze.analyzer(method.get(i));
@@ -143,7 +149,7 @@ public class CheckSingleMethod {
                         }
                     }
                 }else if (callMethodMatch.matches())
-                    mainMethod.checkMethodCall(line, nameMethod);
+                    mainMethod.checkMethodCall(line);
                 else {
                     if (!((closeMatcher.matches())&& !(illegalMatcher.matches()))&&(!returnMatcher.matches())){
                         throw new StructureException(INVALID_LINE_ERROR);
