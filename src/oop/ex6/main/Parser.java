@@ -71,7 +71,7 @@ public class Parser {
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
             List<String> params = new ArrayList<>();
-            mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
+            List<String> newParams = mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
             List<String> methodLines = new ArrayList<>();
             parenthesisCounter++;
             methodLines.add(sJavaLines[i]);
@@ -93,7 +93,7 @@ public class Parser {
             }
             String name = mainMethod.getMethodName(sJavaLines[firstLine]);
             mapNameLines.put(name, methodLines);
-            mapNameParams.put(name, params);
+            mapNameParams.put(name, newParams);
         }
         return i;
     }

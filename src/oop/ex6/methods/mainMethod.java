@@ -38,7 +38,7 @@ public class mainMethod {
      * @param splitLine first line word by word
      * @param params method parameters
      */
-    public static void isFirstMethodLineLegal(String[] splitLine, List<String> params) {
+    public static List<String> isFirstMethodLineLegal(String[] splitLine, List<String> params) {
         StringBuilder line = new StringBuilder();
         for (String word : splitLine) {
             line.append(word).append(EMPTY_SPACE);
@@ -54,9 +54,11 @@ public class mainMethod {
                 params = new ArrayList<>(Arrays.asList(subList.split(EMPTY_SPACE)));
             }
             checkMethodParameters(params);
+
         } catch (Exception e){
             System.out.println(ERROR_FOUND);
         }
+        return params;
     }
 
     /**
