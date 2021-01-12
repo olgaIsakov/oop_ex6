@@ -1,10 +1,12 @@
 package oop.ex6.main;
 
+import oop.ex6.variables.VariablesPattern;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tools {
-    private final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
+/*    private final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
     private final static String DOUBLE_TYPE = "^\\s*[-]?\\d*\\.?\\d+\\s*$";
     private final static String STRING_TYPE = "^\\s*\".*?\"s*$";
     private final static String CHAR_TYPE = "^\\s*\'.*?\'s*$";
@@ -13,7 +15,7 @@ public class Tools {
     final static Pattern DOUBLE_TYPE_PATTERN = Pattern.compile(DOUBLE_TYPE);
     final static Pattern STRING_TYPE_PATTERN = Pattern.compile(STRING_TYPE);
     final static Pattern CHAR_TYPE_PATTERN = Pattern.compile(CHAR_TYPE);
-    final static Pattern BOOL_TYPE_PATTERN = Pattern.compile(BOOL_TYPE);
+    final static Pattern BOOL_TYPE_PATTERN = Pattern.compile(BOOL_TYPE);*/
     final static String INT = "int";
     final static String STRING = "String";
     final static String DOUBLE = "double";
@@ -27,11 +29,11 @@ public class Tools {
      */
 
     public static boolean checkType(String wantedType, String calledParam) {
-        Matcher intMach = INT_TYPE_PATTERN.matcher(calledParam);
-        Matcher stringMach = STRING_TYPE_PATTERN.matcher(calledParam);
-        Matcher doubleMach = DOUBLE_TYPE_PATTERN.matcher(calledParam);
-        Matcher charMach = CHAR_TYPE_PATTERN.matcher(calledParam);
-        Matcher boolMach = BOOL_TYPE_PATTERN.matcher(calledParam);
+        Matcher intMach = VariablesPattern.INT_TYPE_PATTERN.matcher(calledParam);
+        Matcher stringMach = VariablesPattern.STRING_TYPE_PATTERN.matcher(calledParam);
+        Matcher doubleMach = VariablesPattern.DOUBLE_TYPE_PATTERN.matcher(calledParam);
+        Matcher charMach = VariablesPattern.CHAR_TYPE_PATTERN.matcher(calledParam);
+        Matcher boolMach = VariablesPattern.BOOL_TYPE_PATTERN.matcher(calledParam);
         switch (wantedType){
             case INT:
                 return intMach.matches();

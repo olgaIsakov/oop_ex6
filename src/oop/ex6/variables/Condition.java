@@ -11,10 +11,10 @@ public class Condition {
     private static final String OPEN_PAR ="(";
     private static final String CLOSE_PAR =")";
     final static String INT = "int";
-
     final static String DOUBLE = "double";
     final static String BOOLEAN = "boolean";
-    public static final Pattern CONDITION_PATTERN = Pattern.compile("true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])");
+    final static int INITIALIZE_COUNTER = 0;
+    /*public static final Pattern CONDITION_PATTERN = Pattern.compile("true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])");*/
 
 
     public static boolean analyzeCondition(String line){
@@ -36,7 +36,7 @@ public class Condition {
         line = replacedAnd(line);
         line = replacedOr(line);
         line = replacedOr(line);
-        int counter = 0 ;
+        int counter = INITIALIZE_COUNTER ;
         for(int i = 0; i<line.length(); i++) {
             if (line.charAt(i)== '*') {
                 counter++;
@@ -64,7 +64,7 @@ public class Condition {
                  return listInit.contains(condition);
              }return false;
         }else {
-            Matcher matcher = CONDITION_PATTERN.matcher(condition);
+            Matcher matcher = VariablesPattern.CONDITION_PATTERN.matcher(condition);
             return matcher.matches();
         }
     }

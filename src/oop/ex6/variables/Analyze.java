@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 public class Analyze {
 
 
-
+/*
     private static final Pattern NEW_DECLARATION = Pattern.compile("\\s*\\w+\\s+\\w[\\s*,\\w]*\\s*(?:=\\s*.+?)?\\s*;\\s*");
-    private static final Pattern ASSIGNMENT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");
+    private static final Pattern ASSIGNMENT =  Pattern.compile("\\s*\\w+\\s*=\\s*.+?\\s*;\\s*");*/
 
     private static final Pattern FINAL_PATTERN =  Pattern.compile("^final");
     private static final String EMPTY_SPACE = " ";

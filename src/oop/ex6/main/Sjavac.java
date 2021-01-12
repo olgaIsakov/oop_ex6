@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import static oop.ex6.variables.Analyze.listFinals;
 
 public class Sjavac {
-    private static final String COMMENT_SUFFIX = "\\";
     private static final String COMMENT = "\\s*//.*+";
     private static final String EMPTY = "\\s*";
     private static final Pattern COMMENT_PATTERN = Pattern.compile(COMMENT);
@@ -20,9 +19,12 @@ public class Sjavac {
     private static final int S_JAVA_ERROR = 1;
     private static final int VALID_FILE = 0;
     private static final int FIRST_ARG = 0;
-    private static final int EMPTY_LINE = 0 ;
     private static final int VALID_NUM_OF_ARGS = 1;
 
+    /**
+     * The main method of the program
+     * @param args the given args
+     */
     public static void main(String[] args) {
         try {
             checkLegalArgsLength(args);
@@ -40,18 +42,30 @@ public class Sjavac {
             System.out.println(S_JAVA_ERROR);
         }
         finally {
-            Parser.mapNameLines.clear() ;
-            Parser.mapNameParams.clear() ;
-            Parser.globalVars.clear();
-            Analyze.listVariables.clear();
-            Analyze.listFinals.clear();
-            Analyze.listInit.clear();
-            Analyze.listDeclared.clear();
-            CheckSingleMethod.declarationInit.clear();
+            clearAll();
 
         }
     }
 
+    /**
+     * This method clears all the global parameters
+     */
+    private static void clearAll() {
+        Parser.mapNameLines.clear() ;
+        Parser.mapNameParams.clear() ;
+        Parser.globalVars.clear();
+        Analyze.listVariables.clear();
+        Analyze.listFinals.clear();
+        Analyze.listInit.clear();
+        Analyze.listDeclared.clear();
+        CheckSingleMethod.declarationInit.clear();
+    }
+
+    /**
+     * This method checks the number of args is legal
+     * @param args given args
+     * @throws IOException invalid args
+     */
     private static void checkLegalArgsLength(String[] args) throws IOException {
         if (args.length != VALID_NUM_OF_ARGS) throw new IOException();
     }

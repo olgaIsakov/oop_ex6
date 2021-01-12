@@ -13,11 +13,11 @@ public abstract class Variable {
 
 
     /*Patterns*/
-    private static final Pattern NAME_VARIABLE_PATTERN =  Pattern.compile("(?:[a-zA-Z]+\\w*)|(?:_+\\w+)");
+    /*private static final Pattern NAME_VARIABLE_PATTERN =  Pattern.compile("(?:[a-zA-Z]+\\w*)|(?:_+\\w+)");*/
 
 
     public static boolean isNameValid(String varName){
-        Matcher matcher = NAME_VARIABLE_PATTERN.matcher(varName);
+        Matcher matcher = VariablesPattern.NAME_VARIABLE_PATTERN.matcher(varName);
         return matcher.matches();
     }
 

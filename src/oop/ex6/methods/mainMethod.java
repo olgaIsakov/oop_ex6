@@ -12,17 +12,15 @@ public class mainMethod {
     private static final int ERROR_FOUND = 1;
     final static int SECOND_WORD = 1;
     final static int BEGINNING = 0;
-    private final static String METHOD_NAME = "[a-zA-Z]\\w*";
+/*    private final static String METHOD_NAME = "[a-zA-Z]\\w*";
     private final static String RETURN = "^\\s*return\\s*;\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     private final static String SPACES = "\\s+";
-    private final static String PARAM_START = "\\s*\\(\\s*";
-    private final static String PARAM_END = "\\s*\\)\\s*";
-    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
+    private final static String PARAM_START = "\\s*\\(\\s*";*/
+/*    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
     final static Pattern PARAM_START_PATTERN = Pattern.compile(PARAM_START);
-    final static Pattern PARAM_END_PATTERN = Pattern.compile(PARAM_END);
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
-    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
+    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);*/
     final static String FINAL = "final";
     final static String NULL_MARK = "null";
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
@@ -101,10 +99,10 @@ public class mainMethod {
      * @return the method name 
      */
     public static String getMethodName(String methodLine){
-        String[] lineWords = methodLine.strip().replaceAll(SPACES, EMPTY_SPACE).split(EMPTY_SPACE) ;
+        String[] lineWords = methodLine.strip().replaceAll(MethodPatterns.SPACES, EMPTY_SPACE).split(EMPTY_SPACE) ;
         String name = "";
         for (String word: lineWords){
-            Matcher paramStart = PARAM_START_PATTERN.matcher(word);
+            Matcher paramStart = MethodPatterns.PARAM_START_PATTERN.matcher(word);
             if (paramStart.find()){
                 name = word;
                 break;
@@ -122,8 +120,8 @@ public class mainMethod {
      * @throws MethodException no return statement
      */
     public static void checkReturnStatement(List<String> method) throws MethodException {
-        String endline = method.get(method.size()-2) ;
-        Matcher returnMatcher = RETURN_PATTERN.matcher(endline);
+        String endLine = method.get(method.size()-2) ;
+        Matcher returnMatcher = MethodPatterns.RETURN_PATTERN.matcher(endLine);
         if (!returnMatcher.matches())
             throw new MethodException(ERROR_RETURN_MSG);
     }

@@ -1,6 +1,7 @@
 package oop.ex6.main;
 
 import oop.ex6.methods.*;
+import oop.ex6.variables.VariablesPattern;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -9,7 +10,7 @@ import java.util.regex.Pattern;
 public class Parser {
     final static int INITIALIZED_COUNTER = 0;
     private static final String EMPTY_SPACE = " ";
-    private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
+/*    private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
     private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
     private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
     private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
@@ -26,7 +27,7 @@ public class Parser {
     final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
     final static Pattern ILLEGAL_OPEN_PATTERN = Pattern.compile(ILLEGAL_OPEN);
     final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
-    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);
+    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);*/
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
     static List<String> globalVars = new ArrayList<>();
@@ -41,17 +42,16 @@ public class Parser {
      */
     public static void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
         for (int i = 0; i < sJavaLines.length; i++) {
-            Matcher methodStructure = METHOD_PATTERN.matcher(sJavaLines[i]);
+            Matcher methodStructure = MethodPatterns.METHOD_LINE_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
-                i = getMethodBlock(sJavaLines, i)-1; //change in dibug
+                i = getMethodBlock(sJavaLines, i)-1;
                 continue;
             }
-            Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            //Matcher returnStructure = RETURN_PATTERN.matcher(sJavaLines[i]);
+            Matcher globalVarsMatcher = VariablesPattern.VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
             if  (globalVarsMatcher.find())
                 globalVars.add(sJavaLines[i]);
             else{
-                Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
+                Matcher closeStructure = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
                 if (!closeStructure.matches()) throw new StructureException(INVALID_LINE_ERROR);
             }
         }
@@ -67,7 +67,7 @@ public class Parser {
      */
     public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException, StructureException {
         String name = mainMethod.getMethodName(sJavaLines[i]);
-        Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
+        Matcher illegalOpen = MethodPatterns.ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
         if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
@@ -81,14 +81,14 @@ public class Parser {
                 // if open parenthesis different from close parenthesis
                 if (i ==sJavaLines.length)
                     throw new StructureException(ERROR_MSG);
-                Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
-                Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
+                Matcher openParenthesis = MethodPatterns.OPEN_PATTERN.matcher(sJavaLines[i]);
+                Matcher closeParenthesis = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
                 if (openParenthesis.find()) {
                     if (illegalOpen.find()) throw new MethodException(ERROR_MSG);
                     parenthesisCounter++;
                 }
                 if (closeParenthesis.matches()) {
-                    Matcher illegalClose = ILLEGAL_CLOSE_PATTERN.matcher(sJavaLines[i]);
+                    Matcher illegalClose = MethodPatterns.ILLEGAL_CLOSE_PATTERN.matcher(sJavaLines[i]);
                     if (illegalClose.matches()) throw new MethodException(ERROR_MSG);
                     parenthesisCounter--;
                 }
@@ -109,12 +109,12 @@ public class Parser {
         List<String> variableList = new ArrayList<>();
         boolean flag = true;
         for (int i = 0; i < sJavaLines.length; i++) {
-            Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            Matcher methodMatch = METHOD_PATTERN.matcher(sJavaLines[i]);
-            Matcher ifWhileStructure = IF_WHILE_PATTERN.matcher(sJavaLines[i]);
-            Matcher closeStructure = CLOSE_PATTERN.matcher(sJavaLines[i]);
-            Matcher returnStructure = RETURN_PATTERN.matcher(sJavaLines[i]);
-            Matcher methodCallStructure = METHOD_CALL_PATTERN.matcher(sJavaLines[i]);
+            Matcher variableMatch = VariablesPattern.VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
+            Matcher methodMatch = MethodPatterns.METHOD_LINE_PATTERN.matcher(sJavaLines[i]);
+            Matcher ifWhileStructure = MethodPatterns.IF_WHILE_PATTERN.matcher(sJavaLines[i]);
+            Matcher closeStructure = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
+            Matcher returnStructure = MethodPatterns.RETURN_PATTERN.matcher(sJavaLines[i]);
+            Matcher methodCallStructure = MethodPatterns.METHOD_CALL_PATTERN.matcher(sJavaLines[i]);
             if (!variableMatch.matches() && !methodMatch.matches() && !ifWhileStructure.matches() &&
                     !closeStructure.matches() &&
                     !returnStructure.matches() && !methodCallStructure.matches()) {
