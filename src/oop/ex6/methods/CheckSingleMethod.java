@@ -48,7 +48,7 @@ public class CheckSingleMethod {
 
     private static void checkSingleMethod(List<String> method, String name)
             throws ConditionException, MethodException, VariableException, StructureException, BlockException {
-        for (int i = 0 ; i < method.size() ; i++){
+        for (int i = 1 ; i < method.size() ; i++){
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
             Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));

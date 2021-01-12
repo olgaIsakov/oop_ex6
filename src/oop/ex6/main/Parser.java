@@ -68,7 +68,7 @@ public class Parser {
     public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException, StructureException {
         String name = mainMethod.getMethodName(sJavaLines[i]);
         Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
-        if (illegalOpen.find()) throw new MethodException(ERROR_MSG);
+        if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
             List<String> params = new ArrayList<>();
@@ -79,7 +79,7 @@ public class Parser {
             i++;
             while (parenthesisCounter != INITIALIZED_COUNTER) {
                 // if open parenthesis different from close parenthesis
-                if (i ==sJavaLines.length -1)
+                if (i ==sJavaLines.length)
                     throw new StructureException(ERROR_MSG);
                 Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
                 Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
