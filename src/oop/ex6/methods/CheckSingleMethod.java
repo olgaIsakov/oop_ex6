@@ -69,9 +69,10 @@ public class CheckSingleMethod {
     }
     private static void addParamsAsLocalVariables(String name) throws VariableException {
         List<String> params = Parser.getMapNameParams().get(name);
-        for(String param : params){
-                if (!param.equals(NULL_MARK)) {
-                    Analyze.analyzer(param);
+        for(int i =0 ;i<params.size()-1;i+=2){
+            String paramLine = params.get(i) +" " +params.get(i + 1);
+            if (!paramLine.equals(NULL_MARK)) {
+                    Analyze.analyzer(paramLine);
                 }
            }
     }

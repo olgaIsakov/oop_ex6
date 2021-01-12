@@ -26,15 +26,18 @@ public class Analyze {
     public static HashMap<String,String>  listVariables = new HashMap<String,String>();
     public static List<String>  listFinals= new ArrayList<>();
     public static List<String>  listInit= new ArrayList<>();
+    public static List<String>  listDeclared= new ArrayList<>();
 
     private static final String ERROR_FINAL = "ERROR : the variable is final but without initialization  ";
     private static final String ERROR_TYPE = "ERROR : invalid type name ";
     private static final String ERROR_NAME = "ERROR : invalid variable  name ";
     private static final String ERROR_VALUE = "ERROR : invalid variable value ";
+    private static final String ERROR_DECLARE = "ERROR : the variable is already declared ";
 
     public static void analyzer(String line) throws VariableException {
        boolean isFinal = false ;
        boolean isInit = false ;
+       boolean isDeclared = false ;
         if (isFinal(line)) {
             if (!declarationWithInit(line)) {
                 throw new VariableException(ERROR_FINAL);
@@ -44,12 +47,15 @@ public class Analyze {
         }
         String type = beginningWord(line);
         if (!listVariables.containsKey(type)){
+
             if (!oop.ex6.variables.Variable.isTypeNameValid(type)) {
                 throw new VariableException(ERROR_TYPE);
-            }line = removeWord(line);
+            }
+            isDeclared = true;
+            line = removeWord(line);
         }
         String names = getNames(line) ;
-
+        if (!checkNamesIfDeclared(names,type))throw new VariableException(ERROR_DECLARE) ;
         if (!checkAllNames(names,type)){
             throw new VariableException(ERROR_NAME) ;
         }
@@ -60,7 +66,7 @@ public class Analyze {
                 throw new VariableException(ERROR_VALUE);
             }isInit = true;
         }
-        addTolist(names,type,isFinal ,isInit);
+        addTolist(names,type,isFinal ,isInit,isDeclared);
 
     }
     public static String getType(String line){
@@ -70,12 +76,13 @@ public class Analyze {
             return beginningWord(line);
         }return EMPTY_STRING;
     }
-    public static void addTolist(String names, String type, boolean isFinal ,boolean isInit){
+    public static void addTolist(String names, String type, boolean isFinal ,boolean isInit,boolean isDeclared){
         String [] varNames = splitLineWithComma(names);
         for (String name : varNames){
             listVariables.put(name,type);
             if (isFinal) listFinals.add(name);
             if (isInit) listInit.add(name);
+            if(isDeclared) listDeclared.add(name);
             }
 
     }
@@ -87,6 +94,15 @@ public class Analyze {
             }
         }return true;
     }
+    public static boolean checkNamesIfDeclared(String names , String type ){
+        String [] varNames = splitLineWithComma(names);
+        for (String name : varNames){
+            if (listDeclared.contains(name)&&Variable.isTypeNameValid(type)){
+                return false;
+            }
+        }return true;
+    }
+
 
 
     public static boolean checkAllNames(String line, String type){

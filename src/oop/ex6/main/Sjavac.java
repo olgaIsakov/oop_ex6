@@ -46,6 +46,7 @@ public class Sjavac {
             Analyze.listVariables.clear();
             Analyze.listFinals.clear();
             Analyze.listInit.clear();
+            Analyze.listDeclared.clear();
             CheckSingleMethod.declarationInit.clear();
 
         }
