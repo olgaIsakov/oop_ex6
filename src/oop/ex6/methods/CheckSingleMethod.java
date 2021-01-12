@@ -53,15 +53,15 @@ public class CheckSingleMethod {
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
             Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));
-
+            Matcher returnMatcher = RETURN_PATTERN.matcher(method.get(i));
 
             if (ifWhileMatch.matches()){
                 i = findAllBlocks(method, i , name);
             }
-            if (methodCallMatch.find()){
+            else if (methodCallMatch.find()){
                 mainMethod.checkMethodCall(method.get(i));
             }
-            if (varsMatch.find()){
+            else if (varsMatch.find() && !returnMatcher.matches() ){
                 Analyze.analyzer(method.get(i));
             }
             mainMethod.checkReturnStatement(method);
@@ -144,7 +144,8 @@ public class CheckSingleMethod {
                 Matcher illegalMatcher = ILLEGAL_CLOSE_PATTERN.matcher(line);
                 Matcher returnMatcher = RETURN_PATTERN.matcher(line);
 
-                if (variableMatch.find() && !returnMatcher.matches()){ // its a var//
+                if (variableMatch.find() && !returnMatcher.matches()
+                        && !callMethodMatch.matches()){ // its a var//
                     Analyze.analyzer(line);
 
                     if (Analyze.declarationWithInit(line)) {
