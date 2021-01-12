@@ -8,4 +8,5 @@ public class MethodException extends Exception {
     public MethodException(String errMsg){
         super(errMsg);
     }
+
 }
