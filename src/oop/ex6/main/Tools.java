@@ -8,7 +8,7 @@ public class Tools {
     private final static String DOUBLE_TYPE = "^\\s*[-]?\\d*\\.?\\d+\\s*$";
     private final static String STRING_TYPE = "^\\s*\".*?\"s*$";
     private final static String CHAR_TYPE = "^\\s*\'.*?\'s*$";
-    private final static String BOOL_TYPE = "^\\s*true|false\\s*$";
+    private final static String BOOL_TYPE = "^\\s*(true|false)\\s*$";
     final static Pattern INT_TYPE_PATTERN = Pattern.compile(INT_TYPE);
     final static Pattern DOUBLE_TYPE_PATTERN = Pattern.compile(DOUBLE_TYPE);
     final static Pattern STRING_TYPE_PATTERN = Pattern.compile(STRING_TYPE);

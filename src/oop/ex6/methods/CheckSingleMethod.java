@@ -140,7 +140,7 @@ public class CheckSingleMethod {
                 Matcher illegalMatcher = ILLEGAL_CLOSE_PATTERN.matcher(line);
                 Matcher returnMatcher = RETURN_PATTERN.matcher(line);
 
-                if (variableMatch.matches()){ // its a var//
+                if (variableMatch.find() && !returnMatcher.matches()){ // its a var//
                     Analyze.analyzer(line);
 
                     if (Analyze.declarationWithInit(line)) {
@@ -156,7 +156,7 @@ public class CheckSingleMethod {
                 }else if (callMethodMatch.matches())
                     mainMethod.checkMethodCall(line);
                 else {
-                    if (!((closeMatcher.matches())&& !(illegalMatcher.matches()))&&(!returnMatcher.matches())){
+                    if (!((closeMatcher.matches())&& !(illegalMatcher.find()))&&(!returnMatcher.matches())){
                         throw new StructureException(INVALID_LINE_ERROR);
 
                     }
