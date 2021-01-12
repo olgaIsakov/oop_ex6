@@ -65,8 +65,8 @@ public class Parser {
      * @return the index of the last block line
      * @throws MethodException illegal block
      */
-    public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException {
-        int firstLine = i;
+    public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException, StructureException {
+        String name = mainMethod.getMethodName(sJavaLines[i]);
         Matcher illegalOpen = ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
         if (illegalOpen.find()) throw new MethodException(ERROR_MSG);
         else {
@@ -78,6 +78,9 @@ public class Parser {
             methodLines.add(sJavaLines[i]);
             i++;
             while (parenthesisCounter != INITIALIZED_COUNTER) {
+                // if open parenthesis different from close parenthesis
+                if (i ==sJavaLines.length -1)
+                    throw new StructureException(ERROR_MSG);
                 Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
                 Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
                 if (openParenthesis.find()) {
@@ -92,7 +95,6 @@ public class Parser {
                 methodLines.add(sJavaLines[i]);
                 i++;
             }
-            String name = mainMethod.getMethodName(sJavaLines[firstLine]);
             mapNameLines.put(name, methodLines);
             mapNameParams.put(name, newParams);
         }
