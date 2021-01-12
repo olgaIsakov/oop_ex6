@@ -3,12 +3,17 @@ package oop.ex6.variables;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static oop.ex6.variables.Analyze.*;
+
 public class Condition {
     private static final String AND ="&&";
     private static final String OR ="||";
     private static final String OPEN_PAR ="(";
     private static final String CLOSE_PAR =")";
+    final static String INT = "int";
 
+    final static String DOUBLE = "double";
+    final static String BOOLEAN = "boolean";
     public static final Pattern CONDITION_PATTERN = Pattern.compile("true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])");
 
 
@@ -27,11 +32,13 @@ public class Condition {
     }
 
     public static boolean counterOperators(String line, int numConditions){
-        String line1 = replacedAnd(line);
-        String line2 = replacedAnd(line1);
+        line = replacedAnd(line);
+        line = replacedAnd(line);
+        line = replacedOr(line);
+        line = replacedOr(line);
         int counter = 0 ;
-        for(int i = 0; i<line2.length(); i++) {
-            if (line2.charAt(i)== '*') {
+        for(int i = 0; i<line.length(); i++) {
+            if (line.charAt(i)== '*') {
                 counter++;
             }
 
@@ -42,20 +49,24 @@ public class Condition {
     public static String replacedAnd(String line){
        return line.replace(AND, "*");
     }
-    public  String replacedOr(String line){
+    public static String replacedOr(String line){
         return line.replace(OR, "*");
     }
 
 
     public static String[] splitOperator(String line){
-        if (line.contains(AND) || line.contains(OR)){
-            return line.split(AND+ OR);
-        }
-        return new String[]{line};
+        return line.split("[&&||]+");
     }
     public static boolean isCondition(String condition){
-        Matcher matcher = CONDITION_PATTERN.matcher(condition);
-        return matcher.matches();
+        if (listVariables.containsKey(condition) ){
+             if (listVariables.get(condition).equals(INT)
+                    || listVariables.get(condition).equals(DOUBLE) || listVariables.get(condition).equals(BOOLEAN)) {
+                 return listInit.contains(condition);
+             }return false;
+        }else {
+            Matcher matcher = CONDITION_PATTERN.matcher(condition);
+            return matcher.matches();
+        }
     }
 
 

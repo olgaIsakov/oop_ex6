@@ -48,28 +48,32 @@ public class CheckSingleMethod {
 
     private static void checkSingleMethod(List<String> method, String name)
             throws ConditionException, MethodException, VariableException, StructureException, BlockException {
+        addParamsAsLocalVariables(name);
         for (int i = 1 ; i < method.size() ; i++){
             Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(i));
             Matcher methodCallMatch = METHOD_CALL_PATTERN.matcher(method.get(i));
             Matcher varsMatch = VARIABLE_SUFFIX_PATTERN.matcher(method.get(i));
-//            for(int j = 0 ; j<Parser.getMapNameParams().get(name).size() ; i++){
-//                if (!Parser.getMapNameParams().get(name).get(j).toString().equals(NULL_MARK)) {
-//                    String paramToString = Parser.getMapNameParams().get(name).get(j).toString();
-//                    Analyze.analyzer(paramToString);
-//                }
-//            }
+
 
             if (ifWhileMatch.matches()){
                 i = findAllBlocks(method, i , name);
             }
-            if (methodCallMatch.matches()){
+            if (methodCallMatch.find()){
                 mainMethod.checkMethodCall(method.get(i));
             }
-            if (varsMatch.matches()){
+            if (varsMatch.find()){
                 Analyze.analyzer(method.get(i));
             }
             mainMethod.checkReturnStatement(method);
         }
+    }
+    private static void addParamsAsLocalVariables(String name) throws VariableException {
+        List<String> params = Parser.getMapNameParams().get(name);
+        for(String param : params){
+                if (!param.equals(NULL_MARK)) {
+                    Analyze.analyzer(param);
+                }
+           }
     }
 
     private static int findAllBlocks(List<String> method, int i, String nameMethod)

@@ -5,6 +5,8 @@ import oop.ex6.main.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import static oop.ex6.variables.Analyze.listVariables;
+
 public class paramCheck {
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
@@ -31,15 +33,19 @@ public class paramCheck {
             if (typeOptions.contains(type))
                 types.add(type);
         }
-        if (!params.contains(COMMA))
-            return Tools.checkType(types.get(FIRST_PARAM), params);
-        else{
+        if (!params.contains(COMMA)) {
+            if (listVariables.containsKey(params)) {
+                return listVariables.get(params).equals(types.get(FIRST_PARAM));
+            } else return Tools.checkType(types.get(FIRST_PARAM), params);
+        }else{
             String[] allParams = params.split(COMMA);
             if (allParams.length != types.size())
                 return false;
             else{
                 for (int i=0; i < types.size() ; i++){
-                    if (!Tools.checkType(types.get(i) , allParams[i]))
+                    if (listVariables.containsKey(allParams[i])) {
+                        if (!listVariables.get(allParams[i]).equals(types.get(i))) return false;
+                    }else if (!Tools.checkType(types.get(i) , allParams[i]))
                         return false;
                 }
                 return true;
