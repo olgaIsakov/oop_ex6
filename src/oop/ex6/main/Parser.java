@@ -16,7 +16,7 @@ public class Parser {
     private final static String OPEN = "\\s*[{]\\s*$";
     private final static String CLOSE = "^\\s*[}]\\s*$";
     private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
-    private final static String RETURN = ".*\\s*return\\s*;\\s*\\}$";
+    private final static String RETURN = "^\\s*return\\s*;\\s*$";
     private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
     final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
@@ -47,6 +47,7 @@ public class Parser {
                 continue;
             }
             Matcher globalVarsMatcher = VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
+            //Matcher returnStructure = RETURN_PATTERN.matcher(sJavaLines[i]);
             if  (globalVarsMatcher.find())
                 globalVars.add(sJavaLines[i]);
             else{
@@ -76,11 +77,11 @@ public class Parser {
             parenthesisCounter++;
             methodLines.add(sJavaLines[i]);
             i++;
-            while (parenthesisCounter > INITIALIZED_COUNTER) {
+            while (parenthesisCounter != INITIALIZED_COUNTER) {
                 Matcher openParenthesis = OPEN_PATTERN.matcher(sJavaLines[i]);
                 Matcher closeParenthesis = CLOSE_PATTERN.matcher(sJavaLines[i]);
-                if (openParenthesis.matches()) {
-                    if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
+                if (openParenthesis.find()) {
+                    if (illegalOpen.find()) throw new MethodException(ERROR_MSG);
                     parenthesisCounter++;
                 }
                 if (closeParenthesis.matches()) {

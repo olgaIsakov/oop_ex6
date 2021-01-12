@@ -77,16 +77,20 @@ public class CheckSingleMethod {
         List<List<String>> blocks = new ArrayList<>() ;
         List<String> mainBlock= ifWhileMethods.ifWhile(method.subList(i, method.size()));
         blocks.add(mainBlock);
-        int startBlock = i;
-        int endBlock = mainBlock.size();
+        int startBlock = i+1;
+        int endBlock = mainBlock.size()+1;
         int temp = endBlock;
-        while (endBlock - startBlock  > TWO_LINES ){
-            List<String> innerBlock= ifWhileMethods.ifWhile(method.subList(startBlock+1, endBlock-1));
-            if (innerBlock.size() == EMPTY_BLOCK  )
-                break;
-            else blocks.add(innerBlock);
+        while (startBlock  < endBlock ){
+            Matcher ifWhileMatch = IF_WHILE_PATTERN.matcher(method.get(startBlock));
+            if (ifWhileMatch.matches()) {
+                List<String> innerBlock = ifWhileMethods.ifWhile(method.subList(startBlock, endBlock));
+                if (innerBlock.size() == EMPTY_BLOCK)
+                    break;
+                else{
+                    blocks.add(innerBlock);
+                    endBlock = startBlock+ innerBlock.size();}
+            }
             startBlock ++;
-            endBlock --;
         }
         List<List<String>> newBlocks = innerBlockLines(blocks,method);
         checkInnerBlocks(newBlocks,nameMethod);
@@ -98,7 +102,7 @@ public class CheckSingleMethod {
         List<List<String>> blockList = new ArrayList<>();
         TreeMap<Integer, Integer> innerIdxMap = new TreeMap<>();
         for (int i= blocks.size() ; i-- > 0 ;){
-            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(FIRST));
+            int firstLineIdx = method.lastIndexOf(blocks.get(i).get(0));
             int lastLineIdx =  firstLineIdx + blocks.get(i).size() -1 ;
             innerIdxMap.put(firstLineIdx, lastLineIdx);
         }
@@ -128,7 +132,8 @@ public class CheckSingleMethod {
     private static void checkInnerBlocks(List<List<String>> blocks ,String nameMethod)
             throws VariableException, BlockException, MethodException, StructureException {
         for (int i= blocks.size() ; i-- > 0 ;){
-            for(String line : blocks.get(i)){
+            List<String> slicedBlock = blocks.get(i).subList(1,blocks.get(i).size());
+            for(String line : slicedBlock){
                 Matcher variableMatch = VARIABLE_SUFFIX_PATTERN.matcher(line);
                 Matcher callMethodMatch = mainMethod.METHOD_CALL_PATTERN.matcher(line);
                 Matcher closeMatcher = CLOSE_PATTERN.matcher(line);
