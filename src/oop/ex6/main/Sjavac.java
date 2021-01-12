@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static oop.ex6.variables.Analyze.listFinals;
+
 public class Sjavac {
     private static final String COMMENT_SUFFIX = "\\";
     private static final String COMMENT = "\\s*//.*+";
@@ -27,8 +29,8 @@ public class Sjavac {
             BufferedReader buffer = new BufferedReader(new FileReader(args[FIRST_ARG]));
             String[] fileLines = getAllLInes(buffer);
             Parser.parseToMethods(fileLines);
-            CheckSingleMethod.checkMethods(Parser.getMapNameLines());
             GlobalVariables.checkGlobalVars(Parser.getGlobalVars());
+            CheckSingleMethod.checkMethods(Parser.getMapNameLines());
             System.out.println(VALID_FILE);
         }catch (IOException e){
             System.err.println(e.getMessage());
@@ -42,7 +44,10 @@ public class Sjavac {
             Parser.mapNameParams.clear() ;
             Parser.globalVars.clear();
             Analyze.listVariables.clear();
+            Analyze.listFinals.clear();
+            Analyze.listInit.clear();
             CheckSingleMethod.declarationInit.clear();
+
         }
     }
 
