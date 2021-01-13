@@ -101,10 +101,7 @@ public class Parser {
         return i;
     }
 
-    /**
-     * this method checks all lines in the file
-     * @param sJavaLines the given file
-     */
+  /*
     public void checkAllLines(String[] sJavaLines) throws StructureException {
         List<String> variableList = new ArrayList<>();
         boolean flag = true;
@@ -124,7 +121,7 @@ public class Parser {
         }
         if (!flag) throw new StructureException(INVALID_LINE_ERROR);
 
-    }
+    }*/
 
     /**
      * A getter for the global variables

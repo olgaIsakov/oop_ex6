@@ -43,7 +43,7 @@ public class ifWhileMethods {
     public static List<String> ifWhile(List<String> method) throws ConditionException {
 
         List<String> block = new ArrayList<>();
-        String firstLine = method.get(0) ;
+        String firstLine = method.get(FIRST) ;
         int startParenthesis = firstLine.indexOf(START_CONDITION);
         int endParenthesis = firstLine.indexOf(END_CONDITION);
         // empty condition
@@ -147,6 +147,7 @@ public class ifWhileMethods {
         }
         return blockList ;
     }
+
 
     /**
      * a method to check each if/while block (without nested blocks)
