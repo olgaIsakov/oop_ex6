@@ -4,7 +4,9 @@ import oop.ex6.variables.VariablesPattern;
 
 import java.util.regex.Matcher;
 
-
+/**
+ * A class to check the different types
+ */
 public class TypeCheck {
 
     /*Magic strings for  types*/

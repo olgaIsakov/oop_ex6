@@ -7,6 +7,9 @@ import java.util.List;
 
 import static oop.ex6.variables.VariableAnalyzer.listVariables;
 
+/**
+ * A class to check the method parameters
+ */
 public class ParamCheck {
 
     /*Magic strings fot analyzing parameters line*/

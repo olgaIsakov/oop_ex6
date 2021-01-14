@@ -3,6 +3,9 @@ package oop.ex6.variables;
 import java.util.List;
 import java.util.regex.Matcher;
 
+/**
+ * A class for general methods related to variables
+ */
 public class MainVariable {
 
     /*The valid types */
@@ -12,8 +15,7 @@ public class MainVariable {
 
     /**
      * This method checks if the name is valid
-     *
-     * @param varName
+     * @param varName the name to check
      * @return true if valid false otherwise
      */
     public static boolean isNameValid(String varName) {
@@ -23,8 +25,7 @@ public class MainVariable {
 
     /**
      * This method checks if the type is valid
-     *
-     * @param typeName
+     * @param typeName the type name to check
      * @return true if valid false otherwise
      */
     public static boolean isTypeNameValid(String typeName) {

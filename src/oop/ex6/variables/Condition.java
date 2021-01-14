@@ -4,6 +4,9 @@ import java.util.regex.Matcher;
 
 import static oop.ex6.variables.VariableAnalyzer.*;
 
+/**
+ * A class to check a given condition
+ */
 public class Condition {
 
     /*Magic strings and numbers*/

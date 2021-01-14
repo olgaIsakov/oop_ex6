@@ -2,6 +2,9 @@ package oop.ex6.methods;
 
 import java.util.regex.Pattern;
 
+/**
+ * A class for method related regexes and patterns
+ */
 public class MethodPatterns {
     public final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
     public final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
@@ -11,13 +14,11 @@ public class MethodPatterns {
     public final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
     public final static String OPEN = "\\s*[{]\\s*$";
     public final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
-    public final static String METHOD_NAME = "[a-zA-Z]\\w*";
     public final static String SPACES = "\\s+";
     public final static String PARAM_START = "\\s*\\(\\s*";
     public final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
 
     public final static Pattern PARAM_START_PATTERN = Pattern.compile(PARAM_START);
-    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
     public final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
     public final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
     public final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);

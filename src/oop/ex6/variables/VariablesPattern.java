@@ -1,7 +1,9 @@
 package oop.ex6.variables;
 
 import java.util.regex.Pattern;
-
+/**
+ * A class for variable related regexes and patterns
+ */
 public class VariablesPattern {
     public final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     public final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";

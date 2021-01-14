@@ -10,6 +10,9 @@ import oop.ex6.variables.VariableException;
 import java.util.*;
 import java.util.regex.Matcher;
 
+/**
+ * This class checks a single method
+ */
 public class CheckSingleMethod {
     private static final String NULL_MARK = "null";
     private static final String EMPTY_STRING = " ";
@@ -66,6 +69,11 @@ public class CheckSingleMethod {
         }
     }
 
+    /**
+     * This method adds parameters as local variables
+     * @param name the method name
+     * @throws VariableException Invalid variable
+     */
     private static void addParamsAsLocalVariables(String name) throws VariableException {
         List<String> params = Parser.getMapNameParams().get(name);
         for(int i =0 ;i<params.size()-1; i+=2){
