@@ -2,20 +2,21 @@ package oop.ex6.methods;
 import oop.ex6.main.*;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class mainMethod {
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
     private static final int ERROR_FOUND = 1;
-
+    private static final int FIRST = 0;
     final static String FINAL = "final";
     final static String NULL_MARK = "null";
+
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
-    private static final int FIRST = 0;
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
+
     private static final String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
+    private static final String ERROR_NAME_MSG = "ERROR: illegal name method.";
     private static final String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
 
     /**
@@ -85,7 +86,7 @@ public class mainMethod {
      * @param methodLine the line in the method
      * @return the method name 
      */
-    public static String getMethodName(String methodLine){
+    public static String getMethodName(String methodLine) throws MethodException {
         String[] lineWords = methodLine.strip().replaceAll(MethodPatterns.SPACES, EMPTY_SPACE).split(EMPTY_SPACE) ;
         String name = "";
         for (String word: lineWords){
@@ -97,6 +98,8 @@ public class mainMethod {
         }
         int endCalled = name.indexOf(START_PARAMETERS);
         name = name.substring(FIRST, endCalled);
+        if (resKeys.contains(name) || typeOptions.contains(name) )
+            throw new MethodException(ERROR_NAME_MSG) ;
         return name;
     }
 
