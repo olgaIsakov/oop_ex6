@@ -1,0 +1,119 @@
+olgais
+maria.bouglaev
+
+
+=============================
+=      File description     =
+=============================
+README - this file
+main:
+Sjavac.java - the main class of the program
+Parser.java - the class that parses the file into methods/variables
+TypeCheck.java - a class to check objects type.
+StructureExceptions.java - an exception class for structure related exceptions
+methods:
+MethodPatterns.java - a class for all the regexes and the patterns related to the methods.
+MainMethod.java - a class for the methods used to check general elements of the method.
+CheckSingleMethod.java -  a class for the initial tests for a single method.
+IfWhileMethods.java- this class checks the validity of if/while sections in the method.
+ParamCheck.java- this class checks the validity of method parameters.
+MethodExceptions.java - an exception class for general method related exceptions
+BlockExceptions.java - an exception class for block related exceptions
+variables:
+VariablesPattern.java - a class for all the regexes and the patterns related to the variables.
+MainVariable.java - a class for the methods used to check general elements of the variable.
+VariableAnalyzer.java - a class to analyze the validity of the variables in the file.
+GlobalVariables.java -  a class for methods related to global variables.
+Condition.java -  a class for condition related to methods.
+VariableException.java - an exception class for general variable related exceptions.
+ConditionException.java - an exception class for condition related exceptions.
+
+
+=============================
+=          Design           =
+=============================
+we decided to split the program into 3 packages:
+the classes implemented in the main package, are the classes that read the file and the different parsers.
+we added a 'TypeCheck' class to implement a method that is useful both for the method related methods
+and for the variables related methods use.
+In addition, the general structure exception is implemented in this package,
+because its not related directly nor to the methods and nor the variables.
+
+We implemented a 'method' package, that implements classes related to methods found in the file.
+We distinguish the different methods by the different components may be found in each method.
+The methods related to an if/while block that might be in a method block,
+are implemented in the a dedicated class. The method related to local variables or to a method call
+are implemented in a similar way.
+We used regexes to distinguish the different lines in the file, because of the spaces that could appear between
+each word lots of times.
+The regexes and the patterns related to the methods are implemented in a dedicated class in this package.
+
+We implemented a 'variables' package, that implements classes related to variables found in the file.
+The classes in this package distinguish by their usage.
+We implemented a class for the global variables and a class for the different conditions, those classes handle
+the related methods.
+In a similar way as was implemented in the 'method' package, we implemented a 'VariablePattern' class,
+for all the regexes and the patterns related to the variables.
+in both packages we used different exceptions fo specific errors, to make the exceptions in the program more
+informative for the user.
+
+
+=============================
+=  Implementation details   =
+=============================
+We chose to implement the file test for sub-tests. The main method receives the file,
+ checks its external integrity, and passes it to global variables and methods. When we go into
+ testing methods we test one method at a time. In each method test if we encounter a variable we
+ will move to the class that tests variables. If we encounter a call to a function, we are sent to
+ a function that tests a call to variables. If we encounter an if \ while loop, we will move on to
+ the division of the blocks of the loop (if there are internal blocks in it as well) and then we will
+  send these blocks for an internal check that checks their correctness. And so we divided the realization
+  of the task into internal tests.
+The parser is reading all the file and parsing it to methods or variables, and after the file is parsed,
+ and the file information is stored (using a hash map to save runtime) , we will check each method and variable
+ to check its validity.
+
+
+=============================
+=    Answers to questions   =
+=============================
+6.1 Error handling:
+We created different exceptions for each package.
+In each class that checks the validity of a particular part (line or block) in the checking function we will throw
+ the class type exception with the appropriate error message. To make the exception more informative for the user.
+For example for a variable check there is a VariableException that is discarded when there is an invalid variable
+ in the file. In particular for each type of malfunction a specific message is printed for the fault, such as:
+ error if the name is set incorrectly, the type is invalid, the values are wrong, exc.
+
+
+
+ 6.2
+ 1.How would you modify your code to add new types of variables (e.g., float)?
+       We have a list of types that we will need to update, and we will need to update in the new patterns pattern
+       department for the specific type. We have a class called 'CheckType' that contains the type testing function
+       and we will have to add another case of the new type.
+
+ 2.
+ -Different methods’ types (i.e int foo()) :
+     We will change the regex that checks the first line of the method and there the type of the method is
+     set to support types as well.
+     In addition, we will check the return statement of each method if it returns an object from the right type.
+     Using the 'CheckType' class, we can make sure that the returned object is from the type we expect.
+
+  – Classes :
+    If we would like to add the option of handling classes in the sjava file,
+    we would add a parser method to parse the file by classes, using a proper regex.
+    we would have to check that all the opening parenthesis in the class are closing in the right place.
+    In addition, we would check the blocks in the class, by dividing them (using regexes) to methods, variables, ect.
+    In case, our class should support imports, we will check using a regex if a each class starts with an import pattern,
+    if so we would check if the package name is legal and the package exists.
+    After parsing to inner scopes by the parsing class, we will check each inner scope or line by a suiting class.
+
+  6.3:
+   Regular expressions :
+   1.  VARIABLE_SUFFIX = "\\s*;\\s*$";
+   The regex identifies a row where there is a variable (declaring a new variable, or naming an existing variable).
+   We used it to identify variables for global variables, and local variables.
+
+   2.METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
+   We used it to identify the start of a method so that the parser will divide our file into methods.
