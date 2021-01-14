@@ -53,13 +53,13 @@ public class Parser {
      * @throws MethodException illegal block
      */
     public static int getMethodBlock(String[] sJavaLines, int i) throws MethodException, StructureException {
-        String name = mainMethod.getMethodName(sJavaLines[i]);
+        String name = MainMethod.getMethodName(sJavaLines[i]);
         Matcher illegalOpen = MethodPatterns.ILLEGAL_OPEN_PATTERN.matcher(sJavaLines[i]);
         if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
             List<String> params = new ArrayList<>();
-            List<String> newParams = mainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
+            List<String> newParams = MainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
             List<String> methodLines = new ArrayList<>();
             parenthesisCounter++;
             methodLines.add(sJavaLines[i]);

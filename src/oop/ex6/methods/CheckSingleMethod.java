@@ -54,15 +54,15 @@ public class CheckSingleMethod {
             Matcher returnMatcher = MethodPatterns.RETURN_PATTERN.matcher(method.get(i));
 
             if (ifWhileMatch.matches()){
-                i = ifWhileMethods.findAllBlocks(method, i , name);
+                i = IfWhileMethods.findAllBlocks(method, i , name);
             }
             else if (methodCallMatch.find()){
-                mainMethod.checkMethodCall(method.get(i));
+                MainMethod.checkMethodCall(method.get(i));
             }
             else if (varsMatch.find() && !returnMatcher.matches() ){
                 VariableAnalyzer.analyzeLineVariable(method.get(i));
             }
-            mainMethod.checkReturnStatement(method);
+            MainMethod.checkReturnStatement(method);
         }
     }
 

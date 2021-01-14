@@ -7,7 +7,7 @@ import java.util.List;
 
 import static oop.ex6.variables.VariableAnalyzer.listVariables;
 
-public class paramCheck {
+public class ParamCheck {
 
     /*Magic strings fot analyzing parameters line*/
     private static final String START_PARAMETERS = "(";

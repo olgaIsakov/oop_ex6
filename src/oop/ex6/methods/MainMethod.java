@@ -3,7 +3,7 @@ import oop.ex6.main.*;
 import java.util.*;
 import java.util.regex.Matcher;
 
-public class mainMethod {
+public class MainMethod {
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
@@ -76,7 +76,7 @@ public class mainMethod {
         if (!mapNameParameters.containsKey(called))
             throw new MethodException(ERROR_PARAM_MSG);
         else{
-            if (!paramCheck.checkCalledParams(methodLine, mapNameParameters.get(called)))
+            if (!ParamCheck.checkCalledParams(methodLine, mapNameParameters.get(called)))
                 throw new MethodException(ERROR_PARAM_MSG);
         }
     }
