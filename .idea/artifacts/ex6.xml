@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ex6">
+    <output-path>$PROJECT_DIR$/out/artifacts/ex6</output-path>
+    <root id="archive" name="ex6.jar">
+      <element id="directory" name="oop">
+        <element id="directory" name="ex6">
+          <element id="directory" name="variables">
+            <element id="dir-copy" path="$PROJECT_DIR$/src/oop/ex6/variables" />
+          </element>
+          <element id="directory" name="methods">
+            <element id="dir-copy" path="$PROJECT_DIR$/src/oop/ex6/methods" />
+          </element>
+          <element id="directory" name="main">
+            <element id="dir-copy" path="$PROJECT_DIR$/src/oop/ex6/main" />
+          </element>
+        </element>
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/src/README" />
+    </root>
+  </artifact>
+</component>
