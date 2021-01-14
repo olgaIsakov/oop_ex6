@@ -5,7 +5,7 @@ import oop.ex6.variables.VariablesPattern;
 import java.util.regex.Matcher;
 
 
-public class Tools {
+public class TypeCheck {
 
     /*Magic strings for  types*/
     private final static String INT = "int";

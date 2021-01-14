@@ -2,7 +2,7 @@ package oop.ex6.variables;
 
 
 
-import oop.ex6.main.Tools;
+import oop.ex6.main.TypeCheck;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +52,7 @@ public class VariableAnalyzer {
         String type = beginningWord(line);
         if (!listVariables.containsKey(type)){
 
-            if (!oop.ex6.variables.Variable.isTypeNameValid(type)) {
+            if (!MainVariable.isTypeNameValid(type)) {
                 throw new VariableException(ERROR_TYPE);
             }
             isDeclared = true;
@@ -82,7 +82,7 @@ public class VariableAnalyzer {
     public static String getType(String line){
         if (isFinal(line)){
             line = removeWord(line);
-        } if (Variable.isTypeNameValid(beginningWord(line))) {
+        } if (MainVariable.isTypeNameValid(beginningWord(line))) {
             return beginningWord(line);
         }return EMPTY_STRING;
     }
@@ -128,7 +128,7 @@ public class VariableAnalyzer {
     public static boolean checkNamesIfDeclared(String names , String type ){
         String [] varNames = splitLineWithComma(names);
         for (String name : varNames){
-            if (listDeclared.contains(name)&&Variable.isTypeNameValid(type)){
+            if (listDeclared.contains(name)&& MainVariable.isTypeNameValid(type)){
                 return false;
             }
         }return true;
@@ -143,7 +143,7 @@ public class VariableAnalyzer {
     public static boolean checkAllNames(String line){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
-            if (!oop.ex6.variables.Variable.isNameValid(name)){
+            if (!MainVariable.isNameValid(name)){
                 return false;
             }
         }return true;
@@ -168,7 +168,7 @@ public class VariableAnalyzer {
                 String typeVar = listVariables.get(value);
                 if (!type.equals(typeVar) )return false;
             }
-            else if (!Tools.checkType(type, value)){
+            else if (!TypeCheck.checkType(type, value)){
                 return false;
             }
         }return true;
@@ -214,7 +214,7 @@ public class VariableAnalyzer {
     public static  String [] getName(String line){
         if (isFinal(line)){
             line = removeWord(line);
-        } if (Variable.isTypeNameValid(beginningWord(line))){
+        } if (MainVariable.isTypeNameValid(beginningWord(line))){
             line = removeWord(line);
         }return getLineNames(line).split(COMMA);
     }

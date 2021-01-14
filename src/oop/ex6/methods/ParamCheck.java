@@ -1,6 +1,6 @@
 package oop.ex6.methods;
 
-import oop.ex6.main.Tools;
+import oop.ex6.main.TypeCheck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public class ParamCheck {
         if (!params.contains(COMMA)) {
             if (listVariables.containsKey(params)) {
                 return listVariables.get(params).equals(types.get(FIRST_PARAM));
-            } else return Tools.checkType(types.get(FIRST_PARAM), params);
+            } else return TypeCheck.checkType(types.get(FIRST_PARAM), params);
         }else{
             String[] allParams = params.split(COMMA);
             if (allParams.length != types.size())
@@ -51,7 +51,7 @@ public class ParamCheck {
                 for (int i=0; i < types.size() ; i++){
                     if (listVariables.containsKey(allParams[i])) {
                         if (!listVariables.get(allParams[i]).equals(types.get(i))) return false;
-                    }else if (!Tools.checkType(types.get(i) , allParams[i]))
+                    }else if (!TypeCheck.checkType(types.get(i) , allParams[i]))
                         return false;
                 }
                 return true;
