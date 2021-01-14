@@ -8,8 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
-    final static int INITIALIZED_COUNTER = 0;
+
+    /*Magic numbers and strings*/
+    private final static int INITIALIZED_COUNTER = 0;
     private static final String EMPTY_SPACE = " ";
+
 /*    private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
     private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
     private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
@@ -28,8 +31,11 @@ public class Parser {
     final static Pattern ILLEGAL_OPEN_PATTERN = Pattern.compile(ILLEGAL_OPEN);
     final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
     final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);*/
+
+    /*Error messages to print */
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
+    /*Lists of the file lines */
     static List<String> globalVars = new ArrayList<>();
     static Map<String, List<String>> mapNameLines = new HashMap<>();
     static Map<String, List<String>> mapNameParams = new HashMap<>();

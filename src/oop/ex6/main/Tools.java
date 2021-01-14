@@ -3,7 +3,7 @@ package oop.ex6.main;
 import oop.ex6.variables.VariablesPattern;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Tools {
 /*    private final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
@@ -16,11 +16,14 @@ public class Tools {
     final static Pattern STRING_TYPE_PATTERN = Pattern.compile(STRING_TYPE);
     final static Pattern CHAR_TYPE_PATTERN = Pattern.compile(CHAR_TYPE);
     final static Pattern BOOL_TYPE_PATTERN = Pattern.compile(BOOL_TYPE);*/
-    final static String INT = "int";
-    final static String STRING = "String";
-    final static String DOUBLE = "double";
-    final static String BOOLEAN = "boolean";
-    final static String CHAR = "char";
+
+    /*Magic strings for  types*/
+    private final static String INT = "int";
+    private final static String STRING = "String";
+    private final static String DOUBLE = "double";
+    private final static String BOOLEAN = "boolean";
+    private final static String CHAR = "char";
+
     /**
      * this method checks if the given parameter is of the wanted type
      * @param wantedType the expected type

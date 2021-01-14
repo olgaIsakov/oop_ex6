@@ -2,14 +2,13 @@ package oop.ex6.methods;
 
 import oop.ex6.main.Parser;
 import oop.ex6.main.StructureException;
-import oop.ex6.variables.Analyze;
+import oop.ex6.variables.VariableAnalyzer;
 import oop.ex6.variables.ConditionException;
 
 import oop.ex6.variables.VariableException;
 
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CheckSingleMethod {
 /*    private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
@@ -80,7 +79,7 @@ public class CheckSingleMethod {
                 mainMethod.checkMethodCall(method.get(i));
             }
             else if (varsMatch.find() && !returnMatcher.matches() ){
-                Analyze.analyzer(method.get(i));
+                VariableAnalyzer.analyzeLineVariable(method.get(i));
             }
             mainMethod.checkReturnStatement(method);
         }
@@ -91,7 +90,7 @@ public class CheckSingleMethod {
         for(int i =0 ;i<params.size()-1;i+=2){
             String paramLine = params.get(i) +" " +params.get(i + 1);
             if (!paramLine.equals(NULL_MARK)) {
-                    Analyze.analyzer(paramLine);
+                    VariableAnalyzer.analyzeLineVariable(paramLine);
                 }
            }
     }

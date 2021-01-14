@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static oop.ex6.variables.Analyze.listFinals;
-
 public class Sjavac {
+    /*Patterns for analyzing the file*/
     private static final String COMMENT = "\\s*//.*+";
     private static final String EMPTY = "\\s*";
     private static final Pattern COMMENT_PATTERN = Pattern.compile(COMMENT);
     private static final Pattern EMPTY_PATTERN = Pattern.compile(EMPTY);
+
+    /*Magic numbers for return*/
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
     private static final int VALID_FILE = 0;
@@ -54,10 +55,10 @@ public class Sjavac {
         Parser.mapNameLines.clear() ;
         Parser.mapNameParams.clear() ;
         Parser.globalVars.clear();
-        Analyze.listVariables.clear();
-        Analyze.listFinals.clear();
-        Analyze.listInit.clear();
-        Analyze.listDeclared.clear();
+        VariableAnalyzer.listVariables.clear();
+        VariableAnalyzer.listFinals.clear();
+        VariableAnalyzer.listInit.clear();
+        VariableAnalyzer.listDeclared.clear();
         CheckSingleMethod.declarationInit.clear();
     }
 

@@ -11,6 +11,7 @@ public class VariablesPattern {
     public final static String BOOL_TYPE = "^\\s*(true|false)\\s*$";
     public final static String CONDITION = "true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])";
     public final static String VAR_NAME = "(?:[a-zA-Z]+\\w*)|(?:_+\\w+)";
+    public final static String OPERATORS = "[&&||]+" ;
 
     public final static Pattern INT_TYPE_PATTERN = Pattern.compile(INT_TYPE);
     public final static Pattern DOUBLE_TYPE_PATTERN = Pattern.compile(DOUBLE_TYPE);

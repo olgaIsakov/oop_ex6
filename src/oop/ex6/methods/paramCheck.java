@@ -5,15 +5,21 @@ import oop.ex6.main.Tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import static oop.ex6.variables.Analyze.listVariables;
+import static oop.ex6.variables.VariableAnalyzer.listVariables;
 
 public class paramCheck {
+
+    /*Magic strings fot analyzing parameters line*/
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String NULL_MARK = "null";
     private static final String COMMA = ",";
+
+    /*Magic Numbers fot analyzing parameters line*/
     private static final int EMPTY_PARAMS = 0;
     private static final int FIRST_PARAM = 0;
+
+    /*List of valid types*/
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
 
     /**

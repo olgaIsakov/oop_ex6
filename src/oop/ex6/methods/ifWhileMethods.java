@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ifWhileMethods {
     private static final int INITIALIZE_COUNTER = 0;
@@ -17,19 +16,7 @@ public class ifWhileMethods {
     final static int EMPTY_BLOCK = 0;
     final static int FIRST = 0;
     final static int SECOND_LINE =1;
-/*    private final static String OPEN = "\\s*[{]\\s*$";
-    private final static String CLOSE = "\\s*}\\s*$";
-    private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
-    private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
-    private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";*/
 
- /*   private final static String WHILE = "^\\s*+while\\s*\\(\\s*";
-    private final static String IF = "^\\s*+if\\s*\\(\\s*";*/
-/*    final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
-    final static Pattern OPEN_PATTERN = Pattern.compile(OPEN);
-    final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
-    final static Pattern ILLEGAL_OPEN_PATTERN = Pattern.compile(ILLEGAL_OPEN);
-    final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);*/
     final static String ERROR_CONDITION = "ERROR: problem found in if/while block";
     final static String BLOCK_ERROR = " ERROR : error in block line ";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
@@ -171,10 +158,10 @@ public class ifWhileMethods {
 
                 if (variableMatch.find() && !returnMatcher.matches()
                         && !callMethodMatch.matches()){
-                    Analyze.analyzer(line);
+                    VariableAnalyzer.analyzeLineVariable(line);
 
-                    if (Analyze.declarationWithInit(line)) {
-                        String[] names = Analyze.getName(line);
+                    if (VariableAnalyzer.declarationWithInit(line)) {
+                        String[] names = VariableAnalyzer.getName(line);
                         for (String name : names) {
                             if (name.equals(nameMethod))
                                 throw new BlockException(BLOCK_ERROR);
