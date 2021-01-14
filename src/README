@@ -33,7 +33,11 @@ ConditionException.java - an exception class for condition related exceptions.
 =          Design           =
 =============================
 we decided to split the program into 3 packages:
-the main package, witch
+the classes implemented in the main package, are the classes that read the file the different parsers.
+we added a 'Tools' class to implement useful methods that both
+the method related methods and the variables related methods use.
+In addition, the general structure exception is implemented in this package.
+We implemented a 'method' package, that implements classes related to the
 
 =============================
 =  Implementation details   =
