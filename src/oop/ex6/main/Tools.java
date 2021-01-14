@@ -6,16 +6,6 @@ import java.util.regex.Matcher;
 
 
 public class Tools {
-/*    private final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
-    private final static String DOUBLE_TYPE = "^\\s*[-]?\\d*\\.?\\d+\\s*$";
-    private final static String STRING_TYPE = "^\\s*\".*?\"s*$";
-    private final static String CHAR_TYPE = "^\\s*\'.*?\'s*$";
-    private final static String BOOL_TYPE = "^\\s*(true|false)\\s*$";
-    final static Pattern INT_TYPE_PATTERN = Pattern.compile(INT_TYPE);
-    final static Pattern DOUBLE_TYPE_PATTERN = Pattern.compile(DOUBLE_TYPE);
-    final static Pattern STRING_TYPE_PATTERN = Pattern.compile(STRING_TYPE);
-    final static Pattern CHAR_TYPE_PATTERN = Pattern.compile(CHAR_TYPE);
-    final static Pattern BOOL_TYPE_PATTERN = Pattern.compile(BOOL_TYPE);*/
 
     /*Magic strings for  types*/
     private final static String INT = "int";

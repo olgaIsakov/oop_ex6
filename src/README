@@ -1,0 +1,54 @@
+olgais
+maria.bouglaev
+
+
+=============================
+=      File description     =
+=============================
+README - this file
+main:
+Sjavac.java - the main class of the program
+Parser.java - the class that parses the file into methods/variables
+Tools.java - a class with methods that are relevant both to the method package and to the variable package
+StructureExceptions.java - an exception class for structure related exceptions
+methods:
+MethodPatterns.java - a class for all the regexes and the patterns related to the methods.
+MainMethod.java - a class for the methods used to check general elements of the method.
+CheckSingleMethod.java -  a class for the initial tests for a single method.
+IfWhileMethods.java- this class checks the validity of if/while sections in the method.
+ParamCheck.java- this class checks the validity of method parameters.
+MethodExceptions.java - an exception class for general method related exceptions
+BlockExceptions.java - an exception class for block related exceptions
+variables:
+VariablesPattern.java - a class for all the regexes and the patterns related to the variables.
+Variable.java - an abstract class of a variable.
+VariableAnalyzer.java - a class to analyze the validity of the variables in the file.
+GlobalVariables.java -  a class for methods related to global variables.
+Condition.java -  a class for condition related to methods.
+VariableException.java - an exception class for general variable related exceptions.
+ConditionException.java - an exception class for condition related exceptions.
+
+
+=============================
+=          Design           =
+=============================
+we decided to split the program into 3 packages:
+the classes implemented in the main package, are the classes that read the file the different parsers.
+we added a 'Tools' class to implement useful methods that both
+the method related methods and the variables related methods use.
+In addition, the general structure exception is implemented in this package.
+We implemented a 'method' package, that implements classes related to the
+
+=============================
+=  Implementation details   =
+=============================
+In the Library class, in order to store the different books and patrons, 
+I chose Array to hold these data. so each item's index is also its ID. 
+In addition,the program monitor how many books each patron has by holding 
+an array that each cell's index is connected to the patron that has 
+this index as an ID.
+
+
+=============================
+=    Answers to questions   =
+=============================

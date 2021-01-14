@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
-public class ifWhileMethods {
+public class IfWhileMethods {
     private static final int INITIALIZE_COUNTER = 0;
     private static final String START_CONDITION = "(";
     private static final String END_CONDITION = ")";
@@ -78,7 +78,7 @@ public class ifWhileMethods {
     static int findAllBlocks(List<String> method, int i, String nameMethod)
             throws ConditionException, VariableException, BlockException, MethodException, StructureException {
         List<List<String>> blocks = new ArrayList<>() ;
-        List<String> mainBlock= ifWhileMethods.ifWhile(method.subList(i, method.size()));
+        List<String> mainBlock= IfWhileMethods.ifWhile(method.subList(i, method.size()));
         blocks.add(mainBlock);
         int startBlock = i+1;
         int endBlock = mainBlock.size()+1;
@@ -86,7 +86,7 @@ public class ifWhileMethods {
         while (startBlock  < endBlock ){
             Matcher ifWhileMatch = MethodPatterns.IF_WHILE_PATTERN.matcher(method.get(startBlock));
             if (ifWhileMatch.matches()) {
-                List<String> innerBlock = ifWhileMethods.ifWhile(method.subList(startBlock, endBlock));
+                List<String> innerBlock = IfWhileMethods.ifWhile(method.subList(startBlock, endBlock));
                 if (innerBlock.size() == EMPTY_BLOCK)
                     break;
                 else{
@@ -171,7 +171,7 @@ public class ifWhileMethods {
                         }
                     }
                 }else if (callMethodMatch.matches())
-                    mainMethod.checkMethodCall(line);
+                    MainMethod.checkMethodCall(line);
                 else {
                     if (!((closeMatcher.matches())&& !(illegalMatcher.find()))&&(!returnMatcher.matches())){
                         throw new StructureException(INVALID_LINE_ERROR);

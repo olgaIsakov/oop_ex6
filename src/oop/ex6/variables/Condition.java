@@ -77,13 +77,13 @@ public class Condition {
     }
 
     /**
-     * This method returns true if the condition is valid
-     * @param  condition
-     * @return true or false
+     * This method checks if the condition is valid
+     * @param  condition THE given condition
+     * @return This method returns true if the condition is valid
      */
     public static boolean isCondition(String condition){
         //  if the condition is a variable we already declared
-        //  , we check if is type suitable for condition type and if it was initialized with a value
+        //  , we check if its type is suitable for condition type and if it was initialized with a value
         if (listVariables.containsKey(condition) ){
              if (listVariables.get(condition).equals(INT)
                     || listVariables.get(condition).equals(DOUBLE) || listVariables.get(condition).equals(BOOLEAN)) {
