@@ -5,7 +5,7 @@ import oop.ex6.variables.VariablesPattern;
 
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class Parser {
 
@@ -13,28 +13,10 @@ public class Parser {
     private final static int INITIALIZED_COUNTER = 0;
     private static final String EMPTY_SPACE = " ";
 
-/*    private final static String ILLEGAL_OPEN = "\\s*[{][{]+\\s*$";
-    private final static String ILLEGAL_CLOSE = "\\s*[}][}]+\\s*$";
-    private final static String METHOD = "\\s*void\\s+[a-zA-Z]\\w*\\s*\\(.*\\s*\\)\\s*[{]\\s*$";
-    private final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
-    private final static String OPEN = "\\s*[{]\\s*$";
-    private final static String CLOSE = "^\\s*[}]\\s*$";
-    private final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
-    private final static String RETURN = "^\\s*return\\s*;\\s*$";
-    private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
-    final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
-    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);
-    final static Pattern IF_WHILE_PATTERN = Pattern.compile(IF_WHILE);
-    final static Pattern VARIABLE_SUFFIX_PATTERN = Pattern.compile(VARIABLE_SUFFIX);
-    final static Pattern OPEN_PATTERN = Pattern.compile(OPEN);
-    final static Pattern CLOSE_PATTERN = Pattern.compile(CLOSE);
-    final static Pattern ILLEGAL_OPEN_PATTERN = Pattern.compile(ILLEGAL_OPEN);
-    final static Pattern ILLEGAL_CLOSE_PATTERN = Pattern.compile(ILLEGAL_CLOSE);
-    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD);*/
-
     /*Error messages to print */
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
+
     /*Lists of the file lines */
     static List<String> globalVars = new ArrayList<>();
     static Map<String, List<String>> mapNameLines = new HashMap<>();
@@ -44,7 +26,6 @@ public class Parser {
      * this method parse the file into methods
      *
      * @param sJavaLines the given file
-     * @return a map -> list of the method lines : list of the method parameters
      */
     public static void parseToMethods(String[] sJavaLines) throws MethodException, StructureException {
         for (int i = 0; i < sJavaLines.length; i++) {
@@ -84,7 +65,7 @@ public class Parser {
             methodLines.add(sJavaLines[i]);
             i++;
             while (parenthesisCounter != INITIALIZED_COUNTER) {
-                // if open parenthesis different from close parenthesis
+                // if num of open parenthesis different from the num of close parenthesis
                 if (i ==sJavaLines.length)
                     throw new StructureException(ERROR_MSG);
                 Matcher openParenthesis = MethodPatterns.OPEN_PATTERN.matcher(sJavaLines[i]);
@@ -106,28 +87,6 @@ public class Parser {
         }
         return i;
     }
-
-  /*
-    public void checkAllLines(String[] sJavaLines) throws StructureException {
-        List<String> variableList = new ArrayList<>();
-        boolean flag = true;
-        for (int i = 0; i < sJavaLines.length; i++) {
-            Matcher variableMatch = VariablesPattern.VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            Matcher methodMatch = MethodPatterns.METHOD_LINE_PATTERN.matcher(sJavaLines[i]);
-            Matcher ifWhileStructure = MethodPatterns.IF_WHILE_PATTERN.matcher(sJavaLines[i]);
-            Matcher closeStructure = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
-            Matcher returnStructure = MethodPatterns.RETURN_PATTERN.matcher(sJavaLines[i]);
-            Matcher methodCallStructure = MethodPatterns.METHOD_CALL_PATTERN.matcher(sJavaLines[i]);
-            if (!variableMatch.matches() && !methodMatch.matches() && !ifWhileStructure.matches() &&
-                    !closeStructure.matches() &&
-                    !returnStructure.matches() && !methodCallStructure.matches()) {
-                flag = false;
-                break;
-            }
-        }
-        if (!flag) throw new StructureException(INVALID_LINE_ERROR);
-
-    }*/
 
     /**
      * A getter for the global variables

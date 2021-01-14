@@ -8,27 +8,15 @@ public class mainMethod {
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
-    private static final String OPEN_PARENTHESIS = "{";
     private static final int ERROR_FOUND = 1;
-    final static int SECOND_WORD = 1;
-    final static int BEGINNING = 0;
-/*    private final static String METHOD_NAME = "[a-zA-Z]\\w*";
-    private final static String RETURN = "^\\s*return\\s*;\\s*$";
-    private final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
-    private final static String SPACES = "\\s+";
-    private final static String PARAM_START = "\\s*\\(\\s*";*/
-/*    final static Pattern METHOD_PATTERN = Pattern.compile(METHOD_NAME);
-    final static Pattern PARAM_START_PATTERN = Pattern.compile(PARAM_START);
-    final static Pattern METHOD_CALL_PATTERN = Pattern.compile(METHOD_CALL);
-    final static Pattern RETURN_PATTERN = Pattern.compile(RETURN);*/
+
     final static String FINAL = "final";
     final static String NULL_MARK = "null";
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
-    private static final int SECOND = 1;
     private static final int FIRST = 0;
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
-    private static String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
-    private static String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
+    private static final String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
+    private static final String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
 
     /**
      * This method checks the first line of a method
@@ -63,7 +51,6 @@ public class mainMethod {
      * @throws MethodException illegal parameter found
      */
     public static void checkMethodParameters(List<String> parameters) throws MethodException {
-
             for (int i=0; i < parameters.size(); i++){
                 if (parameters.get(i).equals(NULL_MARK))
                     continue;

@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class VariableAnalyzer {
 
-
-    private static final Pattern FINAL_PATTERN =  Pattern.compile("^final");
+    private static final int FIRST = 0;
+    private static final int SECOND = 1;
+    private static final int EMPTY = 0;
     private static final String EMPTY_SPACE = " ";
     private static final String EQUAL= "=";
     private static final String SEM = ";";
+    private static final String COMMA = ",";
     private static final String EMPTY_STRING = "";
 
     /*List of variables */
@@ -63,13 +64,13 @@ public class VariableAnalyzer {
             throw new VariableException(ERROR_NAME) ;
         }
         String values = splitValues(line);
-        if (values.length() >0){
+        if (values.length() > EMPTY ){
             if (!checkNamesIfInFinal(names)) throw new VariableException(ERROR_FINAL);
             if (!checkAllValues(values,type,names)) {
                 throw new VariableException(ERROR_VALUE);
             }isInit = true;
         }
-        addTolist(names,type,isFinal ,isInit,isDeclared);
+        addToList(names,type,isFinal ,isInit,isDeclared);
 
     }
 
@@ -95,7 +96,7 @@ public class VariableAnalyzer {
      * @param  isDeclared true if the variable is declared with a value , false otherwise
      *
      */
-    public static void addTolist(String names, String type, boolean isFinal ,boolean isInit,boolean isDeclared){
+    public static void addToList(String names, String type, boolean isFinal , boolean isInit, boolean isDeclared){
         String [] varNames = splitLineWithComma(names);
         for (String name : varNames){
             listVariables.put(name,type);
@@ -179,7 +180,7 @@ public class VariableAnalyzer {
      * @return true or false
      */
     public static boolean isFinal(String line) {
-        Matcher matcher = FINAL_PATTERN.matcher(line);
+        Matcher matcher = VariablesPattern.FINAL_PATTERN.matcher(line);
         return matcher.find();
     }
     /**
@@ -188,7 +189,7 @@ public class VariableAnalyzer {
      * @return true or false
      */
     public  static  boolean declarationWithInit(String line){
-        return line.contains(EQUAL)&&splitValues(line).length()>0;
+        return line.contains(EQUAL)&&splitValues(line).length()>EMPTY ;
     }
 
 
@@ -198,9 +199,9 @@ public class VariableAnalyzer {
      * @return String line of names
      */
     public static String getLineNames(String line){
-        line = line.replaceAll(SEM, "");
+        line = line.replaceAll(SEM, EMPTY_STRING );
         if (line.contains(EQUAL)){
-            return line.substring(0,line.indexOf(EQUAL)).trim();
+            return line.substring(FIRST ,line.indexOf(EQUAL)).trim();
         }
         return line.trim();
     }
@@ -215,7 +216,7 @@ public class VariableAnalyzer {
             line = removeWord(line);
         } if (Variable.isTypeNameValid(beginningWord(line))){
             line = removeWord(line);
-        }return getLineNames(line).split(",");
+        }return getLineNames(line).split(COMMA);
     }
 
 
@@ -225,7 +226,7 @@ public class VariableAnalyzer {
      * @return new line
      */
     public static String removeSpace(String line) {
-        return line.replaceAll("\\s+", "");
+        return line.replaceAll(VariablesPattern.SPACE, EMPTY_STRING );
 
     }
     /**
@@ -235,7 +236,7 @@ public class VariableAnalyzer {
      */
     public static String[] splitLineWithComma(String line) {
         line = removeSpace(line);
-        return line.split(",");
+        return line.split(COMMA);
     }
     /**
      * This method removes the first word in the line
@@ -244,8 +245,8 @@ public class VariableAnalyzer {
      */
     public static String removeWord(String line){ // for new declaration//
        String removeWord = beginningWord(line);
-        if (removeWord.equals(line.trim())) return "";
-        else    return line.trim().split("\\s", 2)[1];
+        if (removeWord.equals(line.trim())) return EMPTY_STRING ;
+        else    return line.trim().split("\\s", 2)[SECOND ];
 
     }
     /**
@@ -256,7 +257,7 @@ public class VariableAnalyzer {
     public static String beginningWord(String line){
         line= line.trim();// for new declaration//
         String[] arr = line.split(EMPTY_SPACE, 2);
-        return arr[0];
+        return arr[FIRST ];
     }
     /**
      * This method splits the values from the line
@@ -265,9 +266,9 @@ public class VariableAnalyzer {
      */
     public static String splitValues(String line){ // if we have new value or values
         line = removeSpace(line);
-        line = line.replaceAll(SEM, "");
+        line = line.replaceAll(SEM, EMPTY_STRING );
         if (line.contains(EQUAL)) {
-            return line.substring(line.lastIndexOf("=")+1);
+            return line.substring(line.lastIndexOf(EQUAL )+1);
         }
         return EMPTY_STRING;
     }

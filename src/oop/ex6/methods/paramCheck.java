@@ -15,7 +15,7 @@ public class paramCheck {
     private static final String NULL_MARK = "null";
     private static final String COMMA = ",";
 
-    /*Magic Numbers fot analyzing parameters line*/
+    /*Magic Numbers foR analyzing parameters line*/
     private static final int EMPTY_PARAMS = 0;
     private static final int FIRST_PARAM = 0;
 
