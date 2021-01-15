@@ -8,9 +8,10 @@ public class MethodException extends Exception {
 
     /**
      * a method exception constructor
+     *
      * @param errMsg the message to print
      */
-    public MethodException(String errMsg){
+    public MethodException(String errMsg) {
         super(errMsg);
     }
 

@@ -8,9 +8,10 @@ public class ConditionException extends Exception {
 
     /**
      * the condition exception constructor
+     *
      * @param msg the message to print
      */
-    public ConditionException(String msg){
+    public ConditionException(String msg) {
         super(msg);
     }
 }

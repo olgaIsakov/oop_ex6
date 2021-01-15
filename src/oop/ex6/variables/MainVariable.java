@@ -15,6 +15,7 @@ public class MainVariable {
 
     /**
      * This method checks if the name is valid
+     *
      * @param varName the name to check
      * @return true if valid false otherwise
      */
@@ -25,6 +26,7 @@ public class MainVariable {
 
     /**
      * This method checks if the type is valid
+     *
      * @param typeName the type name to check
      * @return true if valid false otherwise
      */

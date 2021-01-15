@@ -2,6 +2,7 @@ package oop.ex6.main;
 
 import oop.ex6.methods.*;
 import oop.ex6.variables.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Sjavac {
 
     /**
      * The main method of the program
+     *
      * @param args the given args
      */
     public static void main(String[] args) {
@@ -39,7 +41,7 @@ public class Sjavac {
             CheckSingleMethod.checkMethods(Parser.getMapNameLines());
             System.out.println(VALID_FILE);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println(e.getMessage());
             System.out.println(IO_ERROR);
             return;
@@ -48,8 +50,7 @@ public class Sjavac {
             System.err.println(e.getMessage());
             System.out.println(S_JAVA_ERROR);
             return;
-        }
-        finally {
+        } finally {
             clearAll();
 
 
@@ -60,19 +61,20 @@ public class Sjavac {
      * This method clears all the global parameters
      */
     private static void clearAll() {
-        Parser.mapNameLines.clear() ;
-        Parser.mapNameParams.clear() ;
+        Parser.mapNameLines.clear();
+        Parser.mapNameParams.clear();
         Parser.globalVars.clear();
         GlobalVariables.globalNames.clear();
         VariableAnalyzer.listVariables.clear();
         VariableAnalyzer.listFinals.clear();
         VariableAnalyzer.listInit.clear();
         VariableAnalyzer.listDeclared.clear();
-        CheckSingleMethod.declarationInit.clear();
+        IfWhileMethods.declarationInit.clear();
     }
 
     /**
      * This method checks the number of args is legal
+     *
      * @param args given args
      * @throws IOException invalid args
      */
@@ -83,17 +85,18 @@ public class Sjavac {
 
     /**
      * This method converts all lines from the given file to an array.
+     *
      * @param buffer buffer reader
      * @return an array with all lines except comment lines and empty lines
      * @throws IOException problem in reading the given file.
      */
-    private static String[] getAllLInes(BufferedReader buffer) throws IOException{
+    private static String[] getAllLInes(BufferedReader buffer) throws IOException {
         String line;
-        List<String> sJavaLines = new ArrayList<>() ;
-        while ((line = buffer.readLine()) != null){
+        List<String> sJavaLines = new ArrayList<>();
+        while ((line = buffer.readLine()) != null) {
             Matcher commentMatch = COMMENT_PATTERN.matcher(line);
             Matcher emptyMatch = EMPTY_PATTERN.matcher(line);
-            if (!commentMatch.find() && !(emptyMatch.matches())){
+            if (!commentMatch.find() && !(emptyMatch.matches())) {
                 sJavaLines.add(line);
             }
         }

@@ -18,7 +18,8 @@ public class TypeCheck {
 
     /**
      * this method checks if the given parameter is of the wanted type
-     * @param wantedType the expected type
+     *
+     * @param wantedType  the expected type
      * @param calledParam the given parameter
      * @return true if the type matches, false otherwise
      */
@@ -29,7 +30,7 @@ public class TypeCheck {
         Matcher doubleMach = VariablesPattern.DOUBLE_TYPE_PATTERN.matcher(calledParam);
         Matcher charMach = VariablesPattern.CHAR_TYPE_PATTERN.matcher(calledParam);
         Matcher boolMach = VariablesPattern.BOOL_TYPE_PATTERN.matcher(calledParam);
-        switch (wantedType){
+        switch (wantedType) {
             case INT:
                 return intMach.matches();
             case STRING:

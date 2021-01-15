@@ -11,21 +11,22 @@ public class GlobalVariables {
     final static String GLOBAL_ERROR = "ERROR: global name initialized more than once.";
 
     /*Magic numbers */
-    final static int EMPTY =0;
+    final static int EMPTY = 0;
     public static List<String> globalNames = new ArrayList<>();
 
     /**
      * This method checks the validness of the global variables
-     * @param  globalVars List of the global variables
+     *
+     * @param globalVars List of the global variables
      */
     public static void checkGlobalVars(List<String> globalVars) throws VariableException {
-        for (String line: globalVars){
-            VariableAnalyzer.analyzeLineVariable(line,false);
+        for (String line : globalVars) {
+            VariableAnalyzer.analyzeLineVariable(line, false);
             String[] nameArray = VariableAnalyzer.getName(line);
-            for (String name: nameArray){
+            for (String name : nameArray) {
                 if (VariableAnalyzer.getType(line).length() == EMPTY) {
                     if (!globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);
-                }else {
+                } else {
                     if (globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);
                     else globalNames.add(name);
                 }

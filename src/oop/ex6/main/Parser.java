@@ -33,13 +33,13 @@ public class Parser {
         for (int i = 0; i < sJavaLines.length; i++) {
             Matcher methodStructure = MethodPatterns.METHOD_LINE_PATTERN.matcher(sJavaLines[i]);
             if (methodStructure.matches()) {
-                i = getMethodBlock(sJavaLines, i)-1;
+                i = getMethodBlock(sJavaLines, i) - 1;
                 continue;
             }
             Matcher globalVarsMatcher = VariablesPattern.VARIABLE_SUFFIX_PATTERN.matcher(sJavaLines[i]);
-            if  (globalVarsMatcher.find())
+            if (globalVarsMatcher.find())
                 globalVars.add(sJavaLines[i]);
-            else{
+            else {
                 Matcher closeStructure = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
                 if (!closeStructure.matches()) throw new StructureException(INVALID_LINE_ERROR);
             }
@@ -49,8 +49,9 @@ public class Parser {
 
     /**
      * This method finds a single method block
+     *
      * @param sJavaLines the file
-     * @param i the current line index
+     * @param i          the current line index
      * @return the index of the last block line
      * @throws MethodException illegal block
      */
@@ -68,7 +69,7 @@ public class Parser {
             i++;
             while (parenthesisCounter != INITIALIZED_COUNTER) {
                 // if num of open parenthesis different from the num of close parenthesis
-                if (i ==sJavaLines.length)
+                if (i == sJavaLines.length)
                     throw new StructureException(ERROR_MSG);
                 Matcher openParenthesis = MethodPatterns.OPEN_PATTERN.matcher(sJavaLines[i]);
                 Matcher closeParenthesis = MethodPatterns.CLOSE_PATTERN.matcher(sJavaLines[i]);
@@ -92,28 +93,30 @@ public class Parser {
 
     /**
      * A getter for the global variables
+     *
      * @return the global variables list
      */
-    public static List<String> getGlobalVars(){
+    public static List<String> getGlobalVars() {
         return globalVars;
     }
 
     /**
      * a getter for the name- method lines map
+     *
      * @return the map
      */
-    public static Map<String, List<String>> getMapNameLines(){
+    public static Map<String, List<String>> getMapNameLines() {
         return mapNameLines;
     }
 
     /**
      * a getter for the name- parameters map
+     *
      * @return the map
      */
-    public static Map<String, List<String>> getMapNameParams(){
+    public static Map<String, List<String>> getMapNameParams() {
         return mapNameParams;
     }
-
 
 
 }
