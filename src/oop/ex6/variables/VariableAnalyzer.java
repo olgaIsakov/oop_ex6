@@ -140,8 +140,10 @@ public class VariableAnalyzer {
      */
     public static boolean checkNamesIfDeclared(String names , String type ){
         String [] varNames = splitLineWithComma(names);
+
         for (String name : varNames){
-            if (listDeclared.contains(name)&& MainVariable.isTypeNameValid(type)){
+            if (listDeclared.contains(name)&& MainVariable.isTypeNameValid(type)
+                    &&!GlobalVariables.globalNames.contains(name)){
                 return false;
             }
         }return true;

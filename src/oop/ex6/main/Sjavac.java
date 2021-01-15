@@ -63,6 +63,7 @@ public class Sjavac {
         Parser.mapNameLines.clear() ;
         Parser.mapNameParams.clear() ;
         Parser.globalVars.clear();
+        GlobalVariables.globalNames.clear();
         VariableAnalyzer.listVariables.clear();
         VariableAnalyzer.listFinals.clear();
         VariableAnalyzer.listInit.clear();
