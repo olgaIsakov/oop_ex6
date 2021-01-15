@@ -159,8 +159,7 @@ public class IfWhileMethods {
                 Matcher illegalMatcher = MethodPatterns.ILLEGAL_CLOSE_PATTERN.matcher(line);
                 Matcher returnMatcher = MethodPatterns.RETURN_PATTERN.matcher(line);
 
-                if (variableMatch.find() && !returnMatcher.matches()
-                        && !callMethodMatch.matches()){
+                if (variableMatch.find() && (!returnMatcher.matches() && !callMethodMatch.matches())){
                     VariableAnalyzer.analyzeLineVariable(line,false);
 
                     if (VariableAnalyzer.declarationWithInit(line)) {

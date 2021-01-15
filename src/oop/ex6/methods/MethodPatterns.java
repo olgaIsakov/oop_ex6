@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
  */
 public class MethodPatterns {
     public final static String IF_WHILE = "^\\s*+(if|while)\\s*\\(\\s*.*\\s*\\)\\s*[{]\\s*$";
-    public final static String METHOD_CALL = "[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
+    public final static String METHOD_CALL = "\\s*[a-zA-Z]\\w*\\s*\\(\\s*.*\\s*\\)\\s*;\\s*$";
     public final static String RETURN = "^\\s*return\\s*;\\s*$";
     public final static String VARIABLE_SUFFIX = "\\s*;\\s*$";
     public final static String CLOSE = "\\s*}\\s*$";
