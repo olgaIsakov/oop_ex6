@@ -6,7 +6,9 @@ import oop.ex6.variables.VariablesPattern;
 import java.util.*;
 import java.util.regex.Matcher;
 
-
+/**
+ * A class to parse the file into methods
+ */
 public class Parser {
 
     /*Magic numbers and strings*/

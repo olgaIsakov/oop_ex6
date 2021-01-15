@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
+/**
+ * This class checks if/ while blocks
+ */
 public class IfWhileMethods {
     private static final int INITIALIZE_COUNTER = 0;
     private static final String START_CONDITION = "(";

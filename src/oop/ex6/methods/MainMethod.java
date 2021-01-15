@@ -3,6 +3,9 @@ import oop.ex6.main.*;
 import java.util.*;
 import java.util.regex.Matcher;
 
+/**
+ * This class checks general method related issues
+ */
 public class MainMethod {
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";

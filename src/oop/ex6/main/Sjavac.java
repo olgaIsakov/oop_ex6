@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The main class of the program
+ */
 public class Sjavac {
     /*Patterns for analyzing the file*/
     private static final String COMMENT = "\\s*//.*+";

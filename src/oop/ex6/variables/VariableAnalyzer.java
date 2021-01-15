@@ -2,12 +2,15 @@ package oop.ex6.variables;
 
 
 
-import oop.ex6.main.Tools;
+import oop.ex6.main.TypeCheck;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 
+/**
+ * A class to analyze the variables
+ */
 public class VariableAnalyzer {
 
     private static final int FIRST = 0;
@@ -36,7 +39,7 @@ public class VariableAnalyzer {
     /**
      * This method analyzes a line of variable
      * @param line line of variable
-     * @throws VariableException
+     * @throws VariableException Invalid variable
      */
     public static void analyzeLineVariable(String line) throws VariableException {
        boolean isFinal = false ;
@@ -52,7 +55,7 @@ public class VariableAnalyzer {
         String type = beginningWord(line);
         if (!listVariables.containsKey(type)){
 
-            if (!oop.ex6.variables.Variable.isTypeNameValid(type)) {
+            if (!MainVariable.isTypeNameValid(type)) {
                 throw new VariableException(ERROR_TYPE);
             }
             isDeclared = true;
@@ -82,7 +85,7 @@ public class VariableAnalyzer {
     public static String getType(String line){
         if (isFinal(line)){
             line = removeWord(line);
-        } if (Variable.isTypeNameValid(beginningWord(line))) {
+        } if (MainVariable.isTypeNameValid(beginningWord(line))) {
             return beginningWord(line);
         }return EMPTY_STRING;
     }
@@ -122,13 +125,13 @@ public class VariableAnalyzer {
     /**
      * This method returns false if the variable is already saved as declared
      * @param names variable names
-     * @param type
+     * @param type the given type
      * @return true or false
      */
     public static boolean checkNamesIfDeclared(String names , String type ){
         String [] varNames = splitLineWithComma(names);
         for (String name : varNames){
-            if (listDeclared.contains(name)&&Variable.isTypeNameValid(type)){
+            if (listDeclared.contains(name)&& MainVariable.isTypeNameValid(type)){
                 return false;
             }
         }return true;
@@ -143,7 +146,7 @@ public class VariableAnalyzer {
     public static boolean checkAllNames(String line){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
-            if (!oop.ex6.variables.Variable.isNameValid(name)){
+            if (!MainVariable.isNameValid(name)){
                 return false;
             }
         }return true;
@@ -152,11 +155,11 @@ public class VariableAnalyzer {
     /**
      * This method returns true if the values is suitable for the given type
      * @param valueLine line of the values only
-     * @param type
-     * @param  name
+     * @param type  given type
+     * @param  name the var name
      * @return true or false
      */
-    public static boolean checkAllValues(String valueLine, String type,String name){
+    public static boolean checkAllValues(String valueLine, String type, String name){
         String [] values = splitLineWithComma(valueLine);
         // if we assigned a variable as a value to another variable ,
         // we take the type of the value and update the type ot the variable we check
@@ -168,7 +171,7 @@ public class VariableAnalyzer {
                 String typeVar = listVariables.get(value);
                 if (!type.equals(typeVar) )return false;
             }
-            else if (!Tools.checkType(type, value)){
+            else if (!TypeCheck.checkType(type, value)){
                 return false;
             }
         }return true;
@@ -176,7 +179,7 @@ public class VariableAnalyzer {
 
     /**
      * This method returns true if the variable is final
-     * @param line
+     * @param line the line to check
      * @return true or false
      */
     public static boolean isFinal(String line) {
@@ -185,7 +188,7 @@ public class VariableAnalyzer {
     }
     /**
      * This method returns true if it is new declaration
-     * @param line
+     * @param line the line to check
      * @return true or false
      */
     public  static  boolean declarationWithInit(String line){
@@ -195,7 +198,7 @@ public class VariableAnalyzer {
 
     /**
      * This method returns the line of the names of the variable
-     * @param line
+     * @param line the line to check
      * @return String line of names
      */
     public static String getLineNames(String line){
@@ -208,13 +211,13 @@ public class VariableAnalyzer {
 
     /**
      * This method returns a list of the names
-     * @param line
+     * @param line the line to check
      * @return String list of names
      */
     public static  String [] getName(String line){
         if (isFinal(line)){
             line = removeWord(line);
-        } if (Variable.isTypeNameValid(beginningWord(line))){
+        } if (MainVariable.isTypeNameValid(beginningWord(line))){
             line = removeWord(line);
         }return getLineNames(line).split(COMMA);
     }
@@ -222,7 +225,7 @@ public class VariableAnalyzer {
 
     /**
      * This method remove spaces from the line
-     * @param line
+     * @param line the line to check
      * @return new line
      */
     public static String removeSpace(String line) {
@@ -231,7 +234,7 @@ public class VariableAnalyzer {
     }
     /**
      * This method split the line with comma
-     * @param line
+     * @param line the line to check
      * @return new line
      */
     public static String[] splitLineWithComma(String line) {
@@ -240,7 +243,7 @@ public class VariableAnalyzer {
     }
     /**
      * This method removes the first word in the line
-     * @param line
+     * @param line the line to check
      * @return new line
      */
     public static String removeWord(String line){ // for new declaration//
@@ -251,7 +254,7 @@ public class VariableAnalyzer {
     }
     /**
      * This method returns the first word in the line
-     * @param line
+     * @param line the line to check
      * @return word
      */
     public static String beginningWord(String line){
@@ -261,7 +264,7 @@ public class VariableAnalyzer {
     }
     /**
      * This method splits the values from the line
-     * @param line
+     * @param line the line to check
      * @return line of values
      */
     public static String splitValues(String line){ // if we have new value or values

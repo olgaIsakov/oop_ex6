@@ -4,6 +4,9 @@ import java.util.regex.Matcher;
 
 import static oop.ex6.variables.VariableAnalyzer.*;
 
+/**
+ * A class to check a given condition
+ */
 public class Condition {
 
     /*Magic strings and numbers*/
@@ -53,7 +56,7 @@ public class Condition {
 
     /**
      * This method replace in the line the operator and
-     * @param  line
+     * @param  line the line to check
      * @return new line
      */
     public static String replacedAnd(String line){
@@ -61,7 +64,7 @@ public class Condition {
     }
     /**
      * This method replace in the line the operator or
-     * @param  line
+     * @param  line the line to check
      * @return new line
      */
     public static String replacedOr(String line){
@@ -69,7 +72,7 @@ public class Condition {
     }
     /**
      * This method splits the line by the operators
-     * @param  line
+     * @param  line the line to check
      * @return new line
      */
     public static String[] splitOperator(String line){
