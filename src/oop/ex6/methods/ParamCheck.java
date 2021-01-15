@@ -39,6 +39,8 @@ public class ParamCheck {
             return parameters.get(FIRST_PARAM).equals(NULL_MARK);
         List<String> types = new ArrayList<>();
         for (String type: parameters){
+            type = type.trim();
+            type = type.substring(0,type.indexOf(" "));
             if (typeOptions.contains(type))
                 types.add(type);
         }

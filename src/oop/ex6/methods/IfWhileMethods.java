@@ -170,7 +170,7 @@ public class IfWhileMethods {
                             if (declarationInit.contains(name))
                                 throw new BlockException(BLOCK_ERROR);
                             declarationInit.add(name);
-                        }
+                        }VariableAnalyzer.listDeclared.clear();
                     }
                 }else if (callMethodMatch.matches())
                     MainMethod.checkMethodCall(line);

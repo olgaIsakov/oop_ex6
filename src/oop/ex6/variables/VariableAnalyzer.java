@@ -179,12 +179,12 @@ public class VariableAnalyzer {
             type = listVariables.get(name);
         }
         for (String value : values){
-            if (listVariables.containsKey(value)){
-                String typeVar = listVariables.get(value);
+            if (listVariables.containsKey(value.trim())){
+                String typeVar = listVariables.get(value.trim());
                 if (!type.equals(typeVar) )return false;
-                if (!listInit.contains(value)) return false;
+                if (!listInit.contains(value.trim())) return false;
             }
-            else if (!TypeCheck.checkType(type, value)){
+            else if (!TypeCheck.checkType(type, value.trim())){
                 return false;
             }
         }return true;
@@ -251,7 +251,6 @@ public class VariableAnalyzer {
      * @return new line
      */
     public static String[] splitLineWithComma(String line) {
-        line = removeSpace(line);
         return line.split(COMMA);
     }
     /**
@@ -281,7 +280,6 @@ public class VariableAnalyzer {
      * @return line of values
      */
     public static String splitValues(String line){ // if we have new value or values
-        line = removeSpace(line);
         line = line.replaceAll(SEM, EMPTY_STRING );
         if (line.contains(EQUAL)) {
             return line.substring(line.lastIndexOf(EQUAL )+1);
