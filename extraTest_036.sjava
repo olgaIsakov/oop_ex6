@@ -1,4 +1,0 @@
-// ReturnInvalid4
-void foo(){
-re turn;
-}

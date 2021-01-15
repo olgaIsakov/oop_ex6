@@ -38,15 +38,20 @@ public class Sjavac {
             GlobalVariables.checkGlobalVars(Parser.getGlobalVars());
             CheckSingleMethod.checkMethods(Parser.getMapNameLines());
             System.out.println(VALID_FILE);
+
         }catch (IOException e){
             System.err.println(e.getMessage());
             System.out.println(IO_ERROR);
+            return;
+
         } catch (MethodException | StructureException | ConditionException | VariableException | BlockException e) {
             System.err.println(e.getMessage());
             System.out.println(S_JAVA_ERROR);
+            return;
         }
         finally {
             clearAll();
+
 
         }
     }

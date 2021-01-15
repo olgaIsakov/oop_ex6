@@ -1,3 +1,0 @@
-// Basic Casting
-char c='c';
-String d = c;

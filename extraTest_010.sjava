@@ -1,5 +1,0 @@
-// Declare New Var In Method
-void foo(int c){
-int c = 9;
-return;
-}

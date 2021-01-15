@@ -1,5 +1,0 @@
-MethodInTheMainScope
-voif foo(){
-return;
-}
-foo();

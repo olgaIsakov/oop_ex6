@@ -1,4 +1,0 @@
-voif foo(){
-return;
-}
-foo();

@@ -74,6 +74,7 @@ public class MainMethod {
      * @throws MethodException method called an unexciting method or itself.
      */
     public static void checkMethodCall(String methodLine) throws MethodException {
+        if (methodLine.contains("=")) throw new MethodException(ERROR_PARAM_MSG);
         String called = getMethodName(methodLine);
         Map<String, List<String>> mapNameParameters = Parser.getMapNameParams();
         if (!mapNameParameters.containsKey(called))

@@ -1,8 +1,0 @@
-// Char As Value
-void foo(char c){
-return;
-}
-void foo2(){
-foo('a');
-return;
-}

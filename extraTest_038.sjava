@@ -1,5 +1,0 @@
-// ReturnNotAtTheEndOfScope
-void foo(){
-return;
-int a;
-}
