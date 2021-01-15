@@ -161,7 +161,7 @@ public class IfWhileMethods {
 
                 if (variableMatch.find() && !returnMatcher.matches()
                         && !callMethodMatch.matches()){
-                    VariableAnalyzer.analyzeLineVariable(line);
+                    VariableAnalyzer.analyzeLineVariable(line,false);
 
                     if (VariableAnalyzer.declarationWithInit(line)) {
                         String[] names = VariableAnalyzer.getName(line);

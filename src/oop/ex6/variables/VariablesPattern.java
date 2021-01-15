@@ -13,7 +13,7 @@ public class VariablesPattern {
     public final static String BOOL_TYPE = "^\\s*(true|false)\\s*$";
     public final static String CONDITION = "true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])";
     public final static String VAR_NAME = "(?:[a-zA-Z]+\\w*)|(?:_+\\w+)";
-    public final static String OPERATORS = "[&&||]+" ;
+    public final static String OPERATORS = "[|]{2}"+ "|" +"&{2}" ;
     public final static String FINAL = "^final";
     public final static String SPACE = "\\s+";
 

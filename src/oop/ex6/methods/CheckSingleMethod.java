@@ -63,7 +63,7 @@ public class CheckSingleMethod {
                 MainMethod.checkMethodCall(method.get(i));
             }
             else if (varsMatch.find() && !returnMatcher.matches() ){
-                VariableAnalyzer.analyzeLineVariable(method.get(i));
+                VariableAnalyzer.analyzeLineVariable(method.get(i),false);
             }
             MainMethod.checkReturnStatement(method);
         }
@@ -79,7 +79,7 @@ public class CheckSingleMethod {
         for(int i =0 ;i<params.size()-1; i+=2){
             String paramLine = params.get(i) +EMPTY_STRING +params.get(i + 1);
             if (!paramLine.equals(NULL_MARK)) {
-                    VariableAnalyzer.analyzeLineVariable(paramLine);
+                VariableAnalyzer.analyzeLineVariable(paramLine , true);
                 }
            }
     }

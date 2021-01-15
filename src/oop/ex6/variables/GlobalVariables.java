@@ -20,7 +20,7 @@ public class GlobalVariables {
     public static void checkGlobalVars(List<String> globalVars) throws VariableException {
         List<String> globalNames = new ArrayList<>();
         for (String line: globalVars){
-            VariableAnalyzer.analyzeLineVariable(line);
+            VariableAnalyzer.analyzeLineVariable(line,false);
             String[] nameArray = VariableAnalyzer.getName(line);
             for (String name: nameArray){
                 if (VariableAnalyzer.getType(line).length() == EMPTY) {

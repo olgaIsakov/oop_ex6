@@ -41,7 +41,7 @@ public class VariableAnalyzer {
      * @param line line of variable
      * @throws VariableException Invalid variable
      */
-    public static void analyzeLineVariable(String line) throws VariableException {
+    public static void analyzeLineVariable(String line , boolean isParam) throws VariableException {
        boolean isFinal = false ;
        boolean isInit = false ;
        boolean isDeclared = false ;
@@ -62,7 +62,8 @@ public class VariableAnalyzer {
             line = removeWord(line);
         }
         String names = getLineNames(line) ;
-        if (!checkNamesIfDeclared(names,type))throw new VariableException(ERROR_DECLARE) ;
+        if (!checkNamesIfDeclared(names,type) && !isParam)
+            throw new VariableException(ERROR_DECLARE) ;
         if (!checkAllNames(names)){
             throw new VariableException(ERROR_NAME) ;
         }
