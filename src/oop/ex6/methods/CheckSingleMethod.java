@@ -15,7 +15,11 @@ import java.util.regex.Matcher;
  */
 public class CheckSingleMethod {
     private static final String NULL_MARK = "null";
-    private static final String EMPTY_STRING = " ";
+    private static final String SPACE = " ";
+    private static final String EMPTY_STRING = "";
+    private static final String COMMA = ",";
+
+    private static final String ERROR_SAME_PARAM_NAME = "Error : same parameters name";
     public static List<String> declarationInit = new ArrayList<>();
 
 
@@ -75,11 +79,17 @@ public class CheckSingleMethod {
      * @throws VariableException Invalid variable
      */
     private static void addParamsAsLocalVariables(String name) throws VariableException {
-        List<String> params = Parser.getMapNameParams().get(name);
-        for(int i =0 ;i<params.size()-1; i+=2){
-            String paramLine = params.get(i) +EMPTY_STRING +params.get(i + 1);
-            if (!paramLine.equals(NULL_MARK)) {
 
+        List<String> params = Parser.getMapNameParams().get(name);
+        List<String> nameParams = new ArrayList<>();
+        for(int j =1 ;j<params.size(); j+=2){
+            String nameParam = params.get(j).replaceAll(COMMA,EMPTY_STRING);
+            if (nameParams.contains(nameParam) ) throw new VariableException(ERROR_SAME_PARAM_NAME);
+            else nameParams.add(nameParam);
+        }
+        for(int i =0 ;i<params.size()-1; i+=2){
+            String paramLine = params.get(i) +SPACE +params.get(i + 1);
+            if (!paramLine.equals(NULL_MARK)) {
                 VariableAnalyzer.analyzeLineVariable(paramLine , true);
                 }
            }
