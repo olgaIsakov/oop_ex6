@@ -79,6 +79,7 @@ public class CheckSingleMethod {
         for(int i =0 ;i<params.size()-1; i+=2){
             String paramLine = params.get(i) +EMPTY_STRING +params.get(i + 1);
             if (!paramLine.equals(NULL_MARK)) {
+
                 VariableAnalyzer.analyzeLineVariable(paramLine , true);
                 }
            }

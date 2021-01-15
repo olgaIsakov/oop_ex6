@@ -64,7 +64,7 @@ public class VariableAnalyzer {
         String names = getLineNames(line) ;
         if (!checkNamesIfDeclared(names,type) && !isParam)
             throw new VariableException(ERROR_DECLARE) ;
-        if (!checkAllNames(names)){
+        if (!checkAllNames(names,isParam)){
             throw new VariableException(ERROR_NAME) ;
         }
         String values = splitValues(line);
@@ -144,9 +144,12 @@ public class VariableAnalyzer {
      * @param line variable names
      * @return true or false
      */
-    public static boolean checkAllNames(String line){
+    public static boolean checkAllNames(String line , boolean isParam){
         String [] varNames = splitLineWithComma(line);
         for (String name : varNames){
+            if (isParam){
+                return !listVariables.containsKey(name);
+            }
             if (!MainVariable.isNameValid(name)){
                 return false;
             }
