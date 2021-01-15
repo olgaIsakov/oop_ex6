@@ -12,13 +12,13 @@ public class GlobalVariables {
 
     /*Magic numbers */
     final static int EMPTY =0;
+    public static List<String> globalNames = new ArrayList<>();
 
     /**
      * This method checks the validness of the global variables
      * @param  globalVars List of the global variables
      */
     public static void checkGlobalVars(List<String> globalVars) throws VariableException {
-        List<String> globalNames = new ArrayList<>();
         for (String line: globalVars){
             VariableAnalyzer.analyzeLineVariable(line,false);
             String[] nameArray = VariableAnalyzer.getName(line);

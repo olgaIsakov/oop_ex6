@@ -40,9 +40,9 @@ public class MainMethod {
             }
             else{
                 String subList = line.substring(openParenthesis+1, closeParenthesis);
-                params = new ArrayList<>(Arrays.asList(subList.split(EMPTY_SPACE)));
+                params = new ArrayList<>(Arrays.asList(subList.split(",")));
             }
-            checkMethodParameters(params);
+            //checkMethodParameters(params);
 
         } catch (Exception e){
             System.out.println(ERROR_FOUND);
@@ -54,21 +54,21 @@ public class MainMethod {
      * Checks legal parameters in method
      * @throws MethodException illegal parameter found
      */
-    public static void checkMethodParameters(List<String> parameters) throws MethodException {
-            for (int i=0; i < parameters.size(); i++){
-                if (parameters.get(i).equals(NULL_MARK))
-                    continue;
-                if (parameters.get(i).equals(FINAL)){
-                    if (i==parameters.size()-1 || !typeOptions.contains(parameters.get(i+1))){
-                        throw new MethodException(ERROR_PARAM_MSG);
-                    }
-                }
-                if (typeOptions.contains(parameters.get(i))){
-                    i ++;
-                }
-                else throw new MethodException(ERROR_PARAM_MSG);
-            }
-    }
+    //public static void checkMethodParameters(List<String> parameters) throws MethodException {
+            //for (int i=0; i < parameters.size(); i++){
+                //if (parameters.get(i).equals(NULL_MARK))
+                   // continue;
+                //if (parameters.get(i).equals(FINAL)){
+                    //if (i==parameters.size()-1 || !typeOptions.contains(parameters.get(i+1))){
+                        //throw new MethodException(ERROR_PARAM_MSG);
+                    //}
+               // }
+                //if (typeOptions.contains(parameters.get(i))){
+                    //i ++;
+                //}
+                //else throw new MethodException(ERROR_PARAM_MSG);
+            //}
+    //}
     /**
      * This method checks if a called method is legal
      * @throws MethodException method called an unexciting method or itself.

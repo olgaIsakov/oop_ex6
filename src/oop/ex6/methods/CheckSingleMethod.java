@@ -79,6 +79,21 @@ public class CheckSingleMethod {
      * @throws VariableException Invalid variable
      */
     private static void addParamsAsLocalVariables(String name) throws VariableException {
+        List<String> params = Parser.getMapNameParams().get(name);
+        List<String> nameParams = new ArrayList<>();
+        for (String param : params){
+            if (!param.equals(NULL_MARK)) {
+                VariableAnalyzer.analyzeLineVariable(param, true);
+                String[] nameArray = VariableAnalyzer.getName(param);
+                for (String namePram: nameArray){
+                    if (nameParams.contains(namePram)) throw new VariableException(ERROR_SAME_PARAM_NAME);
+                    else nameParams.add(namePram);
+                }
+            }
+        }
+    }
+
+    private static void addParamsAsLocalVariablestttttt(String name) throws VariableException {
 
         List<String> params = Parser.getMapNameParams().get(name);
         List<String> nameParams = new ArrayList<>();
