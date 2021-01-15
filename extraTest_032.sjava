@@ -1,6 +1,0 @@
-// ReturnInIfScope2
-void foo(){
-if(true){
-return;
-}
-}

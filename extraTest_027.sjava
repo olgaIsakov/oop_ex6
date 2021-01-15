@@ -1,4 +1,0 @@
-// MethodWithSameVariablesNames
-void foo(int a, double a){
-return;
-}

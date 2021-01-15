@@ -1,3 +1,0 @@
-// Assign Global Scope
-int a;
-a = 5;
