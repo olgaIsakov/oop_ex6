@@ -82,16 +82,22 @@ public class CheckSingleMethod {
 
         List<String> params = Parser.getMapNameParams().get(name);
         List<String> nameParams = new ArrayList<>();
-        for(int j =1 ;j<params.size(); j+=2){
-            String nameParam = params.get(j).replaceAll(COMMA,EMPTY_STRING);
+        for(int i =0 ;i<params.size()-1;){
+            String suffix = params.get(i) ;
+            String nameParam = params.get(i+1).replaceAll(COMMA,EMPTY_STRING).trim();
+            String isFinal = "";
+            if (params.get(i).equals("final")){
+                nameParam = params.get(i+2).replaceAll(COMMA,EMPTY_STRING).trim();
+                suffix = params.get(i+1).replaceAll(COMMA,EMPTY_STRING).trim();
+                isFinal = "final";
+                i+=3;
+            }
             if (nameParams.contains(nameParam) ) throw new VariableException(ERROR_SAME_PARAM_NAME);
-            else nameParams.add(nameParam);
-        }
-        for(int i =0 ;i<params.size()-1; i+=2){
-            String paramLine = params.get(i) +SPACE +params.get(i + 1);
+            nameParams.add(nameParam);
+            String paramLine = isFinal+SPACE+suffix +SPACE +nameParam;
             if (!paramLine.equals(NULL_MARK)) {
                 VariableAnalyzer.analyzeLineVariable(paramLine , true);
-                }
+                }i+=2;
            }
     }
 

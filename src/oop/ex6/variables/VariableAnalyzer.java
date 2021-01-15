@@ -45,12 +45,16 @@ public class VariableAnalyzer {
        boolean isFinal = false ;
        boolean isInit = false ;
        boolean isDeclared = false ;
+
+        if (isParam) isInit = true;
+
         if (isFinal(line)) {
-            if (!declarationWithInit(line)) {
-                throw new VariableException(ERROR_FINAL);
+            if (!isInit){
+                if (!declarationWithInit(line)) {
+                    throw new VariableException(ERROR_FINAL);
+                }
             }isFinal = true;
             line = removeWord(line);
-
         }
         String type = beginningWord(line);
         if (!listVariables.containsKey(type)){
@@ -61,20 +65,25 @@ public class VariableAnalyzer {
             isDeclared = true;
             line = removeWord(line);
         }
-        String names = getLineNames(line) ;
-        if (!checkNamesIfDeclared(names,type) && !isParam)
-            throw new VariableException(ERROR_DECLARE) ;
-        if (!checkAllNames(names)){
-            throw new VariableException(ERROR_NAME) ;
+        String [] lines = splitLineWithComma(line);
+        for (String var : lines){
+            String names = getLineNames(var) ;
+            if (!checkNamesIfDeclared(names,type) && !isParam)
+                throw new VariableException(ERROR_DECLARE) ;
+            if (!checkAllNames(names)){
+                throw new VariableException(ERROR_NAME) ;
+            }
+            String values = splitValues(var);
+            if (values.length() > EMPTY ){
+                if (!checkNamesIfInFinal(names)) throw new VariableException(ERROR_FINAL);
+                if (!checkAllValues(values,type,names)) {
+                    throw new VariableException(ERROR_VALUE);
+                }isInit = true;
+            }
+
+            addToList(names,type,isFinal ,isInit,isDeclared);
         }
-        String values = splitValues(line);
-        if (values.length() > EMPTY ){
-            if (!checkNamesIfInFinal(names)) throw new VariableException(ERROR_FINAL);
-            if (!checkAllValues(values,type,names)) {
-                throw new VariableException(ERROR_VALUE);
-            }isInit = true;
-        }
-        addToList(names,type,isFinal ,isInit,isDeclared);
+
 
     }
 
@@ -171,6 +180,7 @@ public class VariableAnalyzer {
             if (listVariables.containsKey(value)){
                 String typeVar = listVariables.get(value);
                 if (!type.equals(typeVar) )return false;
+                if (!listInit.contains(value)) return false;
             }
             else if (!TypeCheck.checkType(type, value)){
                 return false;
@@ -192,7 +202,7 @@ public class VariableAnalyzer {
      * @param line the line to check
      * @return true or false
      */
-    public  static  boolean declarationWithInit(String line){
+    public  static  boolean declarationWithInit(String line ){
         return line.contains(EQUAL)&&splitValues(line).length()>EMPTY ;
     }
 

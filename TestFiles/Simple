@@ -1,7 +1,0 @@
-final int b =8;
-void foo(int c){
-if(true){
-int a =8;
-}
-return;
-}

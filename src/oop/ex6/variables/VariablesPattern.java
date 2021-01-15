@@ -9,7 +9,7 @@ public class VariablesPattern {
     public final static String INT_TYPE = "^\\s*[-]?\\d+\\s*$";
     public final static String DOUBLE_TYPE = "^\\s*[-]?\\d*\\.?\\d+\\s*$";
     public final static String STRING_TYPE = "^\\s*\".*?\"s*$";
-    public final static String CHAR_TYPE = "^\\s*\'.*?\'s*$";
+    public final static String CHAR_TYPE = "'.'";
     public final static String BOOL_TYPE = "^\\s*(true|false)\\s*$";
     public final static String CONDITION = "true|false|(?:-?(?:\\d+(?:\\.\\d*)?)\\s*|(?:\\.\\d+)\\s*])";
     public final static String VAR_NAME = "(?:[a-zA-Z]+\\w*)|(?:_+\\w+)";
