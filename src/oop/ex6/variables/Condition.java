@@ -17,6 +17,7 @@ public class Condition {
     private final static String BOOLEAN = "boolean";
     private final static int INITIALIZE_COUNTER = 0;
     private final static String DEFAULT = "*";
+    private final static char DEFAULT_CHAR = '*';
 
 
     /**
@@ -49,7 +50,7 @@ public class Condition {
         line = replacedOr(line);
         int counter = INITIALIZE_COUNTER;
         for (int i = 0; i < line.length(); i++) {
-            if (line.charAt(i) == '*') {
+            if (line.charAt(i) == DEFAULT_CHAR) {
                 counter++;
             }
         }
