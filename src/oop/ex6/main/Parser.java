@@ -61,8 +61,7 @@ public class Parser {
         if (illegalOpen.matches()) throw new MethodException(ERROR_MSG);
         else {
             int parenthesisCounter = INITIALIZED_COUNTER;
-            List<String> params = new ArrayList<>();
-            List<String> newParams = MainMethod.isFirstMethodLineLegal(sJavaLines[i].split(EMPTY_SPACE), params);
+            List<String> newParams = MainMethod.getMethodParams(sJavaLines[i].split(EMPTY_SPACE));
             List<String> methodLines = new ArrayList<>();
             parenthesisCounter++;
             methodLines.add(sJavaLines[i]);

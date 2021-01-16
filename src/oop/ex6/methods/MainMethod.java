@@ -30,12 +30,12 @@ public class MainMethod {
     private static final String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
 
     /**
-     * This method checks the first line of a method
+     * This method returns the parameters list
      *
      * @param splitLine first line word by word
-     * @param params    method parameters
      */
-    public static List<String> isFirstMethodLineLegal(String[] splitLine, List<String> params) {
+    public static List<String> getMethodParams(String[] splitLine) {
+        List<String> params;
         StringBuilder line = new StringBuilder();
         for (String word : splitLine) {
             line.append(word).append(EMPTY_SPACE);
