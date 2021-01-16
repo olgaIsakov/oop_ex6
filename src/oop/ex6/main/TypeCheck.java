@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
  */
 public class TypeCheck {
 
-    /*Magic strings for  types*/
+    /*Type constants*/
     private final static String INT = "int";
     private final static String STRING = "String";
     private final static String DOUBLE = "double";

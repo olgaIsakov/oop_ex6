@@ -13,16 +13,19 @@ import java.util.regex.Matcher;
  * This class checks if/ while blocks
  */
 public class IfWhileMethods {
+    /*Constants*/
     private static final int INITIALIZE_COUNTER = 0;
     private static final String START_CONDITION = "(";
     private static final String END_CONDITION = ")";
-    final static int EMPTY_BLOCK = 0;
     final static int FIRST = 0;
     final static int SECOND_LINE = 1;
 
+    /*Error messages*/
     final static String ERROR_CONDITION = "ERROR: problem found in if/while block";
     final static String BLOCK_ERROR = " ERROR : error in block line ";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
+
+    /*List initializing*/
     public static List<String> declarationInit = new ArrayList<>();
 
     /**
@@ -91,7 +94,7 @@ public class IfWhileMethods {
             Matcher ifWhileMatch = MethodPatterns.IF_WHILE_PATTERN.matcher(method.get(startBlock));
             if (ifWhileMatch.matches()) {
                 List<String> innerBlock = IfWhileMethods.ifWhile(method.subList(startBlock, endBlock));
-                if (innerBlock.size() == EMPTY_BLOCK)
+                if (innerBlock.isEmpty())
                     break;
                 else {
                     blocks.add(innerBlock);

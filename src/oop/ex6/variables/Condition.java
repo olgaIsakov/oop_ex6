@@ -9,7 +9,7 @@ import static oop.ex6.variables.VariableAnalyzer.*;
  */
 public class Condition {
 
-    /*Magic strings and numbers*/
+    /*Constants*/
     private static final String AND = "&&";
     private static final String OR = "||";
     private final static String INT = "int";

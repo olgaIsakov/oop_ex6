@@ -14,8 +14,10 @@ import java.util.regex.Matcher;
  * This class checks a single method
  */
 public class CheckSingleMethod {
+    /*Constants*/
     private static final String NULL_MARK = "null";
 
+    /*Error messages*/
     private static final String ERROR_SAME_PARAM_NAME = "Error : same parameters name";
     private static final String ERROR_INVALID_LINE = "Error : Invalid line found in a method";
 

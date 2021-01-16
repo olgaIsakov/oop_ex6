@@ -10,8 +10,7 @@ public class GlobalVariables {
     /*Error massage to print*/
     final static String GLOBAL_ERROR = "ERROR: global name initialized more than once.";
 
-    /*Magic numbers */
-    final static int EMPTY = 0;
+    /*List initialize*/
     public static List<String> globalNames = new ArrayList<>();
 
     /**
@@ -24,7 +23,7 @@ public class GlobalVariables {
             VariableAnalyzer.analyzeLineVariable(line, false);
             String[] nameArray = VariableAnalyzer.getName(line);
             for (String name : nameArray) {
-                if (VariableAnalyzer.getType(line).length() == EMPTY) {
+                if (VariableAnalyzer.getType(line).isEmpty()) {
                     if (!globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);
                 } else {
                     if (globalNames.contains(name)) throw new VariableException(GLOBAL_ERROR);

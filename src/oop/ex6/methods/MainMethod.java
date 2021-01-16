@@ -9,20 +9,22 @@ import java.util.regex.Matcher;
  * This class checks general method related issues
  */
 public class MainMethod {
+    /*Constants*/
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String EMPTY_SPACE = " ";
     private static final String COMMA = ",";
     private static final String EQUAL = "=";
-    private static final int ERROR_FOUND = 1;
     final static String VOID = "void";
     final static String NULL_MARK = "null";
     private static final String OR_REGEX = "|";
     private static final String NEW_STR = "";
 
+    /*Lists of types and restored words*/
     final static List<String> typeOptions = List.of("int", "String", "double", "boolean", "char");
     static List<String> resKeys = List.of("void", "final", "if", "while", "true", "false");
 
+    /*Error messages*/
     private static final String ERROR_PARAM_MSG = "ERROR: illegal parameters called.";
     private static final String ERROR_NAME_MSG = "ERROR: illegal name method.";
     private static final String ERROR_RETURN_MSG = "ERROR: no return statement in method.";
@@ -38,19 +40,13 @@ public class MainMethod {
         for (String word : splitLine) {
             line.append(word).append(EMPTY_SPACE);
         }
-        try {
-            int openParenthesis = line.indexOf(START_PARAMETERS);
-            int closeParenthesis = line.indexOf(END_PARAMETERS);
-            if ((closeParenthesis == openParenthesis + 1)) {
-                params = Collections.singletonList(NULL_MARK);
-            } else {
-                String subList = line.substring(openParenthesis + 1, closeParenthesis);
-                params = new ArrayList<>(Arrays.asList(subList.split(COMMA)));
-            }
-            //checkMethodParameters(params);
-
-        } catch (Exception e) {
-            System.out.println(ERROR_FOUND);
+        int openParenthesis = line.indexOf(START_PARAMETERS);
+        int closeParenthesis = line.indexOf(END_PARAMETERS);
+        if ((closeParenthesis == openParenthesis + 1))
+            params = Collections.singletonList(NULL_MARK);
+        else {
+            String subList = line.substring(openParenthesis + 1, closeParenthesis);
+            params = new ArrayList<>(Arrays.asList(subList.split(COMMA)));
         }
         return params;
     }

@@ -12,15 +12,12 @@ import static oop.ex6.variables.VariableAnalyzer.listVariables;
  */
 public class ParamCheck {
 
-    /*Magic strings fot analyzing parameters line*/
+    /*Constants*/
     private static final String START_PARAMETERS = "(";
     private static final String END_PARAMETERS = ")";
     private static final String NULL_MARK = "null";
     private static final String COMMA = ",";
     private static final String EMPTY_SPACE = " ";
-
-    /*Magic Numbers foR analyzing parameters line*/
-    private static final int EMPTY_PARAMS = 0;
     private static final int FIRST = 0;
 
     /*List of valid types*/
@@ -37,7 +34,7 @@ public class ParamCheck {
         int paramsStart = methodLine.indexOf(START_PARAMETERS);
         int paramsEnd = methodLine.indexOf(END_PARAMETERS);
         String params = methodLine.substring(paramsStart + 1, paramsEnd);
-        if (params.length() == EMPTY_PARAMS)
+        if (params.isEmpty())
             return parameters.get(FIRST).equals(NULL_MARK);
         List<String> types = new ArrayList<>();
         for (String type : parameters) {

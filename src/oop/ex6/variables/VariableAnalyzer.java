@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
  */
 public class VariableAnalyzer {
 
+    /*Constants*/
     private static final int FIRST = 0;
     private static final int SECOND = 1;
     private static final int EMPTY = 0;

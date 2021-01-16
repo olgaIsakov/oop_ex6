@@ -13,13 +13,13 @@ import java.util.regex.Pattern;
  * The main class of the program
  */
 public class Sjavac {
-    /*Patterns for analyzing the file*/
+    /*General patterns and regex*/
     private static final String COMMENT = "\\s*//.*+";
     private static final String EMPTY = "\\s*";
     private static final Pattern COMMENT_PATTERN = Pattern.compile(COMMENT);
     private static final Pattern EMPTY_PATTERN = Pattern.compile(EMPTY);
 
-    /*Magic numbers for return*/
+    /*Constants*/
     private static final int IO_ERROR = 2;
     private static final int S_JAVA_ERROR = 1;
     private static final int VALID_FILE = 0;
@@ -44,16 +44,12 @@ public class Sjavac {
         } catch (IOException e) {
             System.err.println(e.getMessage());
             System.out.println(IO_ERROR);
-            return;
 
         } catch (MethodException | StructureException | ConditionException | VariableException | BlockException e) {
             System.err.println(e.getMessage());
             System.out.println(S_JAVA_ERROR);
-            return;
         } finally {
             clearAll();
-
-
         }
     }
 

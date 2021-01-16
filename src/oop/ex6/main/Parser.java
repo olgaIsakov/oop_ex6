@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
  */
 public class Parser {
 
-    /*Magic numbers and strings*/
+    /*Constants*/
     private final static int INITIALIZED_COUNTER = 0;
     private static final String EMPTY_SPACE = " ";
 
@@ -19,7 +19,7 @@ public class Parser {
     final static String ERROR_MSG = "ERROR: Illegal method format";
     final static String INVALID_LINE_ERROR = "ERROR: Invalid line found";
 
-    /*Lists of the file lines */
+    /*Lists initialize */
     static List<String> globalVars = new ArrayList<>();
     static Map<String, List<String>> mapNameLines = new HashMap<>();
     static Map<String, List<String>> mapNameParams = new HashMap<>();
